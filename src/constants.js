@@ -1,33 +1,35 @@
+// Configurazione badge e opzioni (non sono dati utente — non vanno azzerati)
+
 export const SITTER_BADGES = {
-  verified: { i:'✓', l:'Verificato',      cls:'bd-mint' },
-  top:      { i:'⭐', l:'Top sitter',      cls:'bd-gold' },
-  firstaid: { i:'🩺', l:'Pet first aid',  cls:'bd-rose' },
-  vet:      { i:'⚕️', l:'Veterinario/a',  cls:'bd-sky' },
-  elite:    { i:'💎', l:'Elite',           cls:'bd-lav' },
-  senior:   { i:'👴', l:'Senior friendly', cls:'bd-peach' },
-  catlover: { i:'🐈', l:'Cat specialist', cls:'bd-rose' },
-  new:      { i:'🌱', l:'Nuovo',           cls:'bd-mint' },
+  verified: { i:'✓',  l:'Verificato',      cls:'bd-mint'  },
+  top:      { i:'⭐', l:'Top sitter',       cls:'bd-gold'  },
+  firstaid: { i:'🩺', l:'Pet first aid',   cls:'bd-rose'  },
+  vet:      { i:'⚕️', l:'Veterinario/a',   cls:'bd-sky'   },
+  elite:    { i:'💎', l:'Elite',            cls:'bd-lav'   },
+  senior:   { i:'👴', l:'Senior friendly',  cls:'bd-peach' },
+  catlover: { i:'🐈', l:'Cat specialist',  cls:'bd-rose'  },
+  new:      { i:'🌱', l:'Nuovo',            cls:'bd-mint'  },
 };
 
 export const SERVICE_OPTS = [
-  {v:'walking', l:'Dog walking',    i:'🚶'},
-  {v:'day',     l:'Day care',       i:'🌞'},
-  {v:'night',   l:'Pernottamento',  i:'🌙'},
-  {v:'cat',     l:'Cat sitter',     i:'🐈'},
+  { v:'walking', l:'Dog walking',   i:'🚶' },
+  { v:'day',     l:'Day care',      i:'🌞' },
+  { v:'night',   l:'Pernottamento', i:'🌙' },
+  { v:'cat',     l:'Cat sitter',    i:'🐈' },
 ];
 
 export const SIZE_OPTS = [
-  {v:'small',  l:'Piccola'},
-  {v:'medium', l:'Media'},
-  {v:'large',  l:'Grande'},
+  { v:'small',  l:'Piccola' },
+  { v:'medium', l:'Media'   },
+  { v:'large',  l:'Grande'  },
 ];
 
 export const SHOP_LEVELS = [
-  { lv:1, name:'Cucciolo',   min:0,    max:100,  color:'#C7E8D9' },
-  { lv:2, name:'Apprendista',min:100,  max:300,  color:'#FFE39A' },
-  { lv:3, name:'Esperto',    min:300,  max:700,  color:'#FFB59B' },
-  { lv:4, name:'Veterano',   min:700,  max:1500, color:'#C9B8FF' },
-  { lv:5, name:'Leggenda',   min:1500, max:3000, color:'#FFD700' },
+  { lv:1, name:'Cucciolo',    min:0,    max:100,  color:'#C7E8D9' },
+  { lv:2, name:'Apprendista', min:100,  max:300,  color:'#FFE39A' },
+  { lv:3, name:'Esperto',     min:300,  max:700,  color:'#FFB59B' },
+  { lv:4, name:'Veterano',    min:700,  max:1500, color:'#C9B8FF' },
+  { lv:5, name:'Leggenda',    min:1500, max:3000, color:'#FFD700' },
 ];
 
 export const SHOP_BADGES = [
@@ -41,68 +43,6 @@ export const SHOP_BADGES = [
   { id:'minigame',    i:'🎮', l:'Maestro mini-game',  cls:'bd-sky',   desc:'5 mini-game completati' },
 ];
 
-export const STORES = [
-  { brand:'Arcaplanet',  logo:'A', banner:'linear-gradient(135deg,#FFB59B,#FF8A66)', cat:'Pet shop · Catena',
-    km:'1.2 km', promo:'-15% sui sacchi grandi', rating:4.7, reviews:412,
-    xp:1840, level:5, streak:23, badges:['first-promo','donor','reviews','top'], plan:'Premium',
-    achievements:6, achievementsTotal:8 },
-  { brand:'Maxi Zoo',    logo:'M', banner:'linear-gradient(135deg,#B8E5D2,#58C4A0)', cat:'Pet shop · Catena',
-    km:'2.8 km', promo:'Bonus iscrizione', rating:4.5, reviews:287,
-    xp:980, level:4, streak:11, badges:['first-promo','rescue','reviews'], plan:'Pro',
-    achievements:4, achievementsTotal:8 },
-  { brand:'Royal Canin', logo:'R', banner:'linear-gradient(135deg,#C9B8FF,#8A6BFF)', cat:'Brand · Alimentazione',
-    km:'Online', promo:'Spedizione gratis €40+', rating:4.8, reviews:1043,
-    xp:2540, level:5, streak:45, badges:['donor','rescue','top','minigame'], plan:'Premium',
-    achievements:7, achievementsTotal:8 },
-  { brand:'Zooplus',     logo:'Z', banner:'linear-gradient(135deg,#B8D8FF,#5C9BFF)', cat:'E-commerce',
-    km:'Online', promo:'-10% primo ordine', rating:4.6, reviews:756,
-    xp:520, level:3, streak:6, badges:['first-promo','fast'], plan:'Pro',
-    achievements:3, achievementsTotal:8 },
-  { brand:'Vetrinando',  logo:'V', banner:'linear-gradient(135deg,#FFE39A,#F5C04A)', cat:'Toelettatura',
-    km:'0.8 km', promo:'Prima toelettatura -20%', rating:4.9, reviews:184,
-    xp:340, level:3, streak:14, badges:['first-promo','eco','fast'], plan:'Pro',
-    achievements:3, achievementsTotal:8 },
-  { brand:'Bauzaar',     logo:'B', banner:'linear-gradient(135deg,#FFC8DA,#E47AA0)', cat:'Box mensile',
-    km:'Online', promo:'Box mensile -€10', rating:4.7, reviews:521,
-    xp:130, level:2, streak:3, badges:['first-promo','eco'], plan:'Free',
-    achievements:2, achievementsTotal:8 },
-];
-
-export const SITTERS = [
-  { name:'Marta L.',    av:'🌿', tone:'bg-grad-2', city:'Milano', zone:'Isola',        rate:18, rating:4.9, jobs:142,
-    bio:'Educatrice cinofila certificata, ho 2 cani e una casa con giardino. Specializzata in cuccioli e cani anziani.',
-    services:['walking','day','night'], sizes:['small','medium'], home:'house-garden',
-    skills:['Pet first aid','Somministrazione farmaci orali','Iniezioni insulina','Gestione cuccioli'],
-    cert:['Pet first aid','Educatore cinofilo ENCI'], hasGarden:true, otherPets:'Sì, 2 cani',
-    response:'< 1h', exp:8, langs:['IT','EN'], badges:['verified','top','firstaid'] },
-  { name:'Davide R.',   av:'🐾', tone:'bg-grad-1', city:'Milano', zone:'NoLo',         rate:14, rating:4.8, jobs:87,
-    bio:'Studente, lavoro da casa. Porto a passeggio 2 volte al giorno e mando foto e video aggiornati.',
-    services:['walking','day'], sizes:['small','medium','large'], home:'apt-balcony',
-    skills:['Passeggiate','Foto/video aggiornati','Gestione branco'],
-    cert:[], hasGarden:false, otherPets:'No',
-    response:'< 2h', exp:3, langs:['IT'], badges:['verified'] },
-  { name:'Chiara B.',   av:'☕', tone:'bg-grad-3', city:'Milano', zone:'Brera',        rate:22, rating:5.0, jobs:218,
-    bio:'Veterinaria di base, 8 anni di esperienza. Mi occupo anche di animali con terapia in corso e diete speciali.',
-    services:['walking','day','night','cat'], sizes:['small','medium','large'], home:'apt-balcony',
-    skills:['Veterinaria','Iniezioni','Flebo a domicilio','Dieta speciale','Pet anziani','Patologie croniche'],
-    cert:['Laurea Veterinaria','Pet first aid','BLS-D animali'], hasGarden:false, otherPets:'1 gatto',
-    response:'< 30 min', exp:8, langs:['IT','EN','FR'], badges:['verified','vet','top','firstaid','elite'] },
-  { name:'Paolo M.',    av:'🚴', tone:'bg-grad-4', city:'Milano', zone:'Lambrate',     rate:16, rating:4.7, jobs:64,
-    bio:'Pensionato attivo, perfetto per cani che hanno bisogno di tante uscite e attenzioni durante il giorno.',
-    services:['walking','day'], sizes:['small','medium','large'], home:'house-garden',
-    skills:['Tante uscite','Senior friendly','Pazienza'],
-    cert:[], hasGarden:true, otherPets:'No',
-    response:'< 3h', exp:5, langs:['IT'], badges:['verified','senior'] },
-  { name:'Sara T.',     av:'🌷', tone:'bg-grad-6', city:'Milano', zone:'Navigli',      rate:20, rating:4.9, jobs:103,
-    bio:'Lavoro da remoto. Ho una gatta. Specializzata in gatti timidi e con esigenze particolari.',
-    services:['cat','day'], sizes:['small'], home:'apt-balcony',
-    skills:['Cat behaviour','Gatti timidi','Somministrazione farmaci','Igiene lettiere'],
-    cert:['Feline behaviour cert.'], hasGarden:false, otherPets:'1 gatto',
-    response:'< 2h', exp:4, langs:['IT','EN'], badges:['verified','catlover'] },
-  { name:'Federico G.', av:'🎨', tone:'bg-grad-5', city:'Milano', zone:'Porta Romana', rate:15, rating:4.6, jobs:38,
-    bio:'Illustratore, casa tranquilla in centro. Disponibile per pernottamenti e weekend lunghi.',
-    services:['night','day'], sizes:['small','medium'], home:'apartment',
-    skills:['Casa tranquilla','Pernottamenti lunghi'],
-    cert:[], hasGarden:false, otherPets:'No',
-    response:'< 4h', exp:2, langs:['IT'], badges:['new'] },
-];
+// Dati utente — vuoti, si riempiono con il backend
+export const STORES  = [];
+export const SITTERS = [];

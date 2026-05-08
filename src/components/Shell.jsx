@@ -3,14 +3,14 @@ import Logo from './Logo';
 
 const NAV_ITEMS = [
   { id: 'home',     label: 'Home',           icon: 'home' },
-  { id: 'sos',      label: 'SOS Mappa',      icon: 'sos',     badge: '3' },
+  { id: 'sos',      label: 'SOS Mappa',      icon: 'sos' },
   { id: 'adopt',    label: 'Adozioni',        icon: 'paw' },
   { id: 'rifugi',   label: 'Rifugi & Aiuti',  icon: 'shelter' },
   { id: 'sitter',   label: 'Pet Sitter',      icon: 'sitter' },
   { id: 'shop',     label: 'Vetrine',         icon: 'shop' },
 ];
 const NAV_SECONDARY = [
-  { id: 'msg',       label: 'Messaggi',         icon: 'message', badge: '2', badgeNeutral: true },
+  { id: 'msg',       label: 'Messaggi',         icon: 'message' },
   { id: 'donations', label: 'Le mie donazioni', icon: 'heart' },
 ];
 
