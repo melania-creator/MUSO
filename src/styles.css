@@ -1143,9 +1143,11 @@ a { color: inherit; text-decoration: none; }
   display: grid;
   grid-template-columns: 1.3fr 1fr;
   gap: 32px;
-  align-items: stretch;
-  padding: 12px 4px 8px;
+  align-items: center;
+  padding: 40px 32px;
   position: relative;
+  aspect-ratio: 3 / 1;
+  overflow: hidden;
 }
 .hero-eyebrow {
   display: inline-flex;
@@ -2214,7 +2216,9 @@ a { color: inherit; text-decoration: none; }
   .home-hero {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
-    padding: 20px !important;
+    padding: 24px 20px !important;
+    aspect-ratio: unset !important;
+    min-height: 360px;
   }
   .home-hero-r { display: none; }
   .home-hero-stats { gap: 12px !important; flex-wrap: wrap; }
