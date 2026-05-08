@@ -54,8 +54,8 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           borderRadius: 'inherit',
         }}/>
         <div className="home-hero-l" style={{ position:'relative', zIndex:1, paddingLeft:'2.5rem' }}>
-          <div className="hero-eyebrow" style={{ color:'rgba(255,255,255,0.85)' }}>
-            <span className="dot live-dot"></span> La rete che protegge gli animali — attiva ora
+          <div className="hero-eyebrow" style={{ color:'#1F1B2E' }}>
+            <span className="dot live-dot"></span> La rete che protegge gli animali — <span style={{ color:'#D4318A', fontWeight:700 }}>Attiva ora</span>
           </div>
           <h1 className="home-hero-title" style={{ color:'#fff', textShadow:'0 2px 12px rgba(0,0,0,0.6)' }}>
             La rete di persone<br/>
