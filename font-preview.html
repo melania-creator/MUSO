@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MUSO — Font Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #F5F0EA; padding: 32px 20px; }
+  h1 { text-align: center; font-family: sans-serif; font-size: 14px; color: #999; margin-bottom: 32px; letter-spacing: .1em; text-transform: uppercase; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  }
+  .card-label {
+    background: #1f1b2e;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-label span { background: #D4318A; padding: 3px 10px; border-radius: 99px; font-size: 10px; }
+  .card-body { padding: 24px 20px; }
+
+  /* Nav */
+  .nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+  .nav-item { font-size: 13px; font-weight: 500; color: #666; padding: 6px 12px; border-radius: 99px; border: 1px solid #e0ddd8; }
+  .nav-item.active { background: #FEE8F4; color: #D4318A; border-color: #D4318A; font-weight: 600; }
+
+  /* Hero */
+  .hero-title { font-size: 42px; line-height: 1.0; font-weight: 700; color: #1f1b2e; margin-bottom: 10px; }
+  .hero-title em { color: #D4318A; font-style: italic; }
+  .hero-sub { font-size: 15px; color: #777; line-height: 1.5; margin-bottom: 20px; font-weight: 400; }
+
+  /* Buttons */
+  .btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+  .btn-primary { background: #D4318A; color: #fff; border: none; border-radius: 12px; padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .btn-ghost { background: none; color: #1f1b2e; border: 1.5px solid #e0ddd8; border-radius: 12px; padding: 12px 20px; font-size: 14px; font-weight: 500; cursor: pointer; }
+
+  /* Cards row */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mini-card { background: #f9f7f4; border-radius: 14px; padding: 14px; }
+  .mini-card .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #D4318A; margin-bottom: 4px; }
+  .mini-card .value { font-size: 22px; font-weight: 700; color: #1f1b2e; line-height: 1.1; }
+  .mini-card .sub { font-size: 12px; color: #999; margin-top: 2px; }
+
+  /* Divider */
+  .divider { border: none; border-top: 1px solid #f0ece6; margin: 20px 0; }
+
+  /* Body text */
+  .body-text { font-size: 14px; line-height: 1.6; color: #555; }
+
+  /* Current badge */
+  .current { background: #D4318A; }
+
+  /* font families */
+  .f-jakarta * { font-family: 'Plus Jakarta Sans', sans-serif !important; }
+  .f-dm      * { font-family: 'DM Sans', sans-serif !important; }
+  .f-nunito  * { font-family: 'Nunito', sans-serif !important; }
+  .f-outfit  * { font-family: 'Outfit', sans-serif !important; }
+  .f-current * { font-family: 'General Sans', system-ui, sans-serif !important; }
+</style>
+</head>
+<body>
+<h1>Confronto font — Home MUSO</h1>
+<div class="grid">
+
+  <!-- ATTUALE -->
+  <div class="card">
+    <div class="card-label">General Sans <span class="current">ATTUALE</span></div>
+    <div class="card-body f-current">
+      <div class="nav">
+        <div class="nav-item active">Home</div>
+        <div class="nav-item">SOS Mappa</div>
+        <div class="nav-item">Adozioni</div>
+        <div class="nav-item">Pet Sitter</div>
+      </div>
+      <div class="hero-title">La rete di persone<br/>che <em>salva</em> gli animali</div>
+      <div class="hero-sub">Segnala emergenze in 2 tap, trova adozioni vicino a te, supporta i rifugi.</div>
+      <div class="btns">
+        <button class="btn-primary">+ Segnala un animale</button>
+        <button class="btn-ghost">Sfoglia le adozioni →</button>
+      </div>
+      <div class="cards">
+        <div class="mini-card"><div class="label">SOS attivi</div><div class="value">0</div><div class="sub">Tutto tranquillo</div></div>
+        <div class="mini-card"><div class="label">Adozioni</div><div class="value">24</div><div class="sub">in arrivo</div></div>
+      </div>
+      <hr class="divider"/>
+      <div class="body-text">Hai visto un animale in difficoltà? Segnalalo in 30 secondi — i volontari vicino a te riceveranno una notifica immediata.</div>
+    </div>
+  </div>
+
+  <!-- PLUS JAKARTA SANS -->
+  <div class="card">
+    <div class="card-label">Plus Jakarta Sans <span>CONSIGLIATO</span></div>
+    <div class="card-body f-jakarta">
+      <div class="nav">
+        <div class="nav-item active">Home</div>
+        <div class="nav-item">SOS Mappa</div>
+        <div class="nav-item">Adozioni</div>
+        <div class="nav-item">Pet Sitter</div>
+      </div>
+      <div class="hero-title">La rete di persone<br/>che <em>salva</em> gli animali</div>
+      <div class="hero-sub">Segnala emergenze in 2 tap, trova adozioni vicino a te, supporta i rifugi.</div>
+      <div class="btns">
+        <button class="btn-primary">+ Segnala un animale</button>
+        <button class="btn-ghost">Sfoglia le adozioni →</button>
+      </div>
+      <div class="cards">
+        <div class="mini-card"><div class="label">SOS attivi</div><div class="value">0</div><div class="sub">Tutto tranquillo</div></div>
+        <div class="mini-card"><div class="label">Adozioni</div><div class="value">24</div><div class="sub">in arrivo</div></div>
+      </div>
+      <hr class="divider"/>
+      <div class="body-text">Hai visto un animale in difficoltà? Segnalalo in 30 secondi — i volontari vicino a te riceveranno una notifica immediata.</div>
+    </div>
+  </div>
+
+  <!-- DM SANS -->
+  <div class="card">
+    <div class="card-label">DM Sans</div>
+    <div class="card-body f-dm">
+      <div class="nav">
+        <div class="nav-item active">Home</div>
+        <div class="nav-item">SOS Mappa</div>
+        <div class="nav-item">Adozioni</div>
+        <div class="nav-item">Pet Sitter</div>
+      </div>
+      <div class="hero-title">La rete di persone<br/>che <em>salva</em> gli animali</div>
+      <div class="hero-sub">Segnala emergenze in 2 tap, trova adozioni vicino a te, supporta i rifugi.</div>
+      <div class="btns">
+        <button class="btn-primary">+ Segnala un animale</button>
+        <button class="btn-ghost">Sfoglia le adozioni →</button>
+      </div>
+      <div class="cards">
+        <div class="mini-card"><div class="label">SOS attivi</div><div class="value">0</div><div class="sub">Tutto tranquillo</div></div>
+        <div class="mini-card"><div class="label">Adozioni</div><div class="value">24</div><div class="sub">in arrivo</div></div>
+      </div>
+      <hr class="divider"/>
+      <div class="body-text">Hai visto un animale in difficoltà? Segnalalo in 30 secondi — i volontari vicino a te riceveranno una notifica immediata.</div>
+    </div>
+  </div>
+
+  <!-- NUNITO -->
+  <div class="card">
+    <div class="card-label">Nunito</div>
+    <div class="card-body f-nunito">
+      <div class="nav">
+        <div class="nav-item active">Home</div>
+        <div class="nav-item">SOS Mappa</div>
+        <div class="nav-item">Adozioni</div>
+        <div class="nav-item">Pet Sitter</div>
+      </div>
+      <div class="hero-title">La rete di persone<br/>che <em>salva</em> gli animali</div>
+      <div class="hero-sub">Segnala emergenze in 2 tap, trova adozioni vicino a te, supporta i rifugi.</div>
+      <div class="btns">
+        <button class="btn-primary">+ Segnala un animale</button>
+        <button class="btn-ghost">Sfoglia le adozioni →</button>
+      </div>
+      <div class="cards">
+        <div class="mini-card"><div class="label">SOS attivi</div><div class="value">0</div><div class="sub">Tutto tranquillo</div></div>
+        <div class="mini-card"><div class="label">Adozioni</div><div class="value">24</div><div class="sub">in arrivo</div></div>
+      </div>
+      <hr class="divider"/>
+      <div class="body-text">Hai visto un animale in difficoltà? Segnalalo in 30 secondi — i volontari vicino a te riceveranno una notifica immediata.</div>
+    </div>
+  </div>
+
+  <!-- OUTFIT -->
+  <div class="card">
+    <div class="card-label">Outfit</div>
+    <div class="card-body f-outfit">
+      <div class="nav">
+        <div class="nav-item active">Home</div>
+        <div class="nav-item">SOS Mappa</div>
+        <div class="nav-item">Adozioni</div>
+        <div class="nav-item">Pet Sitter</div>
+      </div>
+      <div class="hero-title">La rete di persone<br/>che <em>salva</em> gli animali</div>
+      <div class="hero-sub">Segnala emergenze in 2 tap, trova adozioni vicino a te, supporta i rifugi.</div>
+      <div class="btns">
+        <button class="btn-primary">+ Segnala un animale</button>
+        <button class="btn-ghost">Sfoglia le adozioni →</button>
+      </div>
+      <div class="cards">
+        <div class="mini-card"><div class="label">SOS attivi</div><div class="value">0</div><div class="sub">Tutto tranquillo</div></div>
+        <div class="mini-card"><div class="label">Adozioni</div><div class="value">24</div><div class="sub">in arrivo</div></div>
+      </div>
+      <hr class="divider"/>
+      <div class="body-text">Hai visto un animale in difficoltà? Segnalalo in 30 secondi — i volontari vicino a te riceveranno una notifica immediata.</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
