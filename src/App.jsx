@@ -4,6 +4,7 @@ import {
   TweaksPanel, useTweaks, TweakSection, TweakColor, TweakRadio, TweakSelect, TweakButton
 } from './components/TweaksPanel';
 import OnboardingModal from './modals/OnboardingModal';
+import SplashScreen from './components/SplashScreen';
 
 import ScreenHome    from './screens/ScreenHome';
 import ScreenSOS     from './screens/ScreenSOS';
@@ -36,6 +37,8 @@ export default function App() {
     setSosReports(prev => [report, ...prev]);
     setActive('sos');
   };
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const [showSplash, setShowSplash] = useState(isMobile);
   const [showOnboarding, setShowOnboarding] = useState(() => {
     try { return !localStorage.getItem('muso_onboarded'); } catch { return false; }
   });
@@ -91,7 +94,8 @@ export default function App() {
       </main>
       <MobileNav active={active} setActive={setActive} onSos={() => setReportOpen(true)} />
       <ReportModal open={reportOpen} onClose={() => setReportOpen(false)} onSosSubmit={handleSosSubmit} />
-      {showOnboarding && <OnboardingModal onDone={handleOnboardingDone} />}
+      {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
+      {!showSplash && showOnboarding && <OnboardingModal onDone={handleOnboardingDone} />}
 
       {import.meta.env.DEV && <TweaksPanel title="Tweaks">
         <TweakSection label="Palette">
