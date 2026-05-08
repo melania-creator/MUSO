@@ -31,7 +31,7 @@ const SLIDES = [
     roles: [
       { icon: '👤', label: 'Utente'              },
       { icon: '🌿', label: 'Pet Sitter'          },
-      { icon: '🏠', label: 'Rifugio — gratuito'  },
+      { icon: '🏠', label: 'Rifugio'             },
       { icon: '🏪', label: 'Vetrina'             },
     ],
   },
