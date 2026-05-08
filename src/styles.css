@@ -2193,8 +2193,11 @@ a { color: inherit; text-decoration: none; }
     display: block !important;
   }
   .main { padding-bottom: 80px; }
-  .topbar { padding: 10px 16px !important; }
-  .topbar .tb-search { display: none; }
+  .topbar { padding: 10px 16px !important; gap: 8px !important; }
+  .topbar .search { display: none !important; }
+  .topbar .city-pick { font-size: 12px !important; padding: 6px 10px !important; }
+  .topbar .btn-sos { display: none !important; }
+  .topbar .spacer { display: none !important; }
   .content { padding: 16px !important; gap: 28px !important; }
 
   /* Headings */
@@ -2252,6 +2255,15 @@ a { color: inherit; text-decoration: none; }
   .adopt-hero { height: 240px !important; }
   .adopt-hero-face { font-size: 96px !important; }
   .sos-photos { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* SOS layout → colonna singola su mobile */
+  .sos-layout {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .map-wrap { height: 320px !important; }
+  .map-overlay-tl { top: 8px !important; left: 8px !important; }
+  .map-overlay-tr { top: 8px !important; right: 8px !important; }
 
   /* Forms */
   .field-grid { grid-template-columns: 1fr !important; }
