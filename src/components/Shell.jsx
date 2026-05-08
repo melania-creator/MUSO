@@ -247,8 +247,12 @@ export function MobileNav({ active, setActive, onSos }) {
   );
 }
 
+const CITIES = ['Roma','Milano','Napoli','Torino','Bologna','Firenze','Palermo','Bari','Catania','Venezia'];
+
 export function Topbar({ onSos }) {
   const [searchFocused, setSearchFocused] = useState(false);
+  const [city, setCity] = useState('Roma');
+  const [cityOpen, setCityOpen] = useState(false);
 
   return (
     <header className="topbar">
@@ -271,9 +275,34 @@ export function Topbar({ onSos }) {
           </span>
         )}
       </div>
-      <div className="city-pick">
-        <span className="dot"></span>
-        Roma <Icon name="chevron-down" size={14} />
+      <div style={{ position:'relative' }}>
+        <button className="city-pick" onClick={() => setCityOpen(v => !v)}>
+          <span className="dot"></span>
+          {city} <Icon name="chevron-down" size={14} />
+        </button>
+        {cityOpen && (
+          <>
+            <div style={{ position:'fixed', inset:0, zIndex:99 }} onClick={() => setCityOpen(false)}/>
+            <div style={{
+              position:'absolute', top:'calc(100% + 8px)', left:0, zIndex:100,
+              background:'var(--c-surface)', border:'1.5px solid var(--c-line)',
+              borderRadius:14, padding:'6px 0', minWidth:160,
+              boxShadow:'0 8px 24px rgba(0,0,0,.12)',
+            }}>
+              {CITIES.map(c => (
+                <button key={c} onClick={() => { setCity(c); setCityOpen(false); }} style={{
+                  display:'block', width:'100%', textAlign:'left',
+                  padding:'9px 16px', background:'none', border:'none',
+                  fontSize:14, fontWeight: c === city ? 600 : 400,
+                  color: c === city ? '#D4318A' : 'var(--c-ink)',
+                  cursor:'pointer',
+                }}>
+                  {c === city && '● '}{c}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
       <div className="spacer"></div>
       <button className="btn btn-sos" onClick={onSos}>
