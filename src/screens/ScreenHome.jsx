@@ -71,7 +71,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           </div>
         </div>
         <div className="home-hero-r" style={{ position:'relative', zIndex:1 }}>
-          <div className="hero-card hc-1">
+          <div className="hero-card hc-1" style={{ marginLeft:'auto', marginRight:'2rem' }}>
             <div className="hc-emoji">🐾</div>
             <div className="hc-tag">MUSO · in attesa</div>
             <div className="hc-title">Sii il primo<br/>a segnalare.</div>
