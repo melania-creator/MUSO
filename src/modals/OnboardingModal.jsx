@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Icon from '../components/Icon';
 import popup1 from '../assets/popup1.png';
+import sfondoHome from '../assets/sfondo-home.jpg';
 
 const SLIDES = [
   {
@@ -22,8 +23,8 @@ const SLIDES = [
   },
   {
     emoji: '🤝',
+    bgImage: sfondoHome,
     color: '#6DBF8A',
-    bg: 'linear-gradient(135deg, #C7E8D9, #A0D8BC)',
     title: 'Unisciti alla rete.',
     subtitle: 'Ogni ruolo fa la differenza.',
     desc: 'Adotta un animale, diventa volontario SOS, registra il tuo rifugio o apri una vetrina. La rete cresce con te.',
