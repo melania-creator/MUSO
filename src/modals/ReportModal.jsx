@@ -92,13 +92,15 @@ export default function ReportModal({ open, onClose, onSosSubmit }) {
   const [note, setNote]           = useState('');
   const [location, setLocation]       = useState(null);
   const [locating, setLocating]       = useState(false);
-  const [showMapPicker, setShowMapPicker] = useState(false);
+  const [locMode, setLocMode]         = useState('gps'); // 'gps' | 'map' | 'text'
+  const [manualRef, setManualRef]     = useState('');
   const [shareOpen, setShareOpen]     = useState(false);
 
   useEffect(() => {
     if (open) {
       setStep(0); setSpecies(null); setSituation(null);
-      setUrgency('alta'); setNote(''); setLocation(null); setShowMapPicker(false); setShareOpen(false);
+      setUrgency('alta'); setNote(''); setLocation(null);
+      setLocMode('gps'); setManualRef(''); setShareOpen(false);
     }
   }, [open]);
 
@@ -108,7 +110,7 @@ export default function ReportModal({ open, onClose, onSosSubmit }) {
 
   // Geolocalizzazione automatica appena si apre il passo 1
   useEffect(() => {
-    if (step !== 1 || location) return;
+    if (step !== 1 || location || locMode !== 'gps') return;
     setLocating(true);
     navigator.geolocation?.getCurrentPosition(
       pos => {
@@ -120,12 +122,12 @@ export default function ReportModal({ open, onClose, onSosSubmit }) {
         setLocating(false);
       },
       () => {
-        setLocation({ label: 'Posizione non disponibile — aggiungi un riferimento' });
         setLocating(false);
+        setLocMode('text'); // GPS fallito → passa a inserimento manuale
       },
       { timeout: 8000 }
     );
-  }, [step]);
+  }, [step, locMode]);
 
   if (!open) return null;
 
@@ -133,6 +135,7 @@ export default function ReportModal({ open, onClose, onSosSubmit }) {
 
   const handleSend = () => {
     const ROME = [41.9028, 12.4964];
+    const ref = locMode === 'text' ? manualRef : location?.label;
     onSosSubmit?.({
       id:        Date.now(),
       lat:       location?.lat ?? ROME[0],
@@ -142,8 +145,9 @@ export default function ReportModal({ open, onClose, onSosSubmit }) {
       urgency,
       species,
       note,
+      ref,
       label:     `${SPECIES.find(s=>s.id===species)?.name || 'Animale'} — ${SITUATIONS.find(s=>s.id===situation)?.name || ''}`,
-      meta:      `priorità ${urgency}${note ? ' · ' + note.slice(0,40) : ''}`,
+      meta:      `priorità ${urgency}${ref ? ' · ' + ref.slice(0,40) : ''}${note ? ' · ' + note.slice(0,40) : ''}`,
       time:      new Date().toLocaleTimeString('it-IT', { hour:'2-digit', minute:'2-digit' }),
     });
     setStep(2);
@@ -210,33 +214,29 @@ export default function ReportModal({ open, onClose, onSosSubmit }) {
                 <h2 className="modal-title">Conferma e invia.</h2>
                 <p className="modal-desc">La posizione viene rilevata dal GPS. Puoi anche sceglierla sulla mappa.</p>
 
-                {/* Toggle GPS / Mappa */}
-                <div style={{ display:'flex', gap:8, marginTop:12, marginBottom:4 }}>
-                  <button
-                    onClick={() => setShowMapPicker(false)}
-                    style={{
-                      flex:1, padding:'8px 0', borderRadius:10, border:'2px solid',
-                      borderColor: !showMapPicker ? '#FF5C4D' : 'var(--c-line,#eee)',
-                      background: !showMapPicker ? '#FFF0EE' : 'var(--c-bg,#f9f7f4)',
-                      color: !showMapPicker ? '#CC2200' : 'var(--c-ink-mute)',
-                      fontWeight:600, fontSize:13, cursor:'pointer',
-                    }}>
-                    🎯 GPS automatico
-                  </button>
-                  <button
-                    onClick={() => setShowMapPicker(true)}
-                    style={{
-                      flex:1, padding:'8px 0', borderRadius:10, border:'2px solid',
-                      borderColor: showMapPicker ? '#9B59B6' : 'var(--c-line,#eee)',
-                      background: showMapPicker ? '#F5EDFF' : 'var(--c-bg,#f9f7f4)',
-                      color: showMapPicker ? '#6B2FA0' : 'var(--c-ink-mute)',
-                      fontWeight:600, fontSize:13, cursor:'pointer',
-                    }}>
-                    🗺️ Scegli sulla mappa
-                  </button>
+                {/* Toggle GPS / Mappa / Testo */}
+                <div style={{ display:'flex', gap:6, marginTop:12, marginBottom:8 }}>
+                  {[
+                    { id:'gps',  label:'🎯 GPS',    activeColor:'#FF5C4D', activeBg:'#FFF0EE' },
+                    { id:'map',  label:'🗺️ Mappa',  activeColor:'#9B59B6', activeBg:'#F5EDFF' },
+                    { id:'text', label:'✍️ Indirizzo', activeColor:'#2A7A4A', activeBg:'#F0FBF4' },
+                  ].map(m => (
+                    <button key={m.id}
+                      onClick={() => { setLocMode(m.id); if (m.id === 'gps') setLocation(null); }}
+                      style={{
+                        flex:1, padding:'8px 4px', borderRadius:10, border:'2px solid',
+                        borderColor: locMode === m.id ? m.activeColor : 'var(--c-line,#eee)',
+                        background:  locMode === m.id ? m.activeBg   : 'var(--c-bg,#f9f7f4)',
+                        color:       locMode === m.id ? m.activeColor : 'var(--c-ink-mute)',
+                        fontWeight:600, fontSize:12, cursor:'pointer',
+                      }}>
+                      {m.label}
+                    </button>
+                  ))}
                 </div>
 
-                {!showMapPicker && (
+                {/* GPS */}
+                {locMode === 'gps' && (
                   locating ? (
                     <div className="location-detecting">
                       <span className="spin">⟳</span>
@@ -257,29 +257,45 @@ export default function ReportModal({ open, onClose, onSosSubmit }) {
                   ) : null
                 )}
 
-                {showMapPicker && (
-                  <div style={{ marginTop:8, borderRadius:12, overflow:'hidden', height:220 }}>
-                    <MapView
-                      zoom={13}
-                      showSearch={true}
-                      selectable={true}
-                      onLocationSelect={handleMapSelect}
-                      style={{ height:220, minHeight:220 }}
-                    />
-                  </div>
+                {/* Mappa */}
+                {locMode === 'map' && (
+                  <>
+                    <div style={{ borderRadius:12, overflow:'hidden', height:220 }}>
+                      <MapView
+                        zoom={13}
+                        showSearch={true}
+                        selectable={true}
+                        onLocationSelect={handleMapSelect}
+                        style={{ height:220, minHeight:220 }}
+                      />
+                    </div>
+                    {location && (
+                      <div className="location-detected" style={{ marginTop:8 }}>
+                        <div className="loc-icon" style={{ background:'#9B59B6' }}><Icon name="pin" size={16}/></div>
+                        <div>
+                          <div style={{ fontWeight:600, fontSize:14 }}>{location.label}</div>
+                          {location.lat && (
+                            <div style={{ fontSize:12, color:'#6B2FA0', marginTop:2 }}>
+                              {location.lat}°N, {location.lng}°E
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
 
-                {showMapPicker && location && (
-                  <div className="location-detected" style={{ marginTop:8 }}>
-                    <div className="loc-icon" style={{ background:'#9B59B6' }}><Icon name="pin" size={16}/></div>
-                    <div>
-                      <div style={{ fontWeight:600, fontSize:14 }}>{location.label}</div>
-                      {location.lat && (
-                        <div style={{ fontSize:12, color:'#6B2FA0', marginTop:2 }}>
-                          {location.lat}°N, {location.lng}°E
-                        </div>
-                      )}
-                    </div>
+                {/* Indirizzo manuale */}
+                {locMode === 'text' && (
+                  <div className="field">
+                    <label>Dove si trova l'animale?</label>
+                    <input
+                      type="text"
+                      placeholder="Es. Via Roma 12, vicino al parco, sotto il ponte…"
+                      value={manualRef}
+                      onChange={e => setManualRef(e.target.value)}
+                      style={{ width:'100%', padding:'11px 14px', borderRadius:12, border:'1.5px solid var(--c-line,#eee)', background:'var(--c-bg,#f9f7f4)', fontSize:14, boxSizing:'border-box', outline:'none', fontFamily:'inherit' }}
+                    />
                   </div>
                 )}
 
@@ -306,6 +322,9 @@ export default function ReportModal({ open, onClose, onSosSubmit }) {
 
                 <div style={{ marginTop:14, padding:'12px 14px', borderRadius:12, background:'#FFF8ED', border:'1px solid #F5D9A0', fontSize:13, color:'#7A5500' }}>
                   <b>Riepilogo:</b> {SPECIES.find(s=>s.id===species)?.emoji} {SPECIES.find(s=>s.id===species)?.name} · {SITUATIONS.find(s=>s.id===situation)?.name} · priorità {urgency}
+                  {locMode === 'text' && manualRef && <div style={{ marginTop:4 }}>📍 {manualRef}</div>}
+                  {locMode === 'gps' && location?.lat && <div style={{ marginTop:4 }}>📍 GPS {location.lat}°N</div>}
+                  {locMode === 'map' && location?.lat && <div style={{ marginTop:4 }}>📍 Mappa {location.lat}°N</div>}
                 </div>
               </>
             )}
