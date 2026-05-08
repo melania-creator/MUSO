@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Icon from '../components/Icon';
 import MapView from '../components/Map';
+import ShareSheet from '../components/ShareSheet';
 
 const SPECIES = [
   { id:'cane',     emoji:'🐕', name:'Cane'     },
@@ -92,11 +93,12 @@ export default function ReportModal({ open, onClose }) {
   const [location, setLocation]       = useState(null);
   const [locating, setLocating]       = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
+  const [shareOpen, setShareOpen]     = useState(false);
 
   useEffect(() => {
     if (open) {
       setStep(0); setSpecies(null); setSituation(null);
-      setUrgency('alta'); setNote(''); setLocation(null); setShowMapPicker(false);
+      setUrgency('alta'); setNote(''); setLocation(null); setShowMapPicker(false); setShareOpen(false);
     }
   }, [open]);
 
@@ -306,6 +308,17 @@ export default function ReportModal({ open, onClose }) {
                   <span className="tag tag-mute">priorità {urgency}</span>
                   {location?.lat && <span className="tag tag-mint">📍 GPS rilevato</span>}
                 </div>
+                <button
+                  onClick={() => setShareOpen(true)}
+                  style={{
+                    marginTop:20, width:'100%', padding:'13px',
+                    borderRadius:12, border:'2px solid #D4318A',
+                    background:'#FCEAF4', color:'#D4318A',
+                    fontWeight:700, fontSize:14, cursor:'pointer',
+                    display:'flex', alignItems:'center', justifyContent:'center', gap:8,
+                  }}>
+                  📣 Condividi sui social — aiuta a diffondere
+                </button>
               </div>
             )}
           </div>
@@ -336,6 +349,12 @@ export default function ReportModal({ open, onClose }) {
           </div>
         </div>
       </div>
+      <ShareSheet
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        title="SOS animale in difficoltà"
+        defaultText={`🐾 SOS! Ho visto un ${SPECIES.find(s=>s.id===species)?.name || 'animale'} in difficoltà (${SITUATIONS.find(s=>s.id===situation)?.name || ''}) a Roma. Aiutami a trovare soccorso — segnalato su MUSO, la rete di persone che salva gli animali.`}
+      />
     </>
   );
 }

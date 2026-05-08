@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Icon from '../components/Icon';
 import { Field, CheckTile, Toggle } from '../components/FormComponents';
 import { SERVICE_OPTS } from '../constants';
+import SOSChat from '../components/SOSChat';
+import ShareSheet from '../components/ShareSheet';
 
 function DetailHeader({ onBack, eyebrow, title, subtitle, tags, actions }) {
   return (
@@ -19,18 +21,7 @@ function DetailHeader({ onBack, eyebrow, title, subtitle, tags, actions }) {
 export function DetailSOS({ data, onBack }) {
   const [taken, setTaken] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { who:'reporter', name:'Marco', text:"L'ho visto fermo da circa 5 minuti, zampa anteriore destra non poggia.", time:'4 min fa' },
-    { who:'system', text:'ENPA Milano ha visto la segnalazione' },
-    { who:'enpa', name:'ENPA Milano', text:'Stiamo arrivando, 8 minuti. Potete restare lì?', time:'2 min fa' },
-  ]);
-  const [draft, setDraft] = useState('');
-
-  const send = () => {
-    if (!draft.trim()) return;
-    setMessages([...messages, { who:'you', name:'Tu', text:draft, time:'ora' }]);
-    setDraft('');
-  };
+  const [shareOpen, setShareOpen] = useState(false);
 
   const timeline = [
     { dot:'sos',  time:'14:32', title:'Segnalazione aperta', desc:'Marco P. ha aperto un SOS critico in P.zza Vetra.' },
@@ -49,7 +40,8 @@ export function DetailSOS({ data, onBack }) {
           <button className={"btn " + (taken ? '' : 'btn-primary')} onClick={() => setTaken(!taken)}>
             {taken ? <><Icon name="check" size={14}/> Hai preso in carico</> : <><Icon name="paw" size={14}/> Prendo in carico</>}
           </button>
-          <button className="btn" onClick={() => setChatOpen(!chatOpen)}><Icon name="bell" size={14}/> Chat con il segnalatore</button>
+          <button className="btn" onClick={() => setChatOpen(!chatOpen)}><Icon name="bell" size={14}/> {chatOpen ? 'Chiudi chat' : 'Chat SOS'}</button>
+          <button className="btn" onClick={() => setShareOpen(true)}>📣 Condividi</button>
           <button className="btn btn-ghost"><Icon name="pin" size={14}/> Apri in mappa</button>
         </>}
       />
@@ -100,26 +92,8 @@ export function DetailSOS({ data, onBack }) {
             </div>
           </div>
           {chatOpen && (
-            <div className="card chat-card">
-              <div className="card-h" style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                Chat
-                <button onClick={() => setChatOpen(false)}><Icon name="close" size={14}/></button>
-              </div>
-              <div className="chat-stream">
-                {messages.map((m, i) => (
-                  m.who === 'system' ? <div key={i} className="chat-system">{m.text}</div> : (
-                    <div key={i} className={"chat-bubble " + (m.who === 'you' ? 'me' : '')}>
-                      {m.who !== 'you' && <div className="chat-name">{m.name}</div>}
-                      <div className="chat-text">{m.text}</div>
-                      <div className="chat-time">{m.time}</div>
-                    </div>
-                  )
-                ))}
-              </div>
-              <div className="chat-compose">
-                <input value={draft} onChange={e => setDraft(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()} placeholder="Scrivi un messaggio…"/>
-                <button className="btn btn-primary" onClick={send}>Invia</button>
-              </div>
+            <div style={{ marginBottom: 16 }}>
+              <SOSChat sosId="001" userName="Tu" />
             </div>
           )}
           <div className="card" style={{padding:18}}>
@@ -132,6 +106,12 @@ export function DetailSOS({ data, onBack }) {
           </div>
         </aside>
       </div>
+      <ShareSheet
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        title="SOS animale in difficoltà"
+        defaultText="🐾 SOS! C'è un cane ferito in P.zza Vetra a Roma — serve aiuto urgente. Segnalato su MUSO, la rete di persone che salva gli animali."
+      />
     </>
   );
 }
