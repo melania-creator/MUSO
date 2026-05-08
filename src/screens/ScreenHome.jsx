@@ -189,7 +189,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         <div className="sec-title">
           <div>
             <h3>I rifugi <em>chiedono aiuto</em>.</h3>
-            <div className="sub">Anche un sacco di crocchette è tanto.</div>
+            <div className="sub">Un sacco di crocchette, una coperta, un'ora del tuo tempo. Tutto conta.</div>
           </div>
           <a href="#" className="right" onClick={e => { e.preventDefault(); go('rifugi'); }}>Tutte <Icon name="arrow-right" size={12}/></a>
         </div>

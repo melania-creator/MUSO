@@ -8,7 +8,7 @@ export default function ScreenRifugi({ goJoin }) {
     <>
       <div className="page-head">
         <div>
-          <h1>I rifugi <em>chiedono aiuto.</em><br/>Anche un sacco di crocchette è tanto.</h1>
+          <h1>I rifugi <em>chiedono aiuto.</em><br/>Un sacco di crocchette, una coperta, un'ora del tuo tempo. Tutto conta.</h1>
           <div className="sub">Richieste reali da associazioni verificate. Doni in pochi click — diretto a chi ne ha bisogno.</div>
         </div>
         <div className="ph-actions">
