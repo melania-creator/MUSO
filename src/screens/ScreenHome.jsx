@@ -50,15 +50,15 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
       }}>
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'rgba(0,0,0,0.45)',
+          background: 'linear-gradient(135deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.5) 100%)',
           borderRadius: 'inherit',
         }}/>
         <div style={{ position:'relative', zIndex:1, display:'contents' }}>
         <div className="home-hero-l">
-          <div className="hero-eyebrow">
+          <div className="hero-eyebrow" style={{ color:'rgba(255,255,255,0.85)', borderColor:'rgba(255,255,255,0.2)' }}>
             <span className="dot live-dot"></span> La rete che protegge gli animali — attiva ora
           </div>
-          <h1 className="home-hero-title">
+          <h1 className="home-hero-title" style={{ color:'#fff', textShadow:'0 2px 16px rgba(0,0,0,0.5)' }}>
             La rete di persone<br/>
             che <em>salva</em> gli animali <span className="hero-arrow"><Icon name="paw" size={36}/></span>
           </h1>
