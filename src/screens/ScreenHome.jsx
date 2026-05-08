@@ -53,7 +53,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           background: 'linear-gradient(105deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.65) 45%, rgba(0,0,0,0.25) 100%)',
           borderRadius: 'inherit',
         }}/>
-        <div className="home-hero-l" style={{ position:'relative', zIndex:1 }}>
+        <div className="home-hero-l" style={{ position:'relative', zIndex:1, paddingLeft:'2.5rem' }}>
           <div className="hero-eyebrow" style={{ color:'rgba(255,255,255,0.85)' }}>
             <span className="dot live-dot"></span> La rete che protegge gli animali — attiva ora
           </div>
