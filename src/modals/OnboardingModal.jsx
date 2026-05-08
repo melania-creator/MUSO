@@ -27,10 +27,10 @@ const SLIDES = [
     subtitle: 'Ogni ruolo fa la differenza.',
     desc: 'Adotta un animale, diventa volontario SOS, registra il tuo rifugio o apri una vetrina. La rete cresce con te.',
     roles: [
-      { icon: '👤', label: 'Utente'      },
-      { icon: '🌿', label: 'Pet Sitter'  },
-      { icon: '🏠', label: 'Rifugio'     },
-      { icon: '🏪', label: 'Vetrina'     },
+      { icon: '👤', label: 'Utente'              },
+      { icon: '🌿', label: 'Pet Sitter'          },
+      { icon: '🏠', label: 'Rifugio — gratuito'  },
+      { icon: '🏪', label: 'Vetrina'             },
     ],
   },
 ];

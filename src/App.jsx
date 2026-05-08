@@ -108,6 +108,7 @@ export default function App() {
           <TweakButton onClick={() => setReportOpen(true)}>Apri flow SOS</TweakButton>
           <TweakButton onClick={() => goJoin('user')}>Form Utente</TweakButton>
           <TweakButton onClick={() => goJoin('sitter')}>Form Sitter</TweakButton>
+          <TweakButton onClick={() => goJoin('rifugio')}>Form Rifugio</TweakButton>
           <TweakButton onClick={() => goJoin('shop')}>Form Vetrina</TweakButton>
           <TweakButton onClick={() => openDetail({type:'shopOwner'})}>📊 Dashboard Vetrina</TweakButton>
           <TweakButton onClick={() => openDetail({type:'sitterOwner'})}>📊 Dashboard Sitter</TweakButton>

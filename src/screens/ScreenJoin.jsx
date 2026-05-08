@@ -3,9 +3,10 @@ import Icon from '../components/Icon';
 import { FormSection, Field, CheckTile, Toggle } from '../components/FormComponents';
 
 const ROLES = [
-  { id:'user',   label:'Utente',     emoji:'👤', desc:'Adotto, dono, segnalo SOS' },
-  { id:'sitter', label:'Pet Sitter', emoji:'🌿', desc:'Offro servizi di cura' },
-  { id:'shop',   label:'Vetrina',    emoji:'🏬', desc:'Pet shop, brand, veterinari' },
+  { id:'user',    label:'Utente',     emoji:'👤', desc:'Adotto, dono, segnalo SOS' },
+  { id:'sitter',  label:'Pet Sitter', emoji:'🌿', desc:'Offro servizi di cura' },
+  { id:'rifugio', label:'Rifugio',    emoji:'🏠', desc:'Associazione, canile, gattile — gratuito' },
+  { id:'shop',    label:'Vetrina',    emoji:'🏬', desc:'Pet shop, brand, veterinari' },
 ];
 
 const SHOP_TYPES = [
@@ -116,6 +117,119 @@ function FormSitter() {
         <label className="check-row mt-3"><input type="checkbox" defaultChecked /><span>Accetto i <a href="#" onClick={e=>e.preventDefault()}>Termini per i sitter</a> e il <a href="#" onClick={e=>e.preventDefault()}>Codice etico MUSO</a>.</span></label>
       </FormSection>
     </>
+  );
+}
+
+const RIFUGIO_TYPES = [
+  { id:'canile-mun',  icon:'🏛️', label:'Canile municipale', desc:'Struttura pubblica' },
+  { id:'canile-priv', icon:'🏠', label:'Canile privato',     desc:'Struttura privata' },
+  { id:'gattile',     icon:'🐈', label:'Gattile',            desc:'Colonie e adozioni' },
+  { id:'assoc',       icon:'🤝', label:'Associazione',       desc:'No-profit, APS, ODV' },
+  { id:'recupero',    icon:'🌿', label:'Centro recupero',    desc:'Fauna selvatica' },
+  { id:'altro',       icon:'❓', label:'Altro',              desc:'Altra tipologia' },
+];
+
+function FormRifugio() {
+  const [tipo, setTipo] = useState('assoc');
+  const [animali, setAnimali] = useState({ cani:true, gatti:true, piccoli:false, esotici:false });
+  return (
+    <>
+      <div style={{
+        display:'flex', alignItems:'center', gap:12,
+        background:'linear-gradient(135deg,#F0FBF4,#E6F7ED)',
+        border:'2px solid #6DBF8A', borderRadius:14,
+        padding:'14px 18px', marginBottom:24,
+      }}>
+        <span style={{ fontSize:28 }}>🎁</span>
+        <div>
+          <div style={{ fontWeight:700, fontSize:15, color:'#2A7A4A' }}>Gratuito per sempre</div>
+          <div style={{ fontSize:13, color:'#3A8A5C', marginTop:2 }}>
+            MUSO è completamente gratuito per tutti i rifugi e le associazioni. Nessun piano, nessuna carta.
+          </div>
+        </div>
+      </div>
+
+      <FormSection num="1" title="Il rifugio" desc="I dati che appariranno sul tuo profilo pubblico.">
+        <div className="field-grid">
+          <Field label="Nome rifugio" required span="2"><input placeholder="Rifugio del Sole" /></Field>
+          <Field label="Email" required><input type="email" placeholder="info@rifugioxx.it" /></Field>
+          <Field label="Telefono" required><input placeholder="+39 06 1234567" /></Field>
+          <Field label="Città" required><input placeholder="Roma" /></Field>
+          <Field label="Indirizzo" required><input placeholder="Via degli Animali 12" /></Field>
+        </div>
+      </FormSection>
+
+      <FormSection num="2" title="Tipo di struttura">
+        <div className="check-grid" style={{ gridTemplateColumns:'repeat(3,1fr)' }}>
+          {RIFUGIO_TYPES.map(t => (
+            <CheckTile key={t.id} icon={t.icon} label={t.label} desc={t.desc}
+              checked={tipo === t.id} onChange={() => setTipo(t.id)} />
+          ))}
+        </div>
+      </FormSection>
+
+      <FormSection num="3" title="Animali ospitati" desc="Quali specie accogliete?">
+        <div className="check-grid" style={{ gridTemplateColumns:'repeat(2,1fr)' }}>
+          <CheckTile icon="🐕" label="Cani"           checked={animali.cani}    onChange={v => setAnimali({...animali, cani:v})} />
+          <CheckTile icon="🐈" label="Gatti"          checked={animali.gatti}   onChange={v => setAnimali({...animali, gatti:v})} />
+          <CheckTile icon="🐰" label="Piccoli animali" checked={animali.piccoli} onChange={v => setAnimali({...animali, piccoli:v})} />
+          <CheckTile icon="🦜" label="Esotici"        checked={animali.esotici} onChange={v => setAnimali({...animali, esotici:v})} />
+        </div>
+        <div className="field-grid" style={{ marginTop:12 }}>
+          <Field label="Numero medio animali ospitati" hint="Dato indicativo"><input type="number" placeholder="Es: 45" /></Field>
+          <Field label="Posti disponibili ora"><input type="number" placeholder="Es: 8" /></Field>
+        </div>
+      </FormSection>
+
+      <FormSection num="4" title="Profilo pubblico" desc="Come ti presenterai agli utenti.">
+        <div className="field-grid">
+          <Field label="Sito web" span="2"><input placeholder="https://rifugioxx.it" /></Field>
+          <Field label="Descrizione" hint="Max 300 caratteri" span="2">
+            <textarea placeholder="Siamo un'associazione no-profit fondata nel 2010. Ogni anno salviamo oltre 200 animali…" />
+          </Field>
+        </div>
+      </FormSection>
+
+      <FormSection num="5" title="Documenti" desc="Per la verifica ufficiale (24-48h).">
+        <div className="field-grid">
+          <Field label="Codice fiscale associazione" required span="2"><input placeholder="9712345678" /></Field>
+          <Field label="Atto costitutivo / iscrizione registro" required span="2">
+            <input type="file" accept=".pdf,.jpg,.png" />
+          </Field>
+        </div>
+      </FormSection>
+
+      <FormSection num="6" title="Conferma">
+        <label className="check-row"><input type="checkbox" defaultChecked /><span>Confermo che i dati sono veritieri e che la struttura è regolarmente registrata.</span></label>
+        <label className="check-row"><input type="checkbox" defaultChecked /><span>Accetto i <a href="#" onClick={e=>e.preventDefault()}>Termini di servizio</a> e il <a href="#" onClick={e=>e.preventDefault()}>Codice etico MUSO</a>.</span></label>
+      </FormSection>
+    </>
+  );
+}
+
+function PreviewRifugio() {
+  return (
+    <div className="preview-stack">
+      <div className="preview-eyebrow">Anteprima profilo rifugio</div>
+      <div className="card" style={{ padding:0, overflow:'hidden' }}>
+        <div style={{ height:60, background:'linear-gradient(135deg,#6DBF8A,#3A9A6A)' }} />
+        <div style={{ padding:'0 18px 18px', marginTop:-22 }}>
+          <div className="avatar" style={{ width:48, height:48, fontSize:22, background:'#6DBF8A', border:'3px solid white', display:'grid', placeItems:'center' }}>🏠</div>
+          <div style={{ fontFamily:'var(--font-display)', fontSize:20, marginTop:8 }}>Rifugio del Sole</div>
+          <div style={{ fontSize:12, color:'var(--c-ink-mute)', marginBottom:8 }}>Roma · Associazione · in verifica</div>
+          <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+            <span className="tag tag-mint">🐕 Cani</span>
+            <span className="tag tag-mint">🐈 Gatti</span>
+            <span className="tag" style={{ background:'#E6F7ED', color:'#2A7A4A', fontWeight:700 }}>✓ Gratuito</span>
+          </div>
+        </div>
+      </div>
+      <div className="benefits">
+        <div className="ben"><span className="bdot" style={{ background:'#6DBF8A' }}>🎁</span><div><b>Zero costi per sempre</b><p>Nessun piano, nessuna carta di credito.</p></div></div>
+        <div className="ben"><span className="bdot" style={{ background:'#6BAED6' }}>📣</span><div><b>Visibilità su tutta la rete</b><p>I tuoi animali appaiono nelle adozioni.</p></div></div>
+        <div className="ben"><span className="bdot" style={{ background:'#D4318A' }}>💝</span><div><b>Donazioni dirette</b><p>Gli utenti possono donarti cibo e medicine.</p></div></div>
+      </div>
+    </div>
   );
 }
 
@@ -263,14 +377,15 @@ export default function ScreenJoin({ initialRole = 'user', go }) {
   const [submitted, setSubmitted] = useState(false);
   useEffect(() => { setRole(initialRole); }, [initialRole]);
 
-  const Form    = role === 'sitter' ? FormSitter    : role === 'shop' ? FormShop    : FormUser;
-  const Preview = role === 'sitter' ? PreviewSitter : role === 'shop' ? PreviewShop : PreviewUser;
+  const Form    = role === 'sitter' ? FormSitter    : role === 'rifugio' ? FormRifugio    : role === 'shop' ? FormShop    : FormUser;
+  const Preview = role === 'sitter' ? PreviewSitter : role === 'rifugio' ? PreviewRifugio : role === 'shop' ? PreviewShop : PreviewUser;
 
   if (submitted) {
-    const titles = { user:'Benvenuta nella rete MUSO.', sitter:'Profilo sitter inviato!', shop:'Vetrina in revisione.' };
+    const titles = { user:'Benvenuta nella rete MUSO.', sitter:'Profilo sitter inviato!', rifugio:'Rifugio registrato!', shop:'Vetrina in revisione.' };
     const descs = {
       user:"Il tuo profilo è attivo. Inizia da una segnalazione, un'adozione o una donazione.",
       sitter:'Il team MUSO verifica i documenti entro 24-48h. Riceverai una mail appena sei online.',
+      rifugio:'Verifichiamo i documenti entro 24-48h. Il profilo del rifugio è gratuito per sempre — nessun costo, mai.',
       shop:'Verifichiamo P.IVA e dati aziendali in 24-48h. Poi attiviamo la vetrina.'
     };
     return (
@@ -293,7 +408,7 @@ export default function ScreenJoin({ initialRole = 'user', go }) {
       <div className="page-head">
         <div>
           <h1>Unisciti a <em>MUSO</em>.<br/>In che ruolo?</h1>
-          <div className="sub">Tre profili, una rete sola. Cambia idea quando vuoi.</div>
+          <div className="sub">Quattro profili, una rete sola. I rifugi entrano sempre gratis.</div>
         </div>
       </div>
       <div className="role-tabs">
@@ -313,7 +428,7 @@ export default function ScreenJoin({ initialRole = 'user', go }) {
             <div style={{display:'flex',gap:8,alignItems:'center'}}>
               <span style={{fontSize:12,color:'var(--c-ink-mute)'}}>I tuoi dati sono crittografati e non condivisi con terzi.</span>
               <button type="submit" className="btn btn-primary">
-                {role === 'user' ? 'Crea account' : role === 'sitter' ? 'Invia per la verifica' : 'Apri la vetrina'}
+                {role === 'user' ? 'Crea account' : role === 'sitter' ? 'Invia per la verifica' : role === 'rifugio' ? 'Registra il rifugio' : 'Apri la vetrina'}
                 <Icon name="arrow-right" size={14}/>
               </button>
             </div>
