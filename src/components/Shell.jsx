@@ -273,7 +273,7 @@ export function Topbar({ onSos }) {
       </div>
       <div className="city-pick">
         <span className="dot"></span>
-        Milano <Icon name="chevron-down" size={14} />
+        Roma <Icon name="chevron-down" size={14} />
       </div>
       <div className="spacer"></div>
       <button className="btn btn-sos" onClick={onSos}>

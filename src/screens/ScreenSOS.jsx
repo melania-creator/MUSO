@@ -2,8 +2,8 @@ import { useState } from 'react';
 import Icon from '../components/Icon';
 import MapView from '../components/Map';
 
-// Coordinate default: Milano centro
-const DEFAULT_CENTER = [45.4642, 9.1900];
+// Coordinate default: Roma centro
+const DEFAULT_CENTER = [41.9028, 12.4964];
 const DEFAULT_ZOOM   = 13;
 
 export default function ScreenSOS({ onSos, openDetail }) {
@@ -61,7 +61,7 @@ export default function ScreenSOS({ onSos, openDetail }) {
                   : 'Nessun SOS attivo'}
               </span>
             </div>
-            <div className="map-card"><Icon name="compass" size={14}/> Milano · Brera</div>
+            <div className="map-card"><Icon name="compass" size={14}/> Roma · Centro</div>
           </div>
           <div className="map-overlay-tr">
             <div className="map-zoom">

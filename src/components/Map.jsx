@@ -13,7 +13,7 @@ import 'leaflet/dist/leaflet.css';
 //   4. Sostituisci SOLO questo file — il resto dell'app usa sempre <MapView pins={...} />
 // ================================================================
 
-const MILAN = [45.4642, 9.1900];
+const ROME = [41.9028, 12.4964];
 
 const PIN_COLORS = {
   sos:     '#FF5C4D',
@@ -202,7 +202,7 @@ export default function MapView({
     if (!containerRef.current || mapRef.current) return;
 
     const map = L.map(containerRef.current, {
-      center: center || MILAN,
+      center: center || ROME,
       zoom,
       zoomControl: true,
     });
