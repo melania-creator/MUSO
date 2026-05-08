@@ -6,16 +6,28 @@ import MapView from '../components/Map';
 const DEFAULT_CENTER = [41.9028, 12.4964];
 const DEFAULT_ZOOM   = 13;
 
-export default function ScreenSOS({ onSos, openDetail }) {
+// Mappa filtro UI → campo del report
+const FILTER_MATCH = {
+  tutti:    () => true,
+  critica:  r => r.urgency === 'critica',
+  alta:     r => r.urgency === 'alta',
+  smarriti: r => r.situation === 'smarrito',
+  salvati:  r => r.resolved === true,
+};
+
+export default function ScreenSOS({ onSos, openDetail, sosReports = [] }) {
   const [filter, setFilter] = useState('tutti');
 
-  // In futuro: pins arriveranno dal backend (es. fetch('/api/sos/active'))
-  const pins = [];
-  const feed = [];
+  const matchFn = FILTER_MATCH[filter] ?? FILTER_MATCH.tutti;
+  const filtered = sosReports.filter(matchFn);
 
-  const filteredPins = filter === 'tutti'
-    ? pins
-    : pins.filter(p => p.urgency === filter || p.type === filter);
+  const filteredPins = filtered.map(r => ({
+    lat:   parseFloat(r.lat),
+    lng:   parseFloat(r.lng),
+    type:  r.urgency === 'critica' ? 'sos' : r.situation === 'smarrito' ? 'warn' : 'sos',
+    label: r.label,
+    meta:  r.meta,
+  }));
 
   return (
     <>
@@ -54,10 +66,10 @@ export default function ScreenSOS({ onSos, openDetail }) {
           />
           <div className="map-overlay-tl">
             <div className="map-card">
-              <span style={{ width:8, height:8, borderRadius:'50%', background: pins.length ? '#FF5C4D' : '#34C759' }}></span>
+              <span style={{ width:8, height:8, borderRadius:'50%', background: sosReports.length ? '#FF5C4D' : '#34C759' }}></span>
               <span>
-                {pins.length
-                  ? <><b style={{ color:'var(--c-sos)' }}>{pins.length}</b> SOS attivi</>
+                {sosReports.length
+                  ? <><b style={{ color:'var(--c-sos)' }}>{sosReports.length}</b> SOS attivi</>
                   : 'Nessun SOS attivo'}
               </span>
             </div>
@@ -77,11 +89,17 @@ export default function ScreenSOS({ onSos, openDetail }) {
             <span className="live">LIVE</span>
           </div>
 
-          {feed.length === 0 ? (
+          {filtered.length === 0 ? (
             <div style={{ padding:'32px 16px', textAlign:'center', color:'var(--c-ink-mute)' }}>
               <div style={{ fontSize:32, marginBottom:12 }}>🟢</div>
-              <div style={{ fontWeight:600, marginBottom:6 }}>Tutto tranquillo</div>
-              <div style={{ fontSize:13 }}>Nessuna segnalazione attiva al momento.<br/>Sii il primo a segnalare se vedi un animale in difficoltà.</div>
+              <div style={{ fontWeight:600, marginBottom:6 }}>
+                {sosReports.length === 0 ? 'Tutto tranquillo' : 'Nessun risultato per questo filtro'}
+              </div>
+              <div style={{ fontSize:13 }}>
+                {sosReports.length === 0
+                  ? 'Nessuna segnalazione attiva al momento. Sii il primo a segnalare.'
+                  : `Hai ${sosReports.length} SOS, ma nessuno corrisponde al filtro selezionato.`}
+              </div>
               <button className="btn btn-sos" style={{ marginTop:16, width:'100%', justifyContent:'center' }} onClick={onSos}>
                 <Icon name="plus" size={14}/> Segnala ora
               </button>
@@ -89,18 +107,18 @@ export default function ScreenSOS({ onSos, openDetail }) {
           ) : (
             <>
               <div className="feed">
-                {feed.map((f, i) => (
-                  <div key={i} className="feed-item"
-                       onClick={() => openDetail && openDetail({ type:'sos', id:f.id, data:f })}
+                {filtered.map((r) => (
+                  <div key={r.id} className="feed-item"
+                       onClick={() => openDetail && openDetail({ type:'sos', id:r.id, data:r })}
                        style={{ cursor:'pointer' }}>
-                    <div className={"thumb " + f.tone}>{f.emoji}</div>
+                    <div className="thumb t-sos" style={{ fontSize:22 }}>🐾</div>
                     <div className="body">
                       <div className="body-top">
-                        <span className={"tag " + f.tag}>{f.tagLabel}</span>
-                        {f.urgency && <span className="tag tag-mute">priorità {f.urgency}</span>}
+                        <span className="tag tag-sos">{r.urgency}</span>
+                        <span className="tag tag-mute">{r.situation}</span>
                       </div>
-                      <div style={{ fontWeight:600, fontSize:13.5, marginBottom:3, lineHeight:1.3 }}>{f.title}</div>
-                      <div className="meta">{f.meta}</div>
+                      <div style={{ fontWeight:600, fontSize:13.5, marginBottom:3, lineHeight:1.3 }}>{r.label}</div>
+                      <div className="meta">{r.time} · {r.lat ? `${r.lat}°N` : 'posizione non disponibile'}</div>
                     </div>
                   </div>
                 ))}

@@ -84,7 +84,7 @@ const MODAL_STYLE = `
   @keyframes spin { to { transform: rotate(360deg); } }
 `;
 
-export default function ReportModal({ open, onClose }) {
+export default function ReportModal({ open, onClose, onSosSubmit }) {
   const [step, setStep]           = useState(0);
   const [species, setSpecies]     = useState(null);
   const [situation, setSituation] = useState(null);
@@ -131,7 +131,23 @@ export default function ReportModal({ open, onClose }) {
 
   const canProceed = step === 0 ? (species && situation) : true;
 
-  const handleSend = () => setStep(2);
+  const handleSend = () => {
+    const ROME = [41.9028, 12.4964];
+    onSosSubmit?.({
+      id:        Date.now(),
+      lat:       location?.lat ?? ROME[0],
+      lng:       location?.lng ?? ROME[1],
+      type:      'sos',
+      situation,
+      urgency,
+      species,
+      note,
+      label:     `${SPECIES.find(s=>s.id===species)?.name || 'Animale'} — ${SITUATIONS.find(s=>s.id===situation)?.name || ''}`,
+      meta:      `priorità ${urgency}${note ? ' · ' + note.slice(0,40) : ''}`,
+      time:      new Date().toLocaleTimeString('it-IT', { hour:'2-digit', minute:'2-digit' }),
+    });
+    setStep(2);
+  };
 
   return (
     <>

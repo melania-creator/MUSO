@@ -29,6 +29,12 @@ export default function App() {
   const [joinRole, setJoinRole] = useState('user');
   const [reportOpen, setReportOpen] = useState(false);
   const [detail, setDetail] = useState(null);
+  const [sosReports, setSosReports] = useState([]);
+
+  const handleSosSubmit = (report) => {
+    setSosReports(prev => [report, ...prev]);
+    setActive('sos');
+  };
   const [showOnboarding, setShowOnboarding] = useState(() => {
     try { return !localStorage.getItem('muso_onboarded'); } catch { return false; }
   });
@@ -52,7 +58,7 @@ export default function App() {
 
   const screens = {
     home:      <ScreenHome   go={setActive} onSos={() => setReportOpen(true)} goJoin={goJoin} openDetail={openDetail}/>,
-    sos:       <ScreenSOS    onSos={() => setReportOpen(true)} openDetail={openDetail}/>,
+    sos:       <ScreenSOS    onSos={() => setReportOpen(true)} openDetail={openDetail} sosReports={sosReports}/>,
     adopt:     <ScreenAdopt  openDetail={openDetail}/>,
     rifugi:    <ScreenRifugi goJoin={goJoin} />,
     sitter:    <ScreenSitter goJoin={goJoin} openDetail={openDetail}/>,
@@ -83,7 +89,7 @@ export default function App() {
         </div>
       </main>
       <MobileNav active={active} setActive={setActive} onSos={() => setReportOpen(true)} />
-      <ReportModal open={reportOpen} onClose={() => setReportOpen(false)} />
+      <ReportModal open={reportOpen} onClose={() => setReportOpen(false)} onSosSubmit={handleSosSubmit} />
       {showOnboarding && <OnboardingModal onDone={handleOnboardingDone} />}
 
       <TweaksPanel title="Tweaks">
