@@ -58,17 +58,18 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
 
       <section className="home-quick">
         {[
-          { id:'sos',    icon:'sos',     title:'Segnala SOS',      desc:'Animale in difficoltà',  acc:'qa-sos',    onClick: onSos },
-          { id:'adopt',  icon:'paw',     title:'Adotta',           desc:'Da rifugi verificati',    acc:'qa-adopt',  onClick: () => go('adopt') },
-          { id:'rifugi', icon:'shelter', title:'Aiuta un rifugio', desc:'Cibo, cucce, medicine',   acc:'qa-rifugi', onClick: () => go('rifugi') },
-          { id:'sitter', icon:'sitter',  title:'Pet sitter',       desc:'Verificati e assicurati', acc:'qa-sitter', onClick: () => go('sitter') },
-          { id:'shop',   icon:'shop',    title:'Vetrine',          desc:'Negozi e brand pet',      acc:'qa-shop',   onClick: () => go('shop') },
+          { id:'sos',    icon:'sos',     title:'Segnala SOS',      desc:'Animale in difficoltà',  acc:'qa-sos',    onClick: onSos,              bg:'#FF5C4D', fg:'#fff' },
+          { id:'adopt',  icon:'paw',     title:'Adotta',           desc:'Da rifugi verificati',    acc:'qa-adopt',  onClick: () => go('adopt'),  bg:'#F4A7B9', fg:'#5C1A2E' },
+          { id:'rifugi', icon:'shelter', title:'Aiuta un rifugio', desc:'Cibo, cucce, medicine',   acc:'qa-rifugi', onClick: () => go('rifugi'), bg:'#6DBF8A', fg:'#fff' },
+          { id:'sitter', icon:'sitter',  title:'Pet sitter',       desc:'Verificati e assicurati', acc:'qa-sitter', onClick: () => go('sitter'), bg:'#6BAED6', fg:'#fff' },
+          { id:'shop',   icon:'shop',    title:'Vetrine',          desc:'Negozi e brand pet',      acc:'qa-shop',   onClick: () => go('shop'),   bg:'#F5C842', fg:'#3B2E00' },
         ].map(q => (
-          <button key={q.id} className={"qa " + q.acc} onClick={q.onClick}>
-            <span className="qa-icn"><Icon name={q.icon} size={20}/></span>
+          <button key={q.id} className={"qa " + q.acc} onClick={q.onClick}
+                  style={{ background: q.bg, color: q.fg, borderColor: 'transparent' }}>
+            <span className="qa-icn" style={{ color: q.fg, opacity: 0.9 }}><Icon name={q.icon} size={20}/></span>
             <span className="qa-text">
-              <span className="qa-title">{q.title}</span>
-              <span className="qa-desc">{q.desc}</span>
+              <span className="qa-title" style={{ color: q.fg }}>{q.title}</span>
+              <span className="qa-desc"  style={{ color: q.fg, opacity: 0.75 }}>{q.desc}</span>
             </span>
             <Icon name="arrow-up-right" size={14}/>
           </button>
