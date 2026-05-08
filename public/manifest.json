@@ -1,0 +1,19 @@
+{
+  "name": "MUSO — La rete che salva gli animali",
+  "short_name": "MUSO",
+  "description": "Adotta, segnala animali in difficoltà, trova pet sitter e rifugi vicino a te.",
+  "start_url": "/MUSO/",
+  "scope": "/MUSO/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF6EE",
+  "theme_color": "#D4318A",
+  "icons": [
+    {
+      "src": "/MUSO/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
