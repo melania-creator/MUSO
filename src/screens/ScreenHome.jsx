@@ -1,5 +1,6 @@
 import Icon from '../components/Icon';
 import sfondoHero from '../assets/sfondoHOME.png';
+import logoSrc from '../assets/Logo_MUSO.png';
 
 function EmptySection({ emoji, text }) {
   return (
@@ -59,7 +60,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           </div>
           <h1 className="home-hero-title" style={{ color:'#fff', textShadow:'0 2px 16px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5)' }}>
             La rete di persone<br/>
-            che <em>salva</em> gli animali <span className="hero-arrow"><Icon name="paw" size={36}/></span>
+            che <em>salva</em> gli animali <span className="hero-arrow"><img src={logoSrc} alt="MUSO" style={{ height:36, width:'auto', verticalAlign:'middle', objectFit:'contain' }}/></span>
           </h1>
           <div className="home-hero-actions">
             <button className="btn btn-sos" onClick={onSos}>
