@@ -102,7 +102,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
                   style={{ background: q.bg, color: q.fg, borderColor: 'transparent' }}>
             <span className="qa-icn" style={{ color: q.fg, opacity: 0.9 }}><Icon name={q.icon} size={20}/></span>
             <span className="qa-text">
-              <span className="qa-title" style={{ color: q.fg }}>{q.title}</span>
+              <span className="qa-title" style={{ color: q.fg, textTransform:'uppercase', fontSize:15, fontWeight:700, letterSpacing:'.04em' }}>{q.title}</span>
               <span className="qa-desc"  style={{ color: q.fg, opacity: 0.75 }}>{q.desc}</span>
             </span>
             <Icon name="arrow-up-right" size={14}/>
