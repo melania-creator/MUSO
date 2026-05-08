@@ -1,4 +1,5 @@
 import Icon from '../components/Icon';
+import sfondoHero from '../assets/sfondo-home.jpg';
 
 function EmptySection({ emoji, text }) {
   return (
@@ -41,7 +42,18 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
 
   return (
     <>
-      <section className="home-hero">
+      <section className="home-hero" style={{
+        backgroundImage: `url(${sfondoHero})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        position: 'relative',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'rgba(0,0,0,0.45)',
+          borderRadius: 'inherit',
+        }}/>
+        <div style={{ position:'relative', zIndex:1, display:'contents' }}>
         <div className="home-hero-l">
           <div className="hero-eyebrow">
             <span className="dot live-dot"></span> La rete che protegge gli animali — attiva ora
@@ -76,6 +88,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
             <div className="hc-mini-sub">raccolti oggi<br/>per i rifugi</div>
           </div>
           <div className="hero-blob"></div>
+        </div>
         </div>
       </section>
 
