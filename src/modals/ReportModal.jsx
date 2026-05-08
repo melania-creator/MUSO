@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Icon from '../components/Icon';
+import MapView from '../components/Map';
 
 const SPECIES = [
   { id:'cane',     emoji:'🐕', name:'Cane'     },
@@ -88,15 +89,20 @@ export default function ReportModal({ open, onClose }) {
   const [situation, setSituation] = useState(null);
   const [urgency, setUrgency]     = useState('alta');
   const [note, setNote]           = useState('');
-  const [location, setLocation]   = useState(null);
-  const [locating, setLocating]   = useState(false);
+  const [location, setLocation]       = useState(null);
+  const [locating, setLocating]       = useState(false);
+  const [showMapPicker, setShowMapPicker] = useState(false);
 
   useEffect(() => {
     if (open) {
       setStep(0); setSpecies(null); setSituation(null);
-      setUrgency('alta'); setNote(''); setLocation(null);
+      setUrgency('alta'); setNote(''); setLocation(null); setShowMapPicker(false);
     }
   }, [open]);
+
+  const handleMapSelect = useCallback((loc) => {
+    setLocation(loc);
+  }, []);
 
   // Geolocalizzazione automatica appena si apre il passo 1
   useEffect(() => {
@@ -184,26 +190,80 @@ export default function ReportModal({ open, onClose }) {
               <>
                 <div className="modal-eyebrow">Passo 2 di 2</div>
                 <h2 className="modal-title">Conferma e invia.</h2>
-                <p className="modal-desc">La posizione viene rilevata automaticamente. Aggiungi un dettaglio se vuoi — non è obbligatorio.</p>
+                <p className="modal-desc">La posizione viene rilevata dal GPS. Puoi anche sceglierla sulla mappa.</p>
 
-                {locating ? (
-                  <div className="location-detecting">
-                    <span className="spin">⟳</span>
-                    Rilevo la tua posizione GPS…
+                {/* Toggle GPS / Mappa */}
+                <div style={{ display:'flex', gap:8, marginTop:12, marginBottom:4 }}>
+                  <button
+                    onClick={() => setShowMapPicker(false)}
+                    style={{
+                      flex:1, padding:'8px 0', borderRadius:10, border:'2px solid',
+                      borderColor: !showMapPicker ? '#FF5C4D' : 'var(--c-line,#eee)',
+                      background: !showMapPicker ? '#FFF0EE' : 'var(--c-bg,#f9f7f4)',
+                      color: !showMapPicker ? '#CC2200' : 'var(--c-ink-mute)',
+                      fontWeight:600, fontSize:13, cursor:'pointer',
+                    }}>
+                    🎯 GPS automatico
+                  </button>
+                  <button
+                    onClick={() => setShowMapPicker(true)}
+                    style={{
+                      flex:1, padding:'8px 0', borderRadius:10, border:'2px solid',
+                      borderColor: showMapPicker ? '#9B59B6' : 'var(--c-line,#eee)',
+                      background: showMapPicker ? '#F5EDFF' : 'var(--c-bg,#f9f7f4)',
+                      color: showMapPicker ? '#6B2FA0' : 'var(--c-ink-mute)',
+                      fontWeight:600, fontSize:13, cursor:'pointer',
+                    }}>
+                    🗺️ Scegli sulla mappa
+                  </button>
+                </div>
+
+                {!showMapPicker && (
+                  locating ? (
+                    <div className="location-detecting">
+                      <span className="spin">⟳</span>
+                      Rilevo la tua posizione GPS…
+                    </div>
+                  ) : location ? (
+                    <div className="location-detected">
+                      <div className="loc-icon"><Icon name="pin" size={16}/></div>
+                      <div>
+                        <div style={{ fontWeight:600, fontSize:14 }}>{location.label}</div>
+                        {location.lat && (
+                          <div style={{ fontSize:12, color:'#3A8A5C', marginTop:2 }}>
+                            {location.lat}°N, {location.lng}°E
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : null
+                )}
+
+                {showMapPicker && (
+                  <div style={{ marginTop:8, borderRadius:12, overflow:'hidden', height:220 }}>
+                    <MapView
+                      zoom={13}
+                      showSearch={true}
+                      selectable={true}
+                      onLocationSelect={handleMapSelect}
+                      style={{ height:220, minHeight:220 }}
+                    />
                   </div>
-                ) : location ? (
-                  <div className="location-detected">
-                    <div className="loc-icon"><Icon name="pin" size={16}/></div>
+                )}
+
+                {showMapPicker && location && (
+                  <div className="location-detected" style={{ marginTop:8 }}>
+                    <div className="loc-icon" style={{ background:'#9B59B6' }}><Icon name="pin" size={16}/></div>
                     <div>
                       <div style={{ fontWeight:600, fontSize:14 }}>{location.label}</div>
                       {location.lat && (
-                        <div style={{ fontSize:12, color:'#3A8A5C', marginTop:2 }}>
+                        <div style={{ fontSize:12, color:'#6B2FA0', marginTop:2 }}>
                           {location.lat}°N, {location.lng}°E
                         </div>
                       )}
                     </div>
                   </div>
-                ) : null}
+                )}
 
                 <div className="field-row" style={{ marginTop:8 }}>
                   <div className="field">
