@@ -2,182 +2,280 @@ import { useState, useEffect } from 'react';
 import Icon from '../components/Icon';
 
 const SPECIES = [
-  { id:'cane',    emoji:'🐕', name:'Cane',      desc:'Di qualsiasi taglia' },
-  { id:'gatto',   emoji:'🐈', name:'Gatto',     desc:'Domestico o randagio' },
-  { id:'uccello', emoji:'🐦', name:'Uccello',   desc:'Caduto dal nido o ferito' },
-  { id:'coniglio',emoji:'🐰', name:'Coniglio',  desc:'O altro piccolo mammifero' },
-  { id:'rettile', emoji:'🦎', name:'Rettile',   desc:'Tartaruga, lucertola…' },
-  { id:'altro',   emoji:'❓', name:'Altro',     desc:'Non riesco a riconoscerlo' },
+  { id:'cane',     emoji:'🐕', name:'Cane'     },
+  { id:'gatto',    emoji:'🐈', name:'Gatto'    },
+  { id:'uccello',  emoji:'🐦', name:'Uccello'  },
+  { id:'coniglio', emoji:'🐰', name:'Coniglio' },
+  { id:'rettile',  emoji:'🦎', name:'Rettile'  },
+  { id:'altro',    emoji:'❓', name:'Altro'    },
 ];
 
 const SITUATIONS = [
-  { id:'ferito',     emoji:'🩹', name:'Ferito',      desc:'Visibilmente in difficoltà' },
-  { id:'bloccato',   emoji:'🪤', name:'Bloccato',    desc:'In luogo pericoloso' },
-  { id:'smarrito',   emoji:'🧭', name:'Smarrito',    desc:'Sembra perso, ha collare' },
-  { id:'abbandonato',emoji:'💔', name:'Abbandonato', desc:'Da solo da molto tempo' },
-  { id:'investito',  emoji:'🚗', name:'Investito',   desc:'Incidente stradale' },
-  { id:'altro',      emoji:'⚠️', name:'Altro',       desc:'Altra emergenza' },
+  { id:'ferito',      emoji:'🩹', name:'Ferito'      },
+  { id:'bloccato',    emoji:'🪤', name:'Bloccato'    },
+  { id:'smarrito',    emoji:'🧭', name:'Smarrito'    },
+  { id:'abbandonato', emoji:'💔', name:'Abbandonato' },
+  { id:'investito',   emoji:'🚗', name:'Investito'   },
+  { id:'altro',       emoji:'⚠️', name:'Altro'       },
 ];
 
+const MODAL_STYLE = `
+  .sos-tile-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .sos-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 8px;
+    border-radius: 14px;
+    border: 2px solid var(--c-line, #eee);
+    background: var(--c-bg, #f9f7f4);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color .15s, background .15s;
+  }
+  .sos-tile.selected {
+    border-color: #FF5C4D;
+    background: #FFF0EE;
+    color: #CC2200;
+  }
+  .sos-tile-emoji { font-size: 26px; line-height: 1; }
+  .location-detected {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: #F0FBF4;
+    border: 1.5px solid #6DBF8A;
+    margin: 16px 0;
+  }
+  .location-detected .loc-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #6DBF8A;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .location-detecting {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: var(--c-bg, #f9f7f4);
+    border: 1.5px solid var(--c-line, #eee);
+    margin: 16px 0;
+    color: var(--c-ink-mute);
+    font-size: 13px;
+  }
+  .spin {
+    animation: spin .8s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+`;
+
 export default function ReportModal({ open, onClose }) {
-  const [step, setStep] = useState(0);
-  const [data, setData] = useState({ species:null, situation:null, note:'', urgency:'alta' });
+  const [step, setStep]           = useState(0);
+  const [species, setSpecies]     = useState(null);
+  const [situation, setSituation] = useState(null);
+  const [urgency, setUrgency]     = useState('alta');
+  const [note, setNote]           = useState('');
+  const [location, setLocation]   = useState(null);
+  const [locating, setLocating]   = useState(false);
 
   useEffect(() => {
-    if (open) { setStep(0); setData({ species:null, situation:null, note:'', urgency:'alta' }); }
+    if (open) {
+      setStep(0); setSpecies(null); setSituation(null);
+      setUrgency('alta'); setNote(''); setLocation(null);
+    }
   }, [open]);
+
+  // Geolocalizzazione automatica appena si apre il passo 1
+  useEffect(() => {
+    if (step !== 1 || location) return;
+    setLocating(true);
+    navigator.geolocation?.getCurrentPosition(
+      pos => {
+        setLocation({
+          lat: pos.coords.latitude.toFixed(5),
+          lng: pos.coords.longitude.toFixed(5),
+          label: 'Posizione rilevata',
+        });
+        setLocating(false);
+      },
+      () => {
+        setLocation({ label: 'Posizione non disponibile — aggiungi un riferimento' });
+        setLocating(false);
+      },
+      { timeout: 8000 }
+    );
+  }, [step]);
 
   if (!open) return null;
 
-  const steps = ['Cosa', 'Dove', 'Dettagli', 'Inviato'];
+  const canProceed = step === 0 ? (species && situation) : true;
+
+  const handleSend = () => setStep(2);
 
   return (
-    <div className="modal-wrap" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
-        <div className="modal-head">
-          <div className="step-dots">
-            {steps.map((_, i) => (
-              <span key={i} className={"dot " + (i < step ? 'done' : i === step ? 'active' : '')}></span>
-            ))}
+    <>
+      <style>{MODAL_STYLE}</style>
+      <div className="modal-wrap" onClick={onClose}>
+        <div className="modal" onClick={e => e.stopPropagation()}>
+
+          {/* Header */}
+          <div className="modal-head">
+            <div className="step-dots">
+              {[0,1,2].map(i => (
+                <span key={i} className={"dot " + (i < step ? 'done' : i === step ? 'active' : '')}/>
+              ))}
+            </div>
+            <button className="modal-close" onClick={onClose}><Icon name="close" size={14}/></button>
           </div>
-          <button className="modal-close" onClick={onClose}><Icon name="close" size={14}/></button>
-        </div>
 
-        <div className="modal-body">
-          {step === 0 && (
-            <>
-              <div className="modal-eyebrow">Passo 1 · Che animale è?</div>
-              <h2 className="modal-title">Dimmi cosa hai visto.</h2>
-              <p className="modal-desc">Anche un'idea approssimativa va bene — i volontari capiranno dai dettagli successivi.</p>
-              <div className="tile-grid">
-                {SPECIES.map(s => (
-                  <button key={s.id} className={"tile " + (data.species === s.id ? 'selected' : '')}
-                          onClick={() => setData({...data, species: s.id})}>
-                    <span className="tile-emoji">{s.emoji}</span>
-                    <span className="tile-name">{s.name}</span>
-                    <span className="tile-desc">{s.desc}</span>
-                  </button>
-                ))}
-              </div>
-              <div style={{marginTop:18}}>
-                <div className="modal-eyebrow" style={{color:'var(--c-ink-soft)'}}>Cosa sta succedendo?</div>
-                <div className="tile-grid" style={{gridTemplateColumns:'repeat(3,1fr)',marginTop:8}}>
-                  {SITUATIONS.map(s => (
-                    <button key={s.id} className={"tile " + (data.situation === s.id ? 'selected' : '')}
-                            onClick={() => setData({...data, situation: s.id})}>
-                      <span className="tile-emoji" style={{fontSize:22}}>{s.emoji}</span>
-                      <span className="tile-name">{s.name}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
+          {/* Body */}
+          <div className="modal-body">
 
-          {step === 1 && (
-            <>
-              <div className="modal-eyebrow">Passo 2 · Dove si trova?</div>
-              <h2 className="modal-title">La posizione è già rilevata.</h2>
-              <p className="modal-desc">Abbiamo geolocalizzato il punto. Puoi spostarlo o aggiungere riferimenti utili.</p>
-              <div className="location-card mt-4">
-                <div className="pin"><Icon name="pin" size={16}/></div>
-                <div className="info">
-                  <b>Piazza Vetra, 6 — Milano</b>
-                  <span>45.4592°N, 9.1819°E · Precisione ±8m</span>
-                </div>
-                <a href="#" className="change" onClick={e => e.preventDefault()}>Sposta sulla mappa</a>
-              </div>
-              <div className="field">
-                <label>Riferimento (opzionale)</label>
-                <input placeholder="Es: vicino al chiosco, sotto la panchina blu…" />
-              </div>
-              <div className="field-row">
-                <div className="field">
-                  <label>Urgenza</label>
-                  <select value={data.urgency} onChange={e => setData({...data, urgency: e.target.value})}>
-                    <option value="critica">Critica — pericolo immediato</option>
-                    <option value="alta">Alta — necessita aiuto</option>
-                    <option value="media">Media — situazione stabile</option>
-                  </select>
-                </div>
-                <div className="field">
-                  <label>L'animale è ancora lì?</label>
-                  <select>
-                    <option>Sì, sto guardando ora</option>
-                    <option>Sì, ma me ne sto allontanando</option>
-                    <option>Non lo so</option>
-                  </select>
-                </div>
-              </div>
-            </>
-          )}
+            {/* ── Step 0: Cosa hai visto ── */}
+            {step === 0 && (
+              <>
+                <div className="modal-eyebrow">Passo 1 di 2</div>
+                <h2 className="modal-title">Cosa hai visto?</h2>
+                <p className="modal-desc">Due scelte rapide, poi invii — ci pensiamo noi.</p>
 
-          {step === 2 && (
-            <>
-              <div className="modal-eyebrow">Passo 3 · Aggiungi una foto</div>
-              <h2 className="modal-title">Una foto vale mille parole.</h2>
-              <p className="modal-desc">Non serve sia perfetta — aiuta i volontari a riconoscere l'animale.</p>
-              <div className="photo-drop mt-4">
-                <div className="pic-row">
-                  <div className="pic bg-grad-1">📷</div>
-                  <div className="pic bg-grad-2" style={{opacity:.5}}>+</div>
-                  <div className="pic bg-grad-3" style={{opacity:.5}}>+</div>
+                <div style={{ marginTop:16 }}>
+                  <div style={{ fontSize:12, fontWeight:600, color:'var(--c-ink-mute)', marginBottom:8, textTransform:'uppercase', letterSpacing:'.05em' }}>Che animale è?</div>
+                  <div className="sos-tile-grid">
+                    {SPECIES.map(s => (
+                      <button key={s.id} className={"sos-tile " + (species === s.id ? 'selected' : '')}
+                              onClick={() => setSpecies(s.id)}>
+                        <span className="sos-tile-emoji">{s.emoji}</span>
+                        {s.name}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <p>Trascina qui le foto o</p>
-                <button className="btn"><Icon name="camera" size={14}/> Scatta foto</button>
-                <small>Max 5 foto · JPG, PNG · 10 MB ciascuna</small>
-              </div>
-              <div className="field mt-4">
-                <label>Note per i soccorritori (opzionale)</label>
-                <textarea placeholder="Es: l'animale è impaurito, si nasconde dietro un cassonetto."
-                          value={data.note}
-                          onChange={e => setData({...data, note: e.target.value})}></textarea>
-              </div>
-              <div className="field">
-                <label>Posso restare in zona finché qualcuno arriva?</label>
-                <div style={{display:'flex',gap:8}}>
-                  <button className="chip active">Sì, fino a 30 min</button>
-                  <button className="chip">Sì, oltre</button>
-                  <button className="chip">No</button>
+
+                <div style={{ marginTop:20 }}>
+                  <div style={{ fontSize:12, fontWeight:600, color:'var(--c-ink-mute)', marginBottom:8, textTransform:'uppercase', letterSpacing:'.05em' }}>Cosa sta succedendo?</div>
+                  <div className="sos-tile-grid">
+                    {SITUATIONS.map(s => (
+                      <button key={s.id} className={"sos-tile " + (situation === s.id ? 'selected' : '')}
+                              onClick={() => setSituation(s.id)}>
+                        <span className="sos-tile-emoji">{s.emoji}</span>
+                        {s.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* ── Step 1: Conferma e invia ── */}
+            {step === 1 && (
+              <>
+                <div className="modal-eyebrow">Passo 2 di 2</div>
+                <h2 className="modal-title">Conferma e invia.</h2>
+                <p className="modal-desc">La posizione viene rilevata automaticamente. Aggiungi un dettaglio se vuoi — non è obbligatorio.</p>
+
+                {locating ? (
+                  <div className="location-detecting">
+                    <span className="spin">⟳</span>
+                    Rilevo la tua posizione GPS…
+                  </div>
+                ) : location ? (
+                  <div className="location-detected">
+                    <div className="loc-icon"><Icon name="pin" size={16}/></div>
+                    <div>
+                      <div style={{ fontWeight:600, fontSize:14 }}>{location.label}</div>
+                      {location.lat && (
+                        <div style={{ fontSize:12, color:'#3A8A5C', marginTop:2 }}>
+                          {location.lat}°N, {location.lng}°E
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : null}
+
+                <div className="field-row" style={{ marginTop:8 }}>
+                  <div className="field">
+                    <label>Urgenza</label>
+                    <select value={urgency} onChange={e => setUrgency(e.target.value)}>
+                      <option value="critica">Critica — pericolo immediato</option>
+                      <option value="alta">Alta — necessita aiuto</option>
+                      <option value="media">Media — situazione stabile</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="field" style={{ marginTop:12 }}>
+                  <label>Note (opzionale)</label>
+                  <textarea
+                    placeholder="Es: zampa ferita, si nasconde sotto un'auto…"
+                    value={note}
+                    onChange={e => setNote(e.target.value)}
+                    rows={3}
+                  />
+                </div>
+
+                <div style={{ marginTop:14, padding:'12px 14px', borderRadius:12, background:'#FFF8ED', border:'1px solid #F5D9A0', fontSize:13, color:'#7A5500' }}>
+                  <b>Riepilogo:</b> {SPECIES.find(s=>s.id===species)?.emoji} {SPECIES.find(s=>s.id===species)?.name} · {SITUATIONS.find(s=>s.id===situation)?.name} · priorità {urgency}
+                </div>
+              </>
+            )}
+
+            {/* ── Step 2: Inviato ── */}
+            {step === 2 && (
+              <div className="success-anim">
+                <div className="ring"><Icon name="check" size={42}/></div>
+                <h2 className="modal-title" style={{ textAlign:'center' }}>SOS inviato!</h2>
+                <p className="modal-desc" style={{ textAlign:'center' }}>
+                  Stiamo notificando volontari e rifugi nel raggio di 2 km.<br/>
+                  Di solito qualcuno risponde entro <b>8 minuti</b>.
+                </p>
+                <div style={{ display:'flex', gap:8, marginTop:16, flexWrap:'wrap' }}>
+                  <span className="tag tag-sos">SOS aperto</span>
+                  <span className="tag tag-mute">priorità {urgency}</span>
+                  {location?.lat && <span className="tag tag-mint">📍 GPS rilevato</span>}
                 </div>
               </div>
-            </>
-          )}
+            )}
+          </div>
 
-          {step === 3 && (
-            <div className="success-anim">
-              <div className="ring"><Icon name="check" size={42}/></div>
-              <h2 className="modal-title" style={{textAlign:'center'}}>Segnalazione inviata!</h2>
-              <p className="modal-desc" style={{textAlign:'center'}}>
-                Stiamo notificando <b>14 volontari</b> e <b>3 rifugi</b> entro 2 km.
-                Ti aggiorniamo non appena qualcuno prende in carico — di solito entro 8 minuti.
-              </p>
-              <div style={{display:'flex',gap:8,marginTop:20}}>
-                <span className="tag tag-mint">SOS-2847</span>
-                <span className="tag tag-mute">priorità {data.urgency}</span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="modal-foot">
-          <button className="btn btn-ghost" onClick={onClose}>{step === 3 ? 'Chiudi' : 'Annulla'}</button>
-          {step < 3 && (
-            <div style={{display:'flex',gap:8}}>
-              {step > 0 && <button className="btn" onClick={() => setStep(step - 1)}>Indietro</button>}
-              <button className={"btn " + (step === 2 ? 'btn-sos' : 'btn-primary')}
-                      onClick={() => setStep(step + 1)}
-                      disabled={step === 0 && !data.species}
-                      style={{opacity: (step === 0 && !data.species) ? 0.4 : 1}}>
-                {step === 2 ? <>Invia SOS <Icon name="arrow-right" size={14}/></> : <>Continua <Icon name="arrow-right" size={14}/></>}
-              </button>
-            </div>
-          )}
-          {step === 3 && (
-            <button className="btn btn-primary" onClick={onClose}>Vai al feed live</button>
-          )}
+          {/* Footer */}
+          <div className="modal-foot">
+            {step < 2 ? (
+              <>
+                <button className="btn btn-ghost" onClick={step === 0 ? onClose : () => setStep(0)}>
+                  {step === 0 ? 'Annulla' : <><Icon name="arrow-left" size={13}/> Indietro</>}
+                </button>
+                <button
+                  className={"btn " + (step === 1 ? 'btn-sos' : 'btn-primary')}
+                  disabled={!canProceed}
+                  style={{ opacity: canProceed ? 1 : 0.4 }}
+                  onClick={step === 0 ? () => setStep(1) : handleSend}>
+                  {step === 0
+                    ? <>Avanti <Icon name="arrow-right" size={14}/></>
+                    : <>Invia SOS <Icon name="sos" size={14}/></>}
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="btn btn-ghost" onClick={onClose}>Chiudi</button>
+                <button className="btn btn-primary" onClick={onClose}>Vai al feed live</button>
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

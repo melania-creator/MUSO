@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Sidebar, Topbar } from './components/Shell';
+import { Sidebar, Topbar, MobileNav } from './components/Shell';
 import {
   TweaksPanel, useTweaks, TweakSection, TweakColor, TweakRadio, TweakSelect, TweakButton
 } from './components/TweaksPanel';
+import OnboardingModal from './modals/OnboardingModal';
 
 import ScreenHome    from './screens/ScreenHome';
 import ScreenSOS     from './screens/ScreenSOS';
@@ -28,6 +29,14 @@ export default function App() {
   const [joinRole, setJoinRole] = useState('user');
   const [reportOpen, setReportOpen] = useState(false);
   const [detail, setDetail] = useState(null);
+  const [showOnboarding, setShowOnboarding] = useState(() => {
+    try { return !localStorage.getItem('muso_onboarded'); } catch { return false; }
+  });
+
+  const handleOnboardingDone = () => {
+    try { localStorage.setItem('muso_onboarded', '1'); } catch {}
+    setShowOnboarding(false);
+  };
 
   const goJoin = (role) => { setJoinRole(role); setActive('join'); setDetail(null); };
   const openDetail = (d) => { setDetail(d); window.scrollTo({top:0}); };
@@ -73,7 +82,9 @@ export default function App() {
           {body}
         </div>
       </main>
+      <MobileNav active={active} setActive={setActive} onSos={() => setReportOpen(true)} />
       <ReportModal open={reportOpen} onClose={() => setReportOpen(false)} />
+      {showOnboarding && <OnboardingModal onDone={handleOnboardingDone} />}
 
       <TweaksPanel title="Tweaks">
         <TweakSection label="Palette">
@@ -87,6 +98,7 @@ export default function App() {
           <TweakRadio label="Animazioni" value={t.anim} options={['none','subtle','playful']} onChange={v => setTweak('anim', v)} />
         </TweakSection>
         <TweakSection label="Test rapidi">
+          <TweakButton onClick={() => setShowOnboarding(true)}>Rivedi onboarding</TweakButton>
           <TweakButton onClick={() => setReportOpen(true)}>Apri flow SOS</TweakButton>
           <TweakButton onClick={() => goJoin('user')}>Form Utente</TweakButton>
           <TweakButton onClick={() => goJoin('sitter')}>Form Sitter</TweakButton>
