@@ -317,12 +317,13 @@ a { color: inherit; text-decoration: none; }
 .topbar .avatar {
   width: 36px; height: 36px;
   border-radius: var(--r-pill);
-  background: var(--grad-aux);
+  background: linear-gradient(135deg, #D4318A 0%, #E860AA 100%);
   display: grid; place-items: center;
   font-weight: 600;
   font-size: 13px;
-  color: var(--c-ink);
-  border: 1px solid var(--c-line);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(212,49,138,0.35);
 }
 
 /* content scroller */
@@ -907,7 +908,7 @@ a { color: inherit; text-decoration: none; }
   transition: background .25s, width .25s;
 }
 .modal-head .dot.done { background: var(--c-mint-deep); }
-.modal-head .dot.active { background: var(--c-sos); width: 32px; }
+.modal-head .dot.active { background: var(--c-accent); width: 32px; }
 .modal-close {
   width: 32px; height: 32px;
   border-radius: var(--r-pill);
@@ -1152,8 +1153,8 @@ a { color: inherit; text-decoration: none; }
   gap: 8px;
   padding: 6px 12px;
   border-radius: var(--r-pill);
-  background: rgba(255,92,77,0.1);
-  color: var(--c-sos);
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
   font-size: 12.5px;
   font-weight: 600;
   margin-bottom: 18px;
@@ -1259,7 +1260,7 @@ a { color: inherit; text-decoration: none; }
 .hero-card.hc-1 {
   top: 24px; right: 24px;
   width: 260px;
-  border-left: 4px solid var(--c-sos);
+  border-left: 4px solid var(--c-accent);
   animation: floaty 5s ease-in-out infinite;
 }
 .hero-card.hc-2 {
@@ -1286,7 +1287,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--c-sos);
+  color: var(--c-accent);
   margin-bottom: 6px;
 }
 .hc-title {
