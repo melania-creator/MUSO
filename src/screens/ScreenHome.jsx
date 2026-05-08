@@ -1,5 +1,5 @@
 import Icon from '../components/Icon';
-import sfondoHero from '../assets/foto_home.png';
+import sfondoHero from '../assets/sfondoHOME.png';
 
 function EmptySection({ emoji, text }) {
   return (
