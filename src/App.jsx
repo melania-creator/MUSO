@@ -93,7 +93,7 @@ export default function App() {
       <ReportModal open={reportOpen} onClose={() => setReportOpen(false)} onSosSubmit={handleSosSubmit} />
       {showOnboarding && <OnboardingModal onDone={handleOnboardingDone} />}
 
-      <TweaksPanel title="Tweaks">
+      {import.meta.env.DEV && <TweaksPanel title="Tweaks">
         <TweakSection label="Palette">
           <TweakColor label="Schema" value={t.palette}
             options={[['#FFB59B','#FFC8DA','#C9B8FF','#B8D8FF'],['#C5D6B0','#F2DD9A','#E8B894','#D8CBE3'],['#F5B5A3','#EDB8C8','#D5C4DD','#BFC8E0']]}
@@ -117,7 +117,7 @@ export default function App() {
             options={[{value:'home',label:'Home'},{value:'sos',label:'SOS Mappa'},{value:'adopt',label:'Adozioni'},{value:'rifugi',label:'Rifugi & Aiuti'},{value:'sitter',label:'Pet Sitter'},{value:'shop',label:'Vetrine'},{value:'join',label:'Iscrizione'}]}
             onChange={v => setActive(v)} />
         </TweakSection>
-      </TweaksPanel>
+      </TweaksPanel>}
     </div>
   );
 }
