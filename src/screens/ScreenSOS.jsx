@@ -133,7 +133,7 @@ export default function ScreenSOS({ onSos, openDetail, sosReports = [] }) {
 
       <div className="hero-band">
         <div>
-          <h2>Ogni segnalazione è una vita.<br/><em>Sii il primo a vedere.</em></h2>
+          <h2>Ogni segnalazione è una vita.</h2>
           <p>Attiva le notifiche per gli SOS nella tua zona. Ti avviseremo non appena un animale ha bisogno di aiuto vicino a te.</p>
         </div>
         <div className="actions">
