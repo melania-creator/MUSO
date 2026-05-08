@@ -50,7 +50,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
       }}>
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(105deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.05) 100%)',
+          background: 'rgba(0,0,0,0.35)',
           borderRadius: 'inherit',
         }}/>
         <div className="home-hero-l" style={{ position:'relative', zIndex:1, paddingLeft:'2.5rem' }}>
