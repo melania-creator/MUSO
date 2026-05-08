@@ -9,6 +9,29 @@ function EmptySection({ emoji, text }) {
   );
 }
 
+function Divider({ color, label, icon }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 14,
+      margin: '36px 0 4px',
+    }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 8,
+        background: color + '22',
+        border: '1.5px solid ' + color + '55',
+        borderRadius: 999,
+        padding: '5px 14px 5px 10px',
+        fontSize: 13, fontWeight: 600,
+        color: color === '#F5C842' ? '#7A5C00' : color,
+      }}>
+        <span style={{ fontSize: 15 }}>{icon}</span>
+        {label}
+      </div>
+      <div style={{ flex: 1, height: 1.5, background: color + '33', borderRadius: 999 }} />
+    </div>
+  );
+}
+
 export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
   const sosList   = [];
   const petsList  = [];
@@ -76,6 +99,8 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         ))}
       </section>
 
+      <Divider color="#FF5C4D" label="SOS vicino a te" icon="🐾"/>
+
       <section>
         <div className="sec-title">
           <div>
@@ -108,6 +133,8 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           )
         }
       </section>
+
+      <Divider color="#F4A7B9" label="Adozioni" icon="🐾"/>
 
       <section>
         <div className="sec-title">
@@ -145,80 +172,85 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <section className="home-split">
-        <div className="split-l">
-          <div className="sec-title">
-            <div>
-              <h3>I rifugi <em>chiedono aiuto</em>.</h3>
-              <div className="sub">Anche un sacco di crocchette è tanto.</div>
-            </div>
-            <a href="#" className="right" onClick={e => { e.preventDefault(); go('rifugi'); }}>Tutte <Icon name="arrow-right" size={12}/></a>
+      <Divider color="#6DBF8A" label="Rifugi & Aiuti" icon="🏠"/>
+
+      <section>
+        <div className="sec-title">
+          <div>
+            <h3>I rifugi <em>chiedono aiuto</em>.</h3>
+            <div className="sub">Anche un sacco di crocchette è tanto.</div>
           </div>
-          {needsList.length === 0
-            ? <EmptySection emoji="🏠" text="Nessuna richiesta attiva — i rifugi si stanno registrando." />
-            : (
-              <div className="flex-col gap-3" style={{ marginTop:14 }}>
-                {needsList.map((n, i) => {
-                  const pct = Math.round(n.raised / n.goal * 100);
-                  return (
-                    <div key={i} className="help-card" onClick={() => go('rifugi')} style={{ cursor:'pointer' }}>
-                      <div className="help-head">
-                        <div className="av">{n.av}</div>
-                        <div style={{ flex:1 }}><h4>{n.org}</h4><div className="loc"><Icon name="pin" size={11}/> Verificato</div></div>
-                        <span className={"tag " + n.cls}>{n.tag}</span>
-                      </div>
-                      <h3 className="help-need" style={{ fontSize:20 }}>{n.need}</h3>
-                      <div className="help-progress">
-                        <div className="help-bar-wrap"><div className="help-bar" style={{ width: pct + '%' }}></div></div>
-                        <div className="help-stats">
-                          <span><b>€{n.raised.toLocaleString('it-IT')}</b> su €{n.goal.toLocaleString('it-IT')} · {n.donors} donatori</span>
-                          <span>{pct}%</span>
-                        </div>
-                      </div>
-                      <button className="btn btn-primary" style={{ justifyContent:'center' }}>
-                        <Icon name="donate" size={14}/> Dona ora
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            )
-          }
+          <a href="#" className="right" onClick={e => { e.preventDefault(); go('rifugi'); }}>Tutte <Icon name="arrow-right" size={12}/></a>
         </div>
-        <div className="split-r">
-          <div className="sec-title">
-            <div>
-              <h3>Pet sitter <em>consigliati</em>.</h3>
-              <div className="sub">Nella tua zona, già verificati.</div>
+        {needsList.length === 0
+          ? <EmptySection emoji="🏠" text="Nessuna richiesta attiva — i rifugi si stanno registrando." />
+          : (
+            <div className="grid-3" style={{ marginTop:14 }}>
+              {needsList.map((n, i) => {
+                const pct = Math.round(n.raised / n.goal * 100);
+                return (
+                  <div key={i} className="help-card" onClick={() => go('rifugi')} style={{ cursor:'pointer' }}>
+                    <div className="help-head">
+                      <div className="av">{n.av}</div>
+                      <div style={{ flex:1 }}><h4>{n.org}</h4><div className="loc"><Icon name="pin" size={11}/> Verificato</div></div>
+                      <span className={"tag " + n.cls}>{n.tag}</span>
+                    </div>
+                    <h3 className="help-need" style={{ fontSize:20 }}>{n.need}</h3>
+                    <div className="help-progress">
+                      <div className="help-bar-wrap"><div className="help-bar" style={{ width: pct + '%' }}></div></div>
+                      <div className="help-stats">
+                        <span><b>€{n.raised.toLocaleString('it-IT')}</b> su €{n.goal.toLocaleString('it-IT')} · {n.donors} donatori</span>
+                        <span>{pct}%</span>
+                      </div>
+                    </div>
+                    <button className="btn btn-primary" style={{ justifyContent:'center' }}>
+                      <Icon name="donate" size={14}/> Dona ora
+                    </button>
+                  </div>
+                );
+              })}
             </div>
-            <a href="#" className="right" onClick={e => { e.preventDefault(); go('sitter'); }}>Tutti <Icon name="arrow-right" size={12}/></a>
+          )
+        }
+      </section>
+
+      <Divider color="#6BAED6" label="Pet Sitter" icon="🌿"/>
+
+      <section>
+        <div className="sec-title">
+          <div>
+            <h3>Pet sitter <em>consigliati</em>.</h3>
+            <div className="sub">Nella tua zona, già verificati.</div>
           </div>
-          {sitterList.length === 0
-            ? <EmptySection emoji="🌿" text="Nessun sitter ancora — i primi si stanno iscrivendo." />
-            : (
-              <div className="flex-col gap-3" style={{ marginTop:14 }}>
-                {sitterList.map((s, i) => (
-                  <div key={i} className="card hoverable sitter-row"
-                       onClick={() => openDetail({ type:'sitter', id:s.id, data:s })}>
-                    <div className={"sitter-av " + s.tone} style={{ width:48, height:48, fontSize:22 }}>{s.emoji}</div>
-                    <div style={{ flex:1, minWidth:0 }}>
-                      <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between', gap:8 }}>
-                        <div style={{ fontWeight:600, fontSize:14 }}>{s.name}</div>
-                        <div className="sitter-rating"><span className="star"><Icon name="star" size={12}/></span>{s.rating}</div>
-                      </div>
-                      <div style={{ fontSize:12, color:'var(--c-ink-mute)', marginTop:2 }}>{s.city} · {s.jobs} servizi</div>
-                      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginTop:8 }}>
-                        <span className="tag tag-mute">{s.tag}</span>
-                        <span style={{ fontFamily:'var(--font-display)', fontSize:18 }}>€{s.rate}<small style={{ fontSize:11, color:'var(--c-ink-mute)' }}> / notte</small></span>
-                      </div>
+          <a href="#" className="right" onClick={e => { e.preventDefault(); go('sitter'); }}>Tutti <Icon name="arrow-right" size={12}/></a>
+        </div>
+        {sitterList.length === 0
+          ? <EmptySection emoji="🌿" text="Nessun sitter ancora — i primi si stanno iscrivendo." />
+          : (
+            <div className="grid-3" style={{ marginTop:14 }}>
+              {sitterList.map((s, i) => (
+                <div key={i} className="card hoverable sitter-row"
+                     onClick={() => openDetail({ type:'sitter', id:s.id, data:s })}>
+                  <div className={"sitter-av " + s.tone} style={{ width:48, height:48, fontSize:22 }}>{s.emoji}</div>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between', gap:8 }}>
+                      <div style={{ fontWeight:600, fontSize:14 }}>{s.name}</div>
+                      <div className="sitter-rating"><span className="star"><Icon name="star" size={12}/></span>{s.rating}</div>
+                    </div>
+                    <div style={{ fontSize:12, color:'var(--c-ink-mute)', marginTop:2 }}>{s.city} · {s.jobs} servizi</div>
+                    <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginTop:8 }}>
+                      <span className="tag tag-mute">{s.tag}</span>
+                      <span style={{ fontFamily:'var(--font-display)', fontSize:18 }}>€{s.rate}<small style={{ fontSize:11, color:'var(--c-ink-mute)' }}> / notte</small></span>
                     </div>
                   </div>
-                ))}
-              </div>
-            )
-          }
-        </div>
+                </div>
+              ))}
+            </div>
+          )
+        }
       </section>
+
+      <Divider color="#F5C842" label="Vetrine" icon="🏪"/>
 
       <section>
         <div className="sec-title">
