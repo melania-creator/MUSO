@@ -47,8 +47,8 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
             <span className="dot live-dot"></span> La rete che protegge gli animali — attiva ora
           </div>
           <h1 className="home-hero-title">
-            La rete che <em>salva</em><br/>
-            gli animali <span className="hero-arrow"><Icon name="paw" size={36}/></span> attorno a te.
+            La rete di persone<br/>
+            che <em>salva</em> gli animali <span className="hero-arrow"><Icon name="paw" size={36}/></span>
           </h1>
           <div className="home-hero-actions">
             <button className="btn btn-sos" onClick={onSos}>
