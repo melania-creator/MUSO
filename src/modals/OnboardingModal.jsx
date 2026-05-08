@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import Icon from '../components/Icon';
+import popup1 from '../assets/popup1.png';
 
 const SLIDES = [
   {
-    emoji: '🐾',
+    emoji: null,
+    bgImage: popup1,
     color: '#FF5C4D',
-    bg: 'linear-gradient(135deg, #FFE8E5, #FFF0EE)',
     title: 'Benvenuto in MUSO.',
     subtitle: 'La rete italiana che protegge gli animali.',
     desc: 'Segnala emergenze in 2 tap, trova adozioni vicino a te, supporta i rifugi. Tutto in un posto solo.',
@@ -57,9 +58,16 @@ const ONBOARDING_STYLE = `
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 180px;
+    height: 220px;
     font-size: 72px;
     position: relative;
+    overflow: hidden;
+  }
+  .onb-hero-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
   .onb-body {
     padding: 24px 28px 12px;
@@ -153,8 +161,11 @@ export default function OnboardingModal({ onDone }) {
       <style>{ONBOARDING_STYLE}</style>
       <div className="onb-wrap">
         <div className="onb-panel">
-          <div className="onb-hero" style={{ background: s.bg }}>
-            <span style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,.15))' }}>{s.emoji}</span>
+          <div className="onb-hero" style={s.bgImage ? {} : { background: s.bg }}>
+            {s.bgImage
+              ? <img className="onb-hero-img" src={s.bgImage} alt="" />
+              : <span style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,.15))' }}>{s.emoji}</span>
+            }
           </div>
 
           <div className="onb-body">
