@@ -12,6 +12,7 @@ import ScreenRifugi  from './screens/ScreenRifugi';
 import ScreenSitter  from './screens/ScreenSitter';
 import ScreenShop    from './screens/ScreenShop';
 import ScreenJoin    from './screens/ScreenJoin';
+import ScreenMessages from './screens/ScreenMessages';
 import { DetailSOS, DetailAdopt }   from './screens/ScreenDetails';
 import { DetailSitterRich, ShopOwner, SitterOwner } from './screens/ScreenOwners';
 import ReportModal   from './modals/ReportModal';
@@ -64,7 +65,7 @@ export default function App() {
     sitter:    <ScreenSitter goJoin={goJoin} openDetail={openDetail}/>,
     shop:      <ScreenShop   goJoin={goJoin} />,
     join:      <ScreenJoin   initialRole={joinRole} go={setActive} />,
-    msg:       <ScreenSOS    onSos={() => setReportOpen(true)} />,
+    msg:       <ScreenMessages />,
     donations: <ScreenRifugi />,
   };
 

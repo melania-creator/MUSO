@@ -14,7 +14,7 @@ const SPECIES = [
 
 const SITUATIONS = [
   { id:'ferito',      emoji:'🩹', name:'Ferito'      },
-  { id:'bloccato',    emoji:'🪤', name:'Bloccato'    },
+  { id:'bloccato',    emoji:'⛓️', name:'Bloccato'    },
   { id:'smarrito',    emoji:'🧭', name:'Smarrito'    },
   { id:'abbandonato', emoji:'💔', name:'Abbandonato' },
   { id:'investito',   emoji:'🚗', name:'Investito'   },
