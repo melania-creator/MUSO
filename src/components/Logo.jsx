@@ -1,4 +1,4 @@
-import logoSrc from '../assets/Logo_MUSO.png';
+import logoSrc from '../assets/LogoMuso.png';
 
 export default function Logo() {
   return (

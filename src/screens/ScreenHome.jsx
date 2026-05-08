@@ -1,6 +1,6 @@
 import Icon from '../components/Icon';
 import sfondoHero from '../assets/sfondoHOME.png';
-import logoSrc from '../assets/Logo_MUSO.png';
+import logoSrc from '../assets/LogoMuso.png';
 
 function EmptySection({ emoji, text }) {
   return (
