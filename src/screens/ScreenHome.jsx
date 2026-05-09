@@ -71,21 +71,43 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           </div>
         </div>
         <div className="home-hero-r" style={{ position:'relative', zIndex:1 }}>
-          <div className="hero-card hc-1" style={{ marginLeft:'auto', marginRight:'2rem' }}>
-            <div className="hc-emoji">🐾</div>
-            <div className="hc-tag">MUSO · in attesa</div>
-            <div className="hc-title">Sii il primo<br/>a segnalare.</div>
-            <div className="hc-meta">La rete è pronta</div>
+
+          <div className="hero-card hc-1">
+            <div className="hc-icon-bubble" style={{ background:'#FFE8F4' }}>🐾</div>
+            <div className="hc-content">
+              <div className="hc-label">SOS · In attesa</div>
+              <div className="hc-heading">Sii il primo<br/>a segnalare.</div>
+              <div className="hc-dot-row">
+                <span className="hc-dot" style={{ background:'#D4318A' }}></span>
+                <span className="hc-dot-text">La rete è pronta</span>
+              </div>
+            </div>
           </div>
+
           <div className="hero-card hc-2">
-            <div className="hc-emoji">🐈</div>
-            <div className="hc-mini">Adozioni</div>
-            <div className="hc-mini-sub">in arrivo</div>
+            <div className="hc-icon-bubble" style={{ background:'#FFF0C8' }}>🐈</div>
+            <div className="hc-content">
+              <div className="hc-label">Adozioni</div>
+              <div className="hc-heading">In arrivo<br/>vicino a te.</div>
+              <div className="hc-dot-row">
+                <span className="hc-dot" style={{ background:'#F5C842' }}></span>
+                <span className="hc-dot-text">Rifugi verificati</span>
+              </div>
+            </div>
           </div>
+
           <div className="hero-card hc-3">
-            <div className="hc-mini-num">€0</div>
-            <div className="hc-mini-sub">raccolti oggi<br/>per i rifugi</div>
+            <div className="hc-icon-bubble" style={{ background:'#DFF4EA' }}>💚</div>
+            <div className="hc-content">
+              <div className="hc-label">Raccolte oggi</div>
+              <div className="hc-heading" style={{ fontFamily:'var(--font-display)', fontSize:28 }}>€0</div>
+              <div className="hc-dot-row">
+                <span className="hc-dot" style={{ background:'#6DBF8A' }}></span>
+                <span className="hc-dot-text">Per i rifugi</span>
+              </div>
+            </div>
           </div>
+
           <div className="hero-blob"></div>
         </div>
       </section>
