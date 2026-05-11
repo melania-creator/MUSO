@@ -137,7 +137,7 @@ const SHELL_STYLE = `
     .mobile-nav           { display: flex !important; }
     .content              { padding-bottom: 90px !important; }
     .topbar               { padding-left: 16px !important; }
-    .topbar-mobile-logo   { display: block !important; height: 30px; width: auto; object-fit: contain; }
+    .topbar-mobile-logo   { display: block !important; height: 30px; width: auto; object-fit: contain; margin-left: auto; }
   }
   @media (min-width: 769px) {
     .mobile-nav { display: none !important; }
