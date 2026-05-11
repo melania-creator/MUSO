@@ -5,6 +5,9 @@ import {
 } from './components/TweaksPanel';
 import OnboardingModal from './modals/OnboardingModal';
 import SplashScreen from './components/SplashScreen';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import ScreenAuth    from './screens/ScreenAuth';
+import ScreenProfile from './screens/ScreenProfile';
 
 import ScreenHome    from './screens/ScreenHome';
 import ScreenSOS     from './screens/ScreenSOS';
@@ -25,13 +28,16 @@ const TWEAK_DEFAULTS = {
   anim: 'subtle',
 };
 
-export default function App() {
+function AppContent() {
+  const { user } = useAuth();
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [active, setActive] = useState('home');
   const [joinRole, setJoinRole] = useState('user');
   const [reportOpen, setReportOpen] = useState(false);
   const [detail, setDetail] = useState(null);
   const [sosReports, setSosReports] = useState([]);
+
+  if (!user) return <ScreenAuth />;
 
   const handleSosSubmit = (report) => {
     setSosReports(prev => [report, ...prev]);
@@ -70,15 +76,16 @@ export default function App() {
     join:      <ScreenJoin   initialRole={joinRole} go={setActive} />,
     msg:       <ScreenMessages />,
     donations: <ScreenRifugi />,
+    profile:   <ScreenProfile onBack={() => setActive('home')} />,
   };
 
   let body;
   if (detail) {
-    if (detail.type === 'sos')          body = <DetailSOS         data={detail.data} onBack={closeDetail}/>;
-    else if (detail.type === 'adopt')   body = <DetailAdopt       data={detail.data} onBack={closeDetail}/>;
-    else if (detail.type === 'sitter')  body = <DetailSitterRich  data={detail.data} onBack={closeDetail}/>;
-    else if (detail.type === 'shopOwner')  body = <ShopOwner      onBack={closeDetail}/>;
-    else if (detail.type === 'sitterOwner') body = <SitterOwner   onBack={closeDetail}/>;
+    if (detail.type === 'sos')             body = <DetailSOS        data={detail.data} onBack={closeDetail}/>;
+    else if (detail.type === 'adopt')      body = <DetailAdopt      data={detail.data} onBack={closeDetail}/>;
+    else if (detail.type === 'sitter')     body = <DetailSitterRich data={detail.data} onBack={closeDetail}/>;
+    else if (detail.type === 'shopOwner')  body = <ShopOwner        onBack={closeDetail}/>;
+    else if (detail.type === 'sitterOwner') body = <SitterOwner     onBack={closeDetail}/>;
   } else {
     body = screens[active];
   }
@@ -87,7 +94,7 @@ export default function App() {
     <div className="app" data-screen-label={active}>
       <Sidebar active={active} setActive={setActive} onSos={() => setReportOpen(true)} />
       <main className="main">
-        <Topbar onSos={() => setReportOpen(true)} />
+        <Topbar onSos={() => setReportOpen(true)} user={user} onProfile={() => setActive('profile')} />
         <div className="content">
           {body}
         </div>
@@ -123,5 +130,13 @@ export default function App() {
         </TweakSection>
       </TweaksPanel>}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
