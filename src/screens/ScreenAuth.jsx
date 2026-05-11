@@ -69,7 +69,7 @@ export default function ScreenAuth() {
     if (mode === 'login') {
       setForm(f => ({ ...f, email: 'test@muso.app', password: 'test123' }));
     } else {
-      setForm({ name: 'Andrea Martini', email: 'test@muso.app', password: 'test123', role: 'user', city: 'Roma' });
+      setForm({ name: 'Annalisa Melania', email: 'test@muso.app', password: 'test123', role: 'user', city: 'Roma' });
     }
     setError('');
   };

@@ -31,7 +31,7 @@ function seedTestUser() {
   if (!users.find(u => u.email === 'test@muso.app')) {
     users.push({
       id: 'test_user_1',
-      name: 'Andrea Martini',
+      name: 'Annalisa Melania',
       email: 'test@muso.app',
       password: 'test123',
       role: 'user',
