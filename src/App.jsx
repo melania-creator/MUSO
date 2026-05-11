@@ -70,6 +70,7 @@ function AppContent() {
     window.history.pushState({ screen, detail: null }, '');
     setActive(screen);
     setDetail(null);
+    window.scrollTo({ top: 0 });
   };
 
   const handleSosSubmit = (report) => {
