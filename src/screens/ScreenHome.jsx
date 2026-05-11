@@ -41,7 +41,7 @@ function Divider({ color, label, icon }) {
 export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
   const sosList = [
     { id:'s1', emoji:'🐕', tone:'t-peach',  tagCls:'tag-sos',    tag:'Urgente',   title:'Cane ferito abbandonato vicino al parco', meta:'Via Roma · 10 min fa' },
-    { id:'s2', emoji:'🐈', tone:'t-sky',    tagCls:'tag-mute',   tag:'In attesa', title:'Gatto intrappolato sotto un'auto',         meta:'Corso Italia · 28 min fa' },
+    { id:'s2', emoji:'🐈', tone:'t-sky',    tagCls:'tag-mute',   tag:'In attesa', title:'Gatto intrappolato sotto una macchina',    meta:'Corso Italia · 28 min fa' },
     { id:'s3', emoji:'🐦', tone:'t-butter', tagCls:'tag-mute',   tag:'In attesa', title:'Piccolo volatile con ala ferita',          meta:'Piazza Garibaldi · 1 ora fa' },
   ];
   const petsList  = [];
