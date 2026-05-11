@@ -84,7 +84,7 @@ export default function ScreenAuth() {
           {/* Logo */}
           <div className="auth-brand">
             <img src={logoSrc} alt="MUSO" className="auth-logo" />
-            <span className="auth-brand-name">MU<em>SO</em></span>
+            <span className="auth-brand-name">MUSO</span>
           </div>
 
           {/* Tabs */}
@@ -142,7 +142,7 @@ export default function ScreenAuth() {
                 <input
                   type={showPwd ? 'text' : 'password'}
                   autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                  placeholder={mode === 'login' ? '••••••••' : 'Almeno 6 caratteri'}
+                  placeholder={mode === 'login' ? '········' : 'Almeno 6 caratteri'}
                   value={form.password} onChange={e => set('password', e.target.value)}
                   required
                 />

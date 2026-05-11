@@ -15,29 +15,6 @@ function EmptySection({ emoji, text }) {
   );
 }
 
-function Divider({ color, label, icon }) {
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: 14,
-      margin: '36px 0 4px',
-    }}>
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 8,
-        background: color + '22',
-        border: '1.5px solid ' + color + '55',
-        borderRadius: 999,
-        padding: '5px 14px 5px 10px',
-        fontSize: 13, fontWeight: 600,
-        color: color === '#F5C842' ? '#7A5C00' : color,
-      }}>
-        <span style={{ fontSize: 15 }}>{icon}</span>
-        {label}
-      </div>
-      <div style={{ flex: 1, height: 1.5, background: color + '33', borderRadius: 999 }} />
-    </div>
-  );
-}
-
 export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
   const sosList = [
     { id:'s1', emoji:'🐕', tone:'t-peach',  tagCls:'tag-sos',    tag:'Urgente',   title:'Cane ferito abbandonato vicino al parco', meta:'Via Roma · 10 min fa' },
@@ -143,7 +120,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         ))}
       </section>
 
-      <Divider color="#FF5C4D" label="SOS vicino a te" icon="🐾"/>
       <section style={{ background:'#FF5C4D0F', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
@@ -177,7 +153,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <Divider color="#F4A7B9" label="Adozioni" icon="🐾"/>
       <section style={{ background:'#F4A7B914', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
@@ -214,12 +189,11 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <Divider color="#6DBF8A" label="Rifugi & Aiuti" icon="🏠"/>
       <section style={{ background:'#6DBF8A0F', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>I rifugi <em>chiedono aiuto</em>.</h3>
-            <div className="sub">Un sacco di crocchette, una coperta, un'ora del tuo tempo. Tutto conta.</div>
+            <div className="sub">Un sacco di crocchette, una coperta, un’ora del tuo tempo. Tutto conta.</div>
           </div>
           <a href="#" className="right" onClick={e => { e.preventDefault(); go('rifugi'); }}>Tutte <Icon name="arrow-right" size={12}/></a>
         </div>
@@ -255,7 +229,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <Divider color="#6BAED6" label="Pet Sitter" icon="🌿"/>
       <section style={{ background:'#6BAED60F', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
@@ -290,7 +263,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <Divider color="#F5C842" label="Vetrine" icon="🏪"/>
       <section style={{ background:'#F5C84214', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>

@@ -8,7 +8,7 @@ export default function Logo() {
         alt="MUSO"
         style={{ height: 40, width: 'auto', objectFit: 'contain' }}
       />
-      <span className="brand-name">MU<em>SO</em></span>
+      <span className="brand-name">MUSO</span>
     </div>
   );
 }
