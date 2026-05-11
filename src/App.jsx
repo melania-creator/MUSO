@@ -42,22 +42,7 @@ function AppContent() {
     try { return !localStorage.getItem('muso_onboarded'); } catch { return false; }
   });
 
-  if (!user) return <ScreenAuth />;
-
-  const handleSosSubmit = (report) => {
-    setSosReports(prev => [report, ...prev]);
-    setActive('sos');
-  };
-
-  const handleOnboardingDone = () => {
-    try { localStorage.setItem('muso_onboarded', '1'); } catch {}
-    setShowOnboarding(false);
-  };
-
-  const goJoin = (role) => { setJoinRole(role); setActive('join'); setDetail(null); };
-  const openDetail = (d) => { setDetail(d); window.scrollTo({top:0}); };
-  const closeDetail = () => setDetail(null);
-
+  // Palette attributes — must stay before early return to satisfy hooks rules
   useEffect(() => {
     const r = document.documentElement;
     r.setAttribute('data-palette', t.palette);
@@ -66,40 +51,82 @@ function AppContent() {
     r.setAttribute('data-anim', t.anim);
   }, [t]);
 
+  // Browser / iOS / Android back-button support via History API
+  useEffect(() => {
+    window.history.replaceState({ screen: 'home', detail: null }, '');
+    const onPop = (e) => {
+      const s = e.state || { screen: 'home', detail: null };
+      setActive(s.screen ?? 'home');
+      setDetail(s.detail ?? null);
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  if (!user) return <ScreenAuth />;
+
+  // Navigation — always pushes a history entry so back() works everywhere
+  const go = (screen) => {
+    window.history.pushState({ screen, detail: null }, '');
+    setActive(screen);
+    setDetail(null);
+  };
+
+  const handleSosSubmit = (report) => {
+    setSosReports(prev => [report, ...prev]);
+    go('sos');
+  };
+
+  const handleOnboardingDone = () => {
+    try { localStorage.setItem('muso_onboarded', '1'); } catch {}
+    setShowOnboarding(false);
+  };
+
+  const goJoin = (role) => { setJoinRole(role); go('join'); };
+
+  const openDetail = (d) => {
+    window.history.pushState({ screen: active, detail: d }, '');
+    setDetail(d);
+    window.scrollTo({ top: 0 });
+  };
+
+  // back() triggers popstate which restores previous screen/detail state
+  const closeDetail = () => window.history.back();
+
   const screens = {
-    home:      <ScreenHome   go={setActive} onSos={() => setReportOpen(true)} goJoin={goJoin} openDetail={openDetail}/>,
+    home:      <ScreenHome   go={go} onSos={() => setReportOpen(true)} goJoin={goJoin} openDetail={openDetail}/>,
     sos:       <ScreenSOS    onSos={() => setReportOpen(true)} openDetail={openDetail} sosReports={sosReports}/>,
     adopt:     <ScreenAdopt  openDetail={openDetail}/>,
     rifugi:    <ScreenRifugi goJoin={goJoin} />,
     sitter:    <ScreenSitter goJoin={goJoin} openDetail={openDetail}/>,
     shop:      <ScreenShop   goJoin={goJoin} />,
-    join:      <ScreenJoin   initialRole={joinRole} go={setActive} />,
+    join:      <ScreenJoin   initialRole={joinRole} go={go} />,
     msg:       <ScreenMessages />,
     donations: <ScreenRifugi />,
-    profile:   <ScreenProfile onBack={() => setActive('home')} />,
+    profile:   <ScreenProfile onBack={() => window.history.back()} />,
   };
 
   let body;
   if (detail) {
-    if (detail.type === 'sos')             body = <DetailSOS        data={detail.data} onBack={closeDetail}/>;
-    else if (detail.type === 'adopt')      body = <DetailAdopt      data={detail.data} onBack={closeDetail}/>;
-    else if (detail.type === 'sitter')     body = <DetailSitterRich data={detail.data} onBack={closeDetail}/>;
-    else if (detail.type === 'shopOwner')  body = <ShopOwner        onBack={closeDetail}/>;
-    else if (detail.type === 'sitterOwner') body = <SitterOwner     onBack={closeDetail}/>;
+    if (detail.type === 'sos')              body = <DetailSOS        data={detail.data} onBack={closeDetail}/>;
+    else if (detail.type === 'adopt')       body = <DetailAdopt      data={detail.data} onBack={closeDetail}/>;
+    else if (detail.type === 'sitter')      body = <DetailSitterRich data={detail.data} onBack={closeDetail}/>;
+    else if (detail.type === 'shopOwner')   body = <ShopOwner        onBack={closeDetail}/>;
+    else if (detail.type === 'sitterOwner') body = <SitterOwner      onBack={closeDetail}/>;
   } else {
     body = screens[active];
   }
 
   return (
     <div className="app" data-screen-label={active}>
-      <Sidebar active={active} setActive={setActive} onSos={() => setReportOpen(true)} />
+      <Sidebar active={active} setActive={go} onSos={() => setReportOpen(true)} />
       <main className="main">
-        <Topbar onSos={() => setReportOpen(true)} user={user} onProfile={() => setActive('profile')} />
+        <Topbar onSos={() => setReportOpen(true)} user={user} onProfile={() => go('profile')} />
         <div className="content">
           {body}
         </div>
       </main>
-      <MobileNav active={active} setActive={setActive} onSos={() => setReportOpen(true)} />
+      <MobileNav active={active} setActive={go} onSos={() => setReportOpen(true)} />
       <ReportModal open={reportOpen} onClose={() => setReportOpen(false)} onSosSubmit={handleSosSubmit} />
       {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
       {!showSplash && showOnboarding && <OnboardingModal onDone={handleOnboardingDone} />}
@@ -126,7 +153,7 @@ function AppContent() {
           <TweakButton onClick={() => openDetail({type:'sitterOwner'})}>📊 Dashboard Sitter</TweakButton>
           <TweakSelect label="Vai a schermata" value={active}
             options={[{value:'home',label:'Home'},{value:'sos',label:'SOS Mappa'},{value:'adopt',label:'Adozioni'},{value:'rifugi',label:'Rifugi & Aiuti'},{value:'sitter',label:'Pet Sitter'},{value:'shop',label:'Vetrine'},{value:'join',label:'Iscrizione'}]}
-            onChange={v => setActive(v)} />
+            onChange={v => go(v)} />
         </TweakSection>
       </TweaksPanel>}
     </div>
