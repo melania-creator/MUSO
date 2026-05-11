@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Icon from '../components/Icon';
 import { FormSection, Field, CheckTile, Toggle } from '../components/FormComponents';
+import LegalModal from '../components/LegalModal';
+import Toast, { useToast } from '../components/Toast';
 
 const ROLES = [
   { id:'user',    label:'Utente',     emoji:'👤', desc:'Adotto, dono, segnalo SOS' },
@@ -24,7 +26,27 @@ const PLANS = [
   { id:'premium', name:'Premium', price:'€89', when:'al mese',  feats:['Tutto del Pro','Posizione top in homepage','Banner brand su mappa SOS','Dashboard analytics','Account manager dedicato'] },
 ];
 
-function FormUser() {
+function UploadRow({ label, optional, showToast }) {
+  const ref = useRef(null);
+  const [file, setFile] = useState(null);
+  const handleChange = e => {
+    const f = e.target.files?.[0];
+    if (f) { setFile(f.name); showToast?.('📎 File caricato: ' + f.name); }
+  };
+  return (
+    <div className="upload-row">
+      <Icon name="shield" size={16}/>
+      <span><b>{label}</b>{optional && ' — opzionale'}</span>
+      {file && <span style={{ fontSize:12, color:'var(--c-ink-mute)', marginLeft:4 }}>✓ {file}</span>}
+      <input ref={ref} type="file" accept="image/*,.pdf" style={{ display:'none' }} onChange={handleChange}/>
+      <button type="button" className="btn" style={{ marginLeft:'auto' }} onClick={() => ref.current?.click()}>
+        <Icon name="camera" size={14}/> {file ? 'Cambia' : 'Carica'}
+      </button>
+    </div>
+  );
+}
+
+function FormUser({ onLegal }) {
   const [pets, setPets] = useState({ cane: true, gatto: false, altro: false, nessuno: false });
   const [volunteer, setVolunteer] = useState(true);
   const [notif, setNotif] = useState(true);
@@ -58,14 +80,14 @@ function FormUser() {
         </div>
       </FormSection>
       <FormSection num="4" title="Tutto a posto" desc="Ultimi consensi e via.">
-        <label className="check-row"><input type="checkbox" defaultChecked /><span>Accetto i <a href="#" onClick={e=>e.preventDefault()}>Termini di servizio</a> e l'<a href="#" onClick={e=>e.preventDefault()}>Informativa privacy</a>.</span></label>
+        <label className="check-row"><input type="checkbox" defaultChecked /><span>Accetto i <a href="#" onClick={e=>{e.preventDefault();onLegal?.('termini')}}>Termini di servizio</a> e l'<a href="#" onClick={e=>{e.preventDefault();onLegal?.('privacy')}}>Informativa privacy</a>.</span></label>
         <label className="check-row"><input type="checkbox" /><span>Ricevi la newsletter MUSO (storie di adozioni, novità, una a settimana).</span></label>
       </FormSection>
     </>
   );
 }
 
-function FormSitter() {
+function FormSitter({ onLegal, showToast }) {
   const [services, setServices] = useState({ walking:true, day:true, night:false, cat:false });
   const [pets, setPets] = useState({ small:true, medium:true, large:false });
   return (
@@ -112,9 +134,9 @@ function FormSitter() {
         </div>
       </FormSection>
       <FormSection num="4" title="Verifica" desc="Visibile solo al team MUSO.">
-        <div className="upload-row"><Icon name="shield" size={16}/> <span><b>Documento d'identità</b></span><button type="button" className="btn" style={{marginLeft:'auto'}}><Icon name="camera" size={14}/> Carica</button></div>
-        <div className="upload-row"><Icon name="shield" size={16}/> <span><b>Certificazioni</b> — opzionale</span><button type="button" className="btn" style={{marginLeft:'auto'}}><Icon name="camera" size={14}/> Carica</button></div>
-        <label className="check-row mt-3"><input type="checkbox" defaultChecked /><span>Accetto i <a href="#" onClick={e=>e.preventDefault()}>Termini per i sitter</a> e il <a href="#" onClick={e=>e.preventDefault()}>Codice etico MUSO</a>.</span></label>
+        <UploadRow label="Documento d'identità" required showToast={showToast}/>
+        <UploadRow label="Certificazioni" optional showToast={showToast}/>
+        <label className="check-row mt-3"><input type="checkbox" defaultChecked /><span>Accetto i <a href="#" onClick={e=>{e.preventDefault();onLegal?.('sitter')}}>Termini per i sitter</a> e il <a href="#" onClick={e=>{e.preventDefault();onLegal?.('etico')}}>Codice etico MUSO</a>.</span></label>
       </FormSection>
     </>
   );
@@ -129,7 +151,7 @@ const RIFUGIO_TYPES = [
   { id:'altro',       icon:'❓', label:'Altro',              desc:'Altra tipologia' },
 ];
 
-function FormRifugio() {
+function FormRifugio({ onLegal }) {
   const [tipo, setTipo] = useState('assoc');
   const [animali, setAnimali] = useState({ cani:true, gatti:true, piccoli:false, esotici:false });
   return (
@@ -201,7 +223,7 @@ function FormRifugio() {
 
       <FormSection num="6" title="Conferma">
         <label className="check-row"><input type="checkbox" defaultChecked /><span>Confermo che i dati sono veritieri e che la struttura è regolarmente registrata.</span></label>
-        <label className="check-row"><input type="checkbox" defaultChecked /><span>Accetto i <a href="#" onClick={e=>e.preventDefault()}>Termini di servizio</a> e il <a href="#" onClick={e=>e.preventDefault()}>Codice etico MUSO</a>.</span></label>
+        <label className="check-row"><input type="checkbox" defaultChecked /><span>Accetto i <a href="#" onClick={e=>{e.preventDefault();onLegal?.('termini')}}>Termini di servizio</a> e il <a href="#" onClick={e=>{e.preventDefault();onLegal?.('etico')}}>Codice etico MUSO</a>.</span></label>
       </FormSection>
     </>
   );
@@ -233,7 +255,7 @@ function PreviewRifugio() {
   );
 }
 
-function FormShop() {
+function FormShop({ onLegal }) {
   const [type, setType] = useState('pet-shop');
   const [plan, setPlan] = useState('pro');
   const [feats, setFeats] = useState({ delivery:true, instore:true, loyalty:false, grooming:false });
@@ -290,7 +312,7 @@ function FormShop() {
       </FormSection>
       <FormSection num="5" title="Conferma">
         <label className="check-row"><input type="checkbox" defaultChecked /><span>Confermo che i dati inseriti corrispondono a quelli aziendali.</span></label>
-        <label className="check-row"><input type="checkbox" defaultChecked /><span>Accetto le <a href="#" onClick={e=>e.preventDefault()}>Condizioni partner</a> e il <a href="#" onClick={e=>e.preventDefault()}>Codice etico MUSO</a>.</span></label>
+        <label className="check-row"><input type="checkbox" defaultChecked /><span>Accetto le <a href="#" onClick={e=>{e.preventDefault();onLegal?.('partner')}}>Condizioni partner</a> e il <a href="#" onClick={e=>{e.preventDefault();onLegal?.('etico')}}>Codice etico MUSO</a>.</span></label>
       </FormSection>
     </>
   );
@@ -375,6 +397,8 @@ function PreviewShop() {
 export default function ScreenJoin({ initialRole = 'user', go }) {
   const [role, setRole] = useState(initialRole);
   const [submitted, setSubmitted] = useState(false);
+  const [legalDoc, setLegalDoc] = useState(null);
+  const [toastMsg, showToast] = useToast();
   useEffect(() => { setRole(initialRole); }, [initialRole]);
 
   const Form    = role === 'sitter' ? FormSitter    : role === 'rifugio' ? FormRifugio    : role === 'shop' ? FormShop    : FormUser;
@@ -422,7 +446,7 @@ export default function ScreenJoin({ initialRole = 'user', go }) {
       </div>
       <div className="join-layout">
         <form className="join-form" onSubmit={e => { e.preventDefault(); setSubmitted(true); }}>
-          <Form />
+          <Form onLegal={setLegalDoc} showToast={showToast} />
           <div className="form-foot">
             <button type="button" className="btn btn-ghost" onClick={() => go('home')}>Annulla</button>
             <div style={{display:'flex',gap:8,alignItems:'center'}}>
@@ -436,6 +460,8 @@ export default function ScreenJoin({ initialRole = 'user', go }) {
         </form>
         <aside className="join-aside"><Preview /></aside>
       </div>
+      {legalDoc && <LegalModal doc={legalDoc} onClose={() => setLegalDoc(null)}/>}
+      <Toast msg={toastMsg}/>
     </>
   );
 }

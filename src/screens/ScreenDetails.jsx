@@ -3,6 +3,7 @@ import Icon from '../components/Icon';
 import { Field, CheckTile, Toggle } from '../components/FormComponents';
 import { SERVICE_OPTS } from '../constants';
 import SOSChat from '../components/SOSChat';
+import Toast, { useToast } from '../components/Toast';
 import ShareSheet from '../components/ShareSheet';
 
 function DetailHeader({ onBack, eyebrow, title, subtitle, tags, actions }) {
@@ -22,6 +23,7 @@ export function DetailSOS({ data, onBack }) {
   const [taken, setTaken] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const [toastMsg, showToast] = useToast();
 
   const timeline = [
     { dot:'sos',  time:'14:32', title:'Segnalazione aperta', desc:'Marco P. ha aperto un SOS critico in P.zza Vetra.' },
@@ -42,7 +44,10 @@ export function DetailSOS({ data, onBack }) {
           </button>
           <button className="btn" onClick={() => setChatOpen(!chatOpen)}><Icon name="bell" size={14}/> {chatOpen ? 'Chiudi chat' : 'Chat SOS'}</button>
           <button className="btn" onClick={() => setShareOpen(true)}>📣 Condividi</button>
-          <button className="btn btn-ghost"><Icon name="pin" size={14}/> Apri in mappa</button>
+          <button className="btn btn-ghost" onClick={() => {
+            const lat = data?.lat || '45.4622'; const lng = data?.lng || '9.1796';
+            window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank', 'noopener');
+          }}><Icon name="pin" size={14}/> Apri in mappa</button>
         </>}
       />
       <div className="detail-grid">
@@ -112,6 +117,7 @@ export function DetailSOS({ data, onBack }) {
         title="SOS animale in difficoltà"
         defaultText="🐾 SOS! C'è un cane ferito in P.zza Vetra a Roma — serve aiuto urgente. Segnalato su MUSO, la rete di persone che salva gli animali."
       />
+      <Toast msg={toastMsg}/>
     </>
   );
 }
@@ -210,6 +216,8 @@ function ApplyForm({ pet, step, setStep, match, setMatch, onBack }) {
 export function DetailAdopt({ data, onBack }) {
   const [step, setStep] = useState(0);
   const [match, setMatch] = useState({ home:'', exp:'', kids:'no', other:'no', why:'' });
+  const [saved, setSaved] = useState(false);
+  const [toastMsg, showToast] = useToast();
 
   if (step >= 1 && step <= 4) return <ApplyForm pet={data} step={step} setStep={setStep} match={match} setMatch={setMatch} onBack={() => setStep(0)} />;
 
@@ -233,8 +241,12 @@ export function DetailAdopt({ data, onBack }) {
         tags={<><span className="tag tag-mint">{data.tag}</span><span className="tag tag-mute">Vaccinato</span><span className="tag tag-mute">Microchip</span></>}
         actions={<>
           <button className="btn btn-primary" onClick={() => setStep(1)}><Icon name="paw" size={14}/> Candidati per adottare</button>
-          <button className="btn"><Icon name="heart" size={14}/> Salva</button>
-          <button className="btn btn-ghost"><Icon name="bell" size={14}/> Chiedi info al rifugio</button>
+          <button className="btn" onClick={() => { setSaved(v => !v); showToast(saved ? '💔 Rimosso dai preferiti' : '❤️ Salvato nei preferiti'); }}>
+            <Icon name="heart" size={14}/> {saved ? 'Salvato ❤️' : 'Salva'}
+          </button>
+          <button className="btn btn-ghost" onClick={() => showToast('💬 Richiesta inviata al rifugio ' + (data?.shelter || '') + ' — risponderanno entro 24h')}>
+            <Icon name="bell" size={14}/> Chiedi info al rifugio
+          </button>
         </>}
       />
       <div className="detail-grid">
@@ -270,6 +282,7 @@ export function DetailAdopt({ data, onBack }) {
           </div>
         </aside>
       </div>
+      <Toast msg={toastMsg}/>
     </>
   );
 }

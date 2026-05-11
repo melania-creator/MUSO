@@ -1,12 +1,38 @@
 import { useState } from 'react';
 import Icon from '../components/Icon';
+import Toast, { useToast } from '../components/Toast';
+
+const SIZES  = ['Tutte', 'Piccola', 'Media', 'Grande'];
+const AGES   = ['Qualsiasi', 'Cucciolo', 'Adulto', 'Anziano'];
 
 export default function ScreenAdopt({ openDetail }) {
-  const [filter, setFilter] = useState('Tutti');
+  const [species,   setSpecies]   = useState('Tutti');
+  const [size,      setSize]      = useState('Tutte');
+  const [age,       setAge]       = useState('Qualsiasi');
+  const [urgent,    setUrgent]    = useState(false);
+  const [showPanel, setShowPanel] = useState(false);
+  const [favorites, setFavorites] = useState(false);
+  const [toastMsg,  showToast]    = useToast();
 
-  // In futuro: pets arriveranno dal backend (es. fetch('/api/animals?status=available'))
   const pets = [];
-  const visible = filter === 'Tutti' ? pets : pets.filter(p => p.species === filter);
+  const visible = pets.filter(p =>
+    (species === 'Tutti'    || p.species === species) &&
+    (size    === 'Tutte'    || p.size    === size) &&
+    (age     === 'Qualsiasi'|| p.age     === age) &&
+    (!urgent || p.urgent)
+  );
+
+  const handleNotify = () => {
+    if ('Notification' in window) {
+      Notification.requestPermission().then(perm => {
+        showToast(perm === 'granted'
+          ? '🔔 Ti avviseremo non appena arrivano nuovi animali!'
+          : '🔕 Abilita le notifiche nelle impostazioni del browser.');
+      });
+    } else {
+      showToast('🔔 Notifiche non supportate su questo dispositivo.');
+    }
+  };
 
   return (
     <>
@@ -16,21 +42,56 @@ export default function ScreenAdopt({ openDetail }) {
           <div className="sub">Gli animali dei rifugi verificati appariranno qui non appena si registrano.</div>
         </div>
         <div className="ph-actions">
-          <button className="btn"><Icon name="filter" size={14}/> Filtri avanzati</button>
-          <button className="btn btn-primary"><Icon name="heart" size={14}/> I tuoi preferiti</button>
+          <button className="btn" onClick={() => setShowPanel(v => !v)}>
+            <Icon name="filter" size={14}/> Filtri avanzati {showPanel ? '▲' : '▼'}
+          </button>
+          <button className="btn btn-primary" onClick={() => { setFavorites(v => !v); showToast(favorites ? 'Mostro tutti gli animali' : '❤️ Mostro solo i tuoi preferiti'); }}>
+            <Icon name="heart" size={14}/> {favorites ? 'Tutti gli animali' : 'I tuoi preferiti'}
+          </button>
         </div>
       </div>
 
+      {showPanel && (
+        <div className="card" style={{ padding:16, marginBottom:4 }}>
+          <div style={{ display:'flex', flexWrap:'wrap', gap:16 }}>
+            <div>
+              <div style={{ fontSize:12, fontWeight:600, marginBottom:6, color:'var(--c-ink-soft)' }}>TAGLIA</div>
+              <div style={{ display:'flex', gap:6 }}>
+                {SIZES.map(s => (
+                  <button key={s} className={'chip ' + (size === s ? 'active' : '')} onClick={() => setSize(s)}>{s}</button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize:12, fontWeight:600, marginBottom:6, color:'var(--c-ink-soft)' }}>ETÀ</div>
+              <div style={{ display:'flex', gap:6 }}>
+                {AGES.map(a => (
+                  <button key={a} className={'chip ' + (age === a ? 'active' : '')} onClick={() => setAge(a)}>{a}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="filter-bar">
         {['Tutti','Cane','Gatto','Conigli','Altri'].map(s => (
-          <button key={s} className={"chip " + (filter === s ? 'active' : '')} onClick={() => setFilter(s)}>{s}</button>
+          <button key={s} className={'chip ' + (species === s ? 'active' : '')} onClick={() => setSpecies(s)}>{s}</button>
         ))}
         <span className="filter-divider"></span>
-        <button className="chip">Taglia: tutte</button>
-        <button className="chip">Età: qualsiasi</button>
-        <button className="chip"><Icon name="pin" size={12}/> Tutta Italia</button>
+        <button className={'chip ' + (size !== 'Tutte' ? 'active' : '')} onClick={() => setSize(s => { const i = SIZES.indexOf(s); return SIZES[(i+1) % SIZES.length]; })}>
+          Taglia: {size}
+        </button>
+        <button className={'chip ' + (age !== 'Qualsiasi' ? 'active' : '')} onClick={() => setAge(a => { const i = AGES.indexOf(a); return AGES[(i+1) % AGES.length]; })}>
+          Età: {age}
+        </button>
+        <button className="chip" onClick={() => showToast('📍 Mostrando animali da tutta Italia')}>
+          <Icon name="pin" size={12}/> Tutta Italia
+        </button>
         <span className="filter-divider"></span>
-        <button className="chip"><Icon name="check" size={12}/> Solo urgenti</button>
+        <button className={'chip ' + (urgent ? 'active' : '')} onClick={() => setUrgent(v => !v)}>
+          <Icon name="check" size={12}/> Solo urgenti
+        </button>
       </div>
 
       {visible.length === 0 ? (
@@ -38,7 +99,7 @@ export default function ScreenAdopt({ openDetail }) {
           <div className="es-emoji">🐾</div>
           <h3>Nessun animale disponibile al momento</h3>
           <p>I rifugi partner stanno completando la registrazione.<br/>Torna presto — questa pagina si riempirà di storie che aspettano una casa.</p>
-          <button className="btn btn-primary" onClick={() => {}}>
+          <button className="btn btn-primary" onClick={handleNotify}>
             <Icon name="bell" size={14}/> Avvisami quando arrivano nuovi animali
           </button>
         </div>
@@ -70,6 +131,7 @@ export default function ScreenAdopt({ openDetail }) {
           ))}
         </div>
       )}
+      <Toast msg={toastMsg}/>
     </>
   );
 }

@@ -4,11 +4,14 @@ import { Field, Toggle } from '../components/FormComponents';
 import { SITTER_BADGES, SIZE_OPTS, SERVICE_OPTS, SHOP_LEVELS, SHOP_BADGES } from '../constants';
 import { BookingFlow } from './ScreenDetails';
 import { XPBar, ShopMissions } from './ScreenShop';
+import Toast, { useToast } from '../components/Toast';
 
-export function DetailSitterRich({ data, onBack }) {
+export function DetailSitterRich({ data, onBack, go }) {
   const [step, setStep] = useState(0);
   const [tab,  setTab]  = useState('profile');
   const [book, setBook] = useState({ service:'walking', from:'', to:'', pet:'cane' });
+  const [saved, setSaved] = useState(false);
+  const [toastMsg, showToast] = useToast();
 
   if (step >= 1) return (
     <BookingFlow sitter={data} step={step} setStep={setStep} book={book} setBook={setBook} onBack={() => setStep(0)} />
@@ -36,8 +39,12 @@ export function DetailSitterRich({ data, onBack }) {
         </div>
         <div className="dh-actions">
           <button className="btn btn-primary" onClick={() => setStep(1)}><Icon name="check" size={14}/> Prenota — €{data.rate}/notte</button>
-          <button className="btn"><Icon name="message" size={14}/> Scrivi un messaggio</button>
-          <button className="btn btn-ghost"><Icon name="heart" size={14}/> Salva</button>
+          <button className="btn" onClick={() => { go ? go('msg') : showToast('💬 Vai alla sezione Messaggi per contattare ' + data.name.split(' ')[0]); }}>
+            <Icon name="message" size={14}/> Scrivi un messaggio
+          </button>
+          <button className="btn btn-ghost" onClick={() => { setSaved(v => !v); showToast(saved ? '💔 Rimosso dai preferiti' : '❤️ ' + data.name.split(' ')[0] + ' salvato/a nei preferiti'); }}>
+            <Icon name="heart" size={14}/> {saved ? 'Salvato ❤️' : 'Salva'}
+          </button>
         </div>
       </div>
 
@@ -132,7 +139,6 @@ export function DetailSitterRich({ data, onBack }) {
             <div className="card" style={{ padding:24 }}>
               <div className="card-h">{data.jobs} servizi · media {data.rating}★</div>
               <div style={{ padding:'32px 0', textAlign:'center', color:'var(--c-ink-mute)', fontSize:14 }}>
-                <div style={{ fontSize:28, marginBottom:8 }}>⭐</div>
                 Nessuna recensione ancora — sarà il primo sitter a riceverle.
               </div>
             </div>
@@ -164,6 +170,7 @@ export function DetailSitterRich({ data, onBack }) {
           </div>
         </aside>
       </div>
+      <Toast msg={toastMsg}/>
     </>
   );
 }
@@ -190,8 +197,134 @@ function InboxPanel() {
   );
 }
 
+function ShopProfilePanel({ onSave }) {
+  const [form, setForm] = useState({ name:'', city:'', desc:'', phone:'', web:'' });
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  return (
+    <div className="card" style={{ padding:24 }}>
+      <div className="card-h">Profilo vetrina</div>
+      <div style={{ display:'grid', gap:14, marginTop:8 }}>
+        <Field label="Nome vetrina"><input value={form.name} onChange={e => set('name', e.target.value)} placeholder="es. PetShop Roma Centro"/></Field>
+        <Field label="Città"><input value={form.city} onChange={e => set('city', e.target.value)} placeholder="Roma"/></Field>
+        <Field label="Descrizione"><textarea value={form.desc} onChange={e => set('desc', e.target.value)} placeholder="Cosa offre la tua vetrina..." style={{ minHeight:80 }}/></Field>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+          <Field label="Telefono"><input value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+39 06 ..."/></Field>
+          <Field label="Sito web"><input value={form.web} onChange={e => set('web', e.target.value)} placeholder="www.esempio.it"/></Field>
+        </div>
+      </div>
+      <div style={{ marginTop:18, display:'flex', justifyContent:'flex-end' }}>
+        <button className="btn btn-primary" onClick={() => onSave?.('✅ Profilo salvato!')}>
+          <Icon name="check" size={14}/> Salva profilo
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function PromosPanel({ onSave }) {
+  const [promos, setPromos] = useState([]);
+  const [form, setForm] = useState({ code:'', desc:'', disc:'' });
+  const add = () => {
+    if (!form.code) return;
+    setPromos(p => [...p, form]);
+    setForm({ code:'', desc:'', disc:'' });
+    onSave?.('🎯 Promo aggiunta!');
+  };
+  return (
+    <div style={{ display:'grid', gap:14 }}>
+      <div className="card" style={{ padding:24 }}>
+        <div className="card-h">Nuova promo</div>
+        <div style={{ display:'grid', gap:12, marginTop:8 }}>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+            <Field label="Codice sconto"><input value={form.code} onChange={e => setForm(f => ({...f, code: e.target.value.toUpperCase()}))} placeholder="MUSO10"/></Field>
+            <Field label="Sconto (%)"><input type="number" min="1" max="100" value={form.disc} onChange={e => setForm(f => ({...f, disc: e.target.value}))} placeholder="10"/></Field>
+          </div>
+          <Field label="Descrizione"><input value={form.desc} onChange={e => setForm(f => ({...f, desc: e.target.value}))} placeholder="es. 10% su tutto il cibo per cani"/></Field>
+        </div>
+        <button className="btn btn-primary" style={{ marginTop:14 }} onClick={add}>
+          <Icon name="plus-thin" size={14}/> Aggiungi promo
+        </button>
+      </div>
+      {promos.length > 0 && (
+        <div className="card" style={{ padding:24 }}>
+          <div className="card-h">Promo attive</div>
+          {promos.map((p, i) => (
+            <div key={i} style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 0', borderBottom:'1px solid var(--c-line)' }}>
+              <span className="tag tag-mint" style={{ fontFamily:'monospace', fontSize:13 }}>{p.code}</span>
+              <span style={{ flex:1, fontSize:13 }}>{p.desc}</span>
+              <span style={{ fontWeight:700 }}>-{p.disc}%</span>
+              <button className="btn btn-ghost" style={{ padding:'4px 8px' }} onClick={() => setPromos(ps => ps.filter((_, j) => j !== i))}>
+                <Icon name="close" size={14}/>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AnalyticsPanel() {
+  const stats = [
+    { label:'Visualizzazioni', value:'—', sub:'questo mese' },
+    { label:'Click su promo', value:'—', sub:'questo mese' },
+    { label:'XP guadagnati', value:'0', sub:'totale' },
+    { label:'Donazioni ai rifugi', value:'€0', sub:'totale' },
+  ];
+  return (
+    <div style={{ display:'grid', gap:14 }}>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))', gap:12 }}>
+        {stats.map((s, i) => (
+          <div key={i} className="card" style={{ padding:20, textAlign:'center' }}>
+            <div style={{ fontSize:28, fontWeight:700 }}>{s.value}</div>
+            <div style={{ fontWeight:600, fontSize:13, marginTop:4 }}>{s.label}</div>
+            <div style={{ fontSize:12, color:'var(--c-ink-mute)' }}>{s.sub}</div>
+          </div>
+        ))}
+      </div>
+      <div className="card" style={{ padding:24, textAlign:'center', color:'var(--c-ink-mute)' }}>
+        <div style={{ fontSize:28, marginBottom:8 }}>📈</div>
+        <div style={{ fontWeight:600, marginBottom:6 }}>Statistiche dettagliate in arrivo</div>
+        <p style={{ fontSize:13, margin:0 }}>Completa il profilo e inizia ad accumulare dati per vedere grafici di visualizzazioni, conversioni e trend mensili.</p>
+      </div>
+    </div>
+  );
+}
+
+function PlanPanel({ onSave }) {
+  const [plan, setPlan] = useState('free');
+  const plans = [
+    { id:'free',    label:'Free',    price:'€0',   features:['Profilo base','Missioni gratuite','Max 1 promo attiva'] },
+    { id:'starter', label:'Starter', price:'€9,99', features:['Tutto Free','3 promo attive','Statistiche base','Badge Starter'] },
+    { id:'premium', label:'Premium', price:'€24,99', features:['Tutto Starter','Promo illimitate','Analytics completo','Boost in home','Badge Premium'] },
+  ];
+  return (
+    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))', gap:14 }}>
+      {plans.map(p => (
+        <div key={p.id} className={"card " + (plan === p.id ? 'popular' : '')}
+          style={{ padding:24, cursor:'pointer', border: plan === p.id ? '2px solid var(--c-accent)' : '' }}
+          onClick={() => setPlan(p.id)}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:12 }}>
+            <b style={{ fontSize:16 }}>{p.label}</b>
+            <span style={{ fontSize:22, fontWeight:700 }}>{p.price}<small style={{ fontSize:12, fontWeight:400 }}>/mese</small></span>
+          </div>
+          <ul style={{ margin:0, padding:'0 0 0 18px', fontSize:13, color:'var(--c-ink-soft)', lineHeight:1.8 }}>
+            {p.features.map((f, i) => <li key={i}>{f}</li>)}
+          </ul>
+          <button className={"btn " + (plan === p.id ? 'btn-primary' : '')}
+            style={{ width:'100%', justifyContent:'center', marginTop:16 }}
+            onClick={e => { e.stopPropagation(); setPlan(p.id); onSave?.('Piano ' + p.label + ' selezionato!'); }}>
+            {plan === p.id ? '✓ Piano attivo' : 'Seleziona'}
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function ShopOwner({ onBack }) {
   const [section, setSection] = useState('overview');
+  const [toastMsg, showToast] = useToast();
 
   const navItems = [
     ['overview','📊','Panoramica'], ['profile','🏪','Profilo vetrina'],
@@ -223,22 +356,128 @@ export function ShopOwner({ onBack }) {
               </button>
             </div>
           )}
+          {section === 'profile'   && <ShopProfilePanel onSave={showToast}/>}
+          {section === 'promos'    && <PromosPanel onSave={showToast}/>}
           {section === 'missions'  && <ShopMissions/>}
           {section === 'inbox'     && <InboxPanel/>}
-          {(section === 'profile' || section === 'promos' || section === 'analytics' || section === 'plan') && (
-            <div className="card" style={{ padding:24 }}>
-              <div className="card-h">{navItems.find(([v]) => v === section)?.[2]}</div>
-              <p style={{ color:'var(--c-ink-soft)' }}>Sezione in costruzione — disponibile nella prossima versione.</p>
-            </div>
-          )}
+          {section === 'analytics' && <AnalyticsPanel/>}
+          {section === 'plan'      && <PlanPanel onSave={showToast}/>}
         </div>
       </div>
+      <Toast msg={toastMsg}/>
     </>
+  );
+}
+
+/* ── SitterOwner sections ── */
+
+function SitterProfilePanel({ onSave }) {
+  const [form, setForm] = useState({ name:'', city:'', bio:'', phone:'', rate:'' });
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  return (
+    <div className="card" style={{ padding:24 }}>
+      <div className="card-h">Profilo personale</div>
+      <div style={{ display:'grid', gap:14, marginTop:8 }}>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+          <Field label="Nome e cognome"><input value={form.name} onChange={e => set('name', e.target.value)} placeholder="Mario Rossi"/></Field>
+          <Field label="Città"><input value={form.city} onChange={e => set('city', e.target.value)} placeholder="Roma"/></Field>
+        </div>
+        <Field label="Bio"><textarea value={form.bio} onChange={e => set('bio', e.target.value)} placeholder="Presentati ai futuri clienti..." style={{ minHeight:80 }}/></Field>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+          <Field label="Telefono"><input value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+39 ..."/></Field>
+          <Field label="Tariffa notte (€)"><input type="number" value={form.rate} onChange={e => set('rate', e.target.value)} placeholder="25"/></Field>
+        </div>
+      </div>
+      <div style={{ marginTop:18, display:'flex', justifyContent:'flex-end' }}>
+        <button className="btn btn-primary" onClick={() => onSave?.('✅ Profilo aggiornato!')}>
+          <Icon name="check" size={14}/> Salva profilo
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function SitterCalendarPanel({ onSave }) {
+  const days = Array.from({ length:28 }, (_, i) => i + 1);
+  const [available, setAvailable] = useState(new Set());
+  const toggle = d => {
+    setAvailable(prev => { const s = new Set(prev); s.has(d) ? s.delete(d) : s.add(d); return s; });
+  };
+  return (
+    <div className="card" style={{ padding:24 }}>
+      <div className="card-h" style={{ marginBottom:8 }}>Disponibilità — tocca i giorni per selezionarli</div>
+      <div style={{ fontSize:12, color:'var(--c-ink-mute)', marginBottom:16 }}>
+        🟢 Verde = disponibile &nbsp;|&nbsp; Grigio = non disponibile
+      </div>
+      <div className="calendar-grid-big">
+        {['L','M','M','G','V','S','D'].map(d => <div key={d} className="cgb-head">{d}</div>)}
+        {days.map(d => (
+          <div key={d}
+            className={"cgb-day " + (available.has(d) ? 'free' : '')}
+            style={{ cursor:'pointer', background: available.has(d) ? '#6DBF8A22' : undefined, fontWeight: available.has(d) ? 700 : undefined }}
+            onClick={() => toggle(d)}>{d}</div>
+        ))}
+      </div>
+      <div style={{ marginTop:16, display:'flex', justifyContent:'flex-end' }}>
+        <button className="btn btn-primary" onClick={() => onSave?.('📅 Disponibilità salvata — ' + available.size + ' giorni selezionati')}>
+          <Icon name="check" size={14}/> Salva disponibilità
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function SitterRequestsPanel() {
+  return (
+    <div className="card" style={{ padding:32, textAlign:'center', color:'var(--c-ink-mute)' }}>
+      <div style={{ fontSize:32, marginBottom:10 }}>📥</div>
+      <h4>Nessuna prenotazione ancora</h4>
+      <p style={{ fontSize:13 }}>Le richieste di prenotazione dai clienti appariranno qui con tutti i dettagli.</p>
+    </div>
+  );
+}
+
+function SitterReviewsPanel() {
+  return (
+    <div className="card" style={{ padding:32, textAlign:'center', color:'var(--c-ink-mute)' }}>
+      <div style={{ fontSize:32, marginBottom:10 }}>⭐</div>
+      <h4>Nessuna recensione ancora</h4>
+      <p style={{ fontSize:13 }}>Dopo ogni servizio completato, i clienti possono lasciare una recensione. Apparirà qui.</p>
+    </div>
+  );
+}
+
+function SitterPayoutsPanel() {
+  const rows = [
+    { label:'Saldo disponibile', value:'€0,00', accent:true },
+    { label:'In attesa (escrow)', value:'€0,00' },
+    { label:'Totale guadagnato', value:'€0,00' },
+  ];
+  return (
+    <div style={{ display:'grid', gap:14 }}>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))', gap:12 }}>
+        {rows.map((r, i) => (
+          <div key={i} className="card" style={{ padding:20, textAlign:'center' }}>
+            <div style={{ fontSize:26, fontWeight:700, color: r.accent ? 'var(--c-accent)' : undefined }}>{r.value}</div>
+            <div style={{ fontSize:13, color:'var(--c-ink-soft)', marginTop:4 }}>{r.label}</div>
+          </div>
+        ))}
+      </div>
+      <div className="card" style={{ padding:24 }}>
+        <div className="card-h">Metodo di pagamento</div>
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 0', borderBottom:'1px solid var(--c-line)', fontSize:14 }}>
+          <span>🏦 IBAN — non configurato</span>
+          <button className="btn" style={{ padding:'6px 12px' }}>Aggiungi IBAN</button>
+        </div>
+        <p style={{ fontSize:12, color:'var(--c-ink-mute)', marginTop:12 }}>I pagamenti vengono versati entro 48h dalla conferma di fine servizio. Commissione MUSO: 15%.</p>
+      </div>
+    </div>
   );
 }
 
 export function SitterOwner({ onBack }) {
   const [section, setSection] = useState('overview');
+  const [toastMsg, showToast] = useToast();
 
   const navItems = [
     ['overview','📊','Panoramica'], ['profile','👤','Profilo personale'],
@@ -270,15 +509,15 @@ export function SitterOwner({ onBack }) {
               </button>
             </div>
           )}
-          {section === 'inbox' && <InboxPanel/>}
-          {(section === 'profile' || section === 'calendar' || section === 'requests' || section === 'reviews' || section === 'payouts') && (
-            <div className="card" style={{ padding:24 }}>
-              <div className="card-h">{navItems.find(([v]) => v === section)?.[2]}</div>
-              <p style={{ color:'var(--c-ink-soft)' }}>Sezione in costruzione — disponibile nella prossima versione.</p>
-            </div>
-          )}
+          {section === 'profile'   && <SitterProfilePanel onSave={showToast}/>}
+          {section === 'calendar'  && <SitterCalendarPanel onSave={showToast}/>}
+          {section === 'requests'  && <SitterRequestsPanel/>}
+          {section === 'inbox'     && <InboxPanel/>}
+          {section === 'reviews'   && <SitterReviewsPanel/>}
+          {section === 'payouts'   && <SitterPayoutsPanel/>}
         </div>
       </div>
+      <Toast msg={toastMsg}/>
     </>
   );
 }
