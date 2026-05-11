@@ -2211,10 +2211,12 @@ a { color: inherit; text-decoration: none; }
   .home-hero {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
-    padding: 24px 20px !important;
+    padding: 24px 20px 32px 20px !important;
     aspect-ratio: unset !important;
     min-height: 360px;
+    align-items: end !important;
   }
+  .home-hero-l { padding-left: 0 !important; }
   .home-hero-actions { display: none !important; }
   .home-hero-title { font-size: 56px !important; line-height: 1.0; margin-bottom: 0 !important; }
   .home-hero-r { display: none; }
