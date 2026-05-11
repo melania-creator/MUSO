@@ -2218,6 +2218,8 @@ a { color: inherit; text-decoration: none; }
     aspect-ratio: unset !important;
     min-height: 360px;
   }
+  .home-hero-actions { display: none !important; }
+  .home-hero-title { font-size: 56px !important; line-height: 1.0; margin-bottom: 0 !important; }
   .home-hero-r { display: none; }
   .home-hero-stats { gap: 12px !important; flex-wrap: wrap; }
   .home-hero-stats .hsv { font-size: 22px !important; }
@@ -2300,7 +2302,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 540px) {
   .home-quick { grid-template-columns: 1fr !important; }
-  .home-hero-title { font-size: 34px !important; }
+  .home-hero-title { font-size: 46px !important; }
   .dh-title, .page-head h1 { font-size: 26px !important; }
   .hero-arrow { width: 30px !important; height: 30px !important; }
   .hsv { font-size: 18px !important; }
