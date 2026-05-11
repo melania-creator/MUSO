@@ -45,7 +45,7 @@
   --shadow-md: 0 2px 8px rgba(31, 27, 46, 0.05), 0 12px 32px -12px rgba(31, 27, 46, 0.10);
   --shadow-lg: 0 4px 14px rgba(31, 27, 46, 0.06), 0 28px 48px -16px rgba(31, 27, 46, 0.18);
 
-  --font-display: 'Instrument Serif', 'Times New Roman', serif;
+  --font-display: 'DM Sans', system-ui, sans-serif;
   --font-ui: 'DM Sans', 'General Sans', system-ui, -apple-system, sans-serif;
 
   --grad-hero: linear-gradient(135deg, #FFB59B 0%, #FFC8DA 30%, #C9B8FF 65%, #B8D8FF 100%);
