@@ -2900,3 +2900,112 @@ a { color: inherit; text-decoration: none; }
   border-radius: var(--r-sm); font-size: 15px; margin-top: 8px;
 }
 .donation-custom input:focus { border-color: var(--c-accent); outline: none; }
+
+/* ── SITE FOOTER (desktop) ─────────────────────────────── */
+.site-footer {
+  background: var(--c-surface);
+  border-top: 1px solid var(--c-line);
+  margin-top: 40px;
+}
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 32px 40px;
+}
+.footer-brand { display: flex; flex-direction: column; gap: 12px; }
+.footer-logo  { display: flex; align-items: center; gap: 10px; }
+.footer-logo-name { font-size: 20px; font-weight: 800; letter-spacing: -.02em; color: var(--c-ink); }
+.footer-tagline {
+  font-size: 14px; line-height: 1.6; color: var(--c-ink-soft);
+  margin: 0; max-width: 200px;
+}
+.footer-social { display: flex; gap: 8px; margin-top: 4px; }
+.footer-social-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 10px; border-radius: var(--r-sm);
+  background: var(--c-surface-2); font-size: 16px;
+  text-decoration: none; color: var(--c-ink);
+  transition: background .15s;
+}
+.footer-social-btn:hover { background: var(--c-surface-3, var(--c-line)); }
+
+.footer-col { display: flex; flex-direction: column; gap: 2px; padding-top: 4px; }
+.footer-col-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--c-ink-mute);
+  margin-bottom: 8px;
+}
+.footer-link {
+  background: none; border: none; text-align: left;
+  padding: 5px 0; font-size: 13.5px; color: var(--c-ink-soft);
+  cursor: pointer; transition: color .15s; line-height: 1.4;
+}
+.footer-link:hover { color: var(--c-ink); }
+.footer-link-accent { color: var(--c-accent) !important; font-weight: 500; }
+.footer-link-accent:hover { opacity: .8; }
+
+.footer-bottom {
+  display: flex; align-items: center; gap: 8px;
+  padding: 16px 32px;
+  border-top: 1px solid var(--c-line);
+  font-size: 12px; color: var(--c-ink-mute);
+  max-width: 1200px; margin: 0 auto;
+}
+.footer-bottom-dot { opacity: .4; }
+
+/* ── MOBILE FOOTER ──────────────────────────────────────── */
+.mobile-footer {
+  display: none;
+  border-top: 1px solid var(--c-line);
+  background: var(--c-surface);
+  margin-bottom: 72px; /* above mobile nav */
+}
+.mobile-footer-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 14px 20px;
+  background: none; border: none;
+  font-size: 13.5px; font-weight: 600; color: var(--c-ink-soft);
+  cursor: pointer;
+}
+.mf-chevron { display: flex; align-items: center; transition: transform .2s; }
+.mf-chevron.open { transform: rotate(90deg); }
+.mobile-footer-body { padding: 4px 20px 20px; display: flex; flex-direction: column; gap: 20px; }
+.mf-section-title {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--c-ink-mute); margin-bottom: 8px;
+}
+.mf-links { display: flex; flex-direction: column; gap: 0; }
+.mf-links-row { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+.mf-link {
+  background: none; border: none; text-align: left;
+  padding: 7px 0; font-size: 14px; color: var(--c-ink-soft);
+  cursor: pointer; transition: color .15s;
+}
+.mf-links-row .mf-link {
+  padding: 6px 12px; background: var(--c-surface-2);
+  border-radius: 100px; font-size: 13px;
+}
+.mf-link:hover { color: var(--c-ink); }
+.mf-link-accent { color: var(--c-accent) !important; font-weight: 500; }
+.mf-social { display: flex; gap: 8px; flex-wrap: wrap; }
+.mf-copy { font-size: 11.5px; color: var(--c-ink-mute); padding-top: 4px; }
+
+/* show/hide per breakpoint */
+@media (max-width: 768px) {
+  .site-footer  { display: none; }
+  .mobile-footer { display: block; }
+}
+@media (min-width: 769px) {
+  .mobile-footer { display: none; }
+}
+
+/* responsive footer columns */
+@media (max-width: 1024px) {
+  .footer-inner { grid-template-columns: 1fr 1fr; row-gap: 32px; }
+}
+@media (max-width: 600px) {
+  .footer-inner { grid-template-columns: 1fr; }
+}
