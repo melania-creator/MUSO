@@ -254,7 +254,11 @@ export function MobileNav({ active, setActive, onSos }) {
 
 const CITIES = ['Roma','Milano','Napoli','Torino','Bologna','Firenze','Palermo','Bari','Catania','Venezia'];
 
-export function Topbar({ onSos }) {
+function getInitials(name = '') {
+  return name.trim().split(/\s+/).slice(0, 2).map(w => w[0]?.toUpperCase() || '').join('') || '?';
+}
+
+export function Topbar({ onSos, user, onProfile }) {
   const [searchFocused, setSearchFocused] = useState(false);
   const [city, setCity] = useState('Roma');
   const [cityOpen, setCityOpen] = useState(false);
@@ -316,7 +320,9 @@ export function Topbar({ onSos }) {
       <button className="icon-btn" aria-label="Notifications">
         <Icon name="bell" size={16} />
       </button>
-      <button className="avatar" aria-label="Profile">GM</button>
+      <button className="avatar" aria-label="Profilo utente" onClick={onProfile}>
+        {user ? getInitials(user.name) : <Icon name="sitter" size={16} />}
+      </button>
       <img src={logoSrc} alt="MUSO" className="topbar-mobile-logo" />
     </header>
   );
