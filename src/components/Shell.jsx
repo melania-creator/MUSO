@@ -1,5 +1,6 @@
 import Icon from './Icon';
 import Logo from './Logo';
+import logoSrc from '../assets/LogoMuso.png';
 
 const NAV_ITEMS = [
   { id: 'home',     label: 'Home',           icon: 'home'    },
@@ -127,12 +128,16 @@ const SHELL_STYLE = `
     align-items: center;
     justify-content: center;
   }
+  .topbar-mobile-logo {
+    display: none;
+  }
   @media (max-width: 768px) {
-    .sidebar       { display: none !important; }
-    .main          { margin-left: 0 !important; }
-    .mobile-nav    { display: flex !important; }
-    .content       { padding-bottom: 90px !important; }
-    .topbar        { padding-left: 16px !important; }
+    .sidebar              { display: none !important; }
+    .main                 { margin-left: 0 !important; }
+    .mobile-nav           { display: flex !important; }
+    .content              { padding-bottom: 90px !important; }
+    .topbar               { padding-left: 16px !important; }
+    .topbar-mobile-logo   { display: block; height: 30px; width: auto; object-fit: contain; margin-left: auto; }
   }
   @media (min-width: 769px) {
     .mobile-nav { display: none !important; }
@@ -305,6 +310,7 @@ export function Topbar({ onSos }) {
         )}
       </div>
       <div className="spacer"></div>
+      <img src={logoSrc} alt="MUSO" className="topbar-mobile-logo" />
       <button className="btn btn-sos" onClick={onSos}>
         <Icon name="plus" size={14} /> Segnala SOS
       </button>
