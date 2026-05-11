@@ -8,6 +8,7 @@ import SplashScreen from './components/SplashScreen';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ScreenAuth    from './screens/ScreenAuth';
 import ScreenProfile from './screens/ScreenProfile';
+import Footer from './components/Footer';
 
 import ScreenHome    from './screens/ScreenHome';
 import ScreenSOS     from './screens/ScreenSOS';
@@ -125,6 +126,7 @@ function AppContent() {
         <Topbar onSos={() => setReportOpen(true)} user={user} onProfile={() => go('profile')} />
         <div className="content">
           {body}
+          {!detail && <Footer go={go} onSos={() => setReportOpen(true)} />}
         </div>
       </main>
       <MobileNav active={active} setActive={go} onSos={() => setReportOpen(true)} />
