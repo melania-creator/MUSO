@@ -5,7 +5,7 @@
 
 :root {
   /* default palette: Sunrise */
-  --c-bg: #FBF6EE;
+  --c-bg: #ffffff;
   --c-surface: #FFFFFF;
   --c-surface-2: #F5EFE4;
   --c-ink: #1F1B2E;
@@ -57,7 +57,7 @@
 
 /* ── palette: Bosco ─────────────────────────────────────── */
 [data-palette="bosco"] {
-  --c-bg: #F5F1E6;
+  --c-bg: #ffffff;
   --c-surface: #FFFDF7;
   --c-surface-2: #EDE6D2;
   --c-ink: #25291F;
@@ -83,7 +83,7 @@
 
 /* ── palette: Crepuscolo ────────────────────────────────── */
 [data-palette="crepuscolo"] {
-  --c-bg: #F4EEEC;
+  --c-bg: #ffffff;
   --c-surface: #FDF9F8;
   --c-surface-2: #ECE0DD;
   --c-ink: #2A1F2A;
