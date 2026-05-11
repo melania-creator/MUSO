@@ -119,7 +119,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         ))}
       </section>
 
-      <section style={{ background:'#FF2D1A30', borderRadius:16, padding:'16px', marginTop:4 }}>
+      <section style={{ background:'#FF2D1A30', borderRadius:0, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>SOS <em>vicino a te</em></h3>
@@ -152,7 +152,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <section style={{ background:'#F4A7B930', borderRadius:16, padding:'16px', marginTop:4 }}>
+      <section style={{ background:'#F4A7B930', borderRadius:0, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>Cercano <em>una casa</em>.</h3>
@@ -188,7 +188,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <section style={{ background:'#6DBF8A22', borderRadius:16, padding:'16px', marginTop:4 }}>
+      <section style={{ background:'#6DBF8A22', borderRadius:0, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>I rifugi <em>chiedono aiuto</em>.</h3>
@@ -228,7 +228,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <section style={{ background:'#6BAED630', borderRadius:16, padding:'16px', marginTop:4 }}>
+      <section style={{ background:'#6BAED630', borderRadius:0, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>Pet sitter <em>consigliati</em>.</h3>
@@ -262,7 +262,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <section style={{ background:'#F5C84230', borderRadius:16, padding:'16px', marginTop:4 }}>
+      <section style={{ background:'#F5C84230', borderRadius:0, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>Dalle <em>vetrine</em> di MUSO.</h3>
