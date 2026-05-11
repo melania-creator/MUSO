@@ -126,7 +126,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           { id:'shop',   logo: logoVetrina,         title:'Vetrine',          desc:'Negozi e brand pet',      acc:'qa-shop',   onClick: () => go('shop'),   bg:'#F5C842', fg:'#3B2E00' },
         ].map(q => (
           <button key={q.id} className={"qa " + q.acc} onClick={q.onClick}
-                  style={{ background: q.bg, color: q.fg, borderColor: 'transparent' }}>
+                  style={{ backgroundColor: q.bg, color: q.fg, borderColor: 'transparent' }}>
             <span className="qa-icn">
               <img src={q.logo} alt={q.title} style={{ width:32, height:32, objectFit:'contain' }}/>
             </span>
