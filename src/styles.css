@@ -1179,7 +1179,7 @@ a { color: inherit; text-decoration: none; }
 .home-hero-title em {
   color: #D4318A;
   font-style: italic;
-  -webkit-text-stroke: 2px #fff;
+  -webkit-text-stroke: 2px #8B1558;
   paint-order: stroke fill;
 }
 .hero-arrow {
