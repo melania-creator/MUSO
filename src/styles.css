@@ -1171,10 +1171,10 @@ a { color: inherit; text-decoration: none; }
 .home-hero-title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 84px;
+  font-size: 100px;
   line-height: 0.95;
   letter-spacing: -0.025em;
-  margin: 0 0 22px;
+  margin: 0;
 }
 .home-hero-title em {
   color: #D4318A;
@@ -1201,10 +1201,7 @@ a { color: inherit; text-decoration: none; }
   margin: 0 0 24px;
 }
 .home-hero-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 32px;
+  display: none;
 }
 .home-hero-actions .btn {
   padding: 13px 20px;
@@ -2218,6 +2215,8 @@ a { color: inherit; text-decoration: none; }
     aspect-ratio: unset !important;
     min-height: 360px;
   }
+  .home-hero-actions { display: none !important; }
+  .home-hero-title { font-size: 56px !important; line-height: 1.0; margin-bottom: 0 !important; }
   .home-hero-r { display: none; }
   .home-hero-stats { gap: 12px !important; flex-wrap: wrap; }
   .home-hero-stats .hsv { font-size: 22px !important; }
@@ -2300,7 +2299,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 540px) {
   .home-quick { grid-template-columns: 1fr !important; }
-  .home-hero-title { font-size: 34px !important; }
+  .home-hero-title { font-size: 46px !important; }
   .dh-title, .page-head h1 { font-size: 26px !important; }
   .hero-arrow { width: 30px !important; height: 30px !important; }
   .hsv { font-size: 18px !important; }
