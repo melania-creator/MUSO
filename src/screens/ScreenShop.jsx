@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Icon from '../components/Icon';
 import { STORES, SHOP_LEVELS, SHOP_BADGES } from '../constants';
+import Toast, { useToast } from '../components/Toast';
 
 export function XPBar({ xp, level, compact }) {
   const cur  = SHOP_LEVELS[level - 1];
@@ -21,21 +22,22 @@ export function XPBar({ xp, level, compact }) {
 }
 
 export function ShopMissions() {
+  const [toastMsg, showToast] = useToast();
   const missions = [
-    { i:'🎁', cat:'GRATIS',    t:'Dona 10 sacchi a un rifugio',        d:'Scegli un rifugio partner e regala il tuo prodotto.',        xp:200, prog:0,  cls:'mn-mint' },
-    { i:'⚡', cat:'GRATIS',    t:'Rispondi a 20 messaggi in < 1h',     d:'Sblocca il badge Risposta lampo.',                           xp:100, prog:0,  cls:'mn-mint' },
-    { i:'🐾', cat:'GRATIS',    t:'Ospita una giornata adozione',        d:'Coordinati con un rifugio della tua zona.',                  xp:300, prog:0,  cls:'mn-mint' },
-    { i:'⭐', cat:'GRATIS',    t:'Raccogli 50 recensioni',              d:"Invita i clienti dopo l'acquisto.",                          xp:150, prog:0,  cls:'mn-mint' },
-    { i:'🎮', cat:'MINI-GAME', t:'Pet Quiz settimanale',                d:'Crea 5 domande sul pet care, ricevi visualizzazioni.',       xp:80,  prog:0,  cls:'mn-sky', cost:'€0,99' },
-    { i:'🎰', cat:'MINI-GAME', t:'Spin della fortuna',                   d:'1 spin al giorno per XP e boost casuali.',                   xp:50,  prog:0,  cls:'mn-sky', cost:'€0,49' },
-    { i:'🧩', cat:'MINI-GAME', t:'Sfida giornaliera',                   d:'Indovina il pet del giorno tra i tuoi clienti.',             xp:30,  prog:0,  cls:'mn-sky', cost:'€0,29' },
-    { i:'💎', cat:'PREMIUM',   t:'Sponsor un SOS',                      d:'Associa il brand a un soccorso reale.',                      xp:500, prog:0,  cls:'mn-lav', cost:'€9,99' },
+    { i:'🎁', cat:'GRATIS',    t:'Dona 10 sacchi a un rifugio',        d:'Scegli un rifugio partner e regala il tuo prodotto.',        xp:200, cls:'mn-mint' },
+    { i:'⚡', cat:'GRATIS',    t:'Rispondi a 20 messaggi in < 1h',     d:'Sblocca il badge Risposta lampo.',                           xp:100, cls:'mn-mint' },
+    { i:'🐾', cat:'GRATIS',    t:'Ospita una giornata adozione',        d:'Coordinati con un rifugio della tua zona.',                  xp:300, cls:'mn-mint' },
+    { i:'⭐', cat:'GRATIS',    t:'Raccogli 50 recensioni',              d:"Invita i clienti dopo l'acquisto.",                          xp:150, cls:'mn-mint' },
+    { i:'🎮', cat:'MINI-GAME', t:'Pet Quiz settimanale',                d:'Crea 5 domande sul pet care, ricevi visualizzazioni.',       xp:80,  cls:'mn-sky', cost:'€0,99' },
+    { i:'🎰', cat:'MINI-GAME', t:'Spin della fortuna',                   d:'1 spin al giorno per XP e boost casuali.',                   xp:50,  cls:'mn-sky', cost:'€0,49' },
+    { i:'🧩', cat:'MINI-GAME', t:'Sfida giornaliera',                   d:'Indovina il pet del giorno tra i tuoi clienti.',             xp:30,  cls:'mn-sky', cost:'€0,29' },
+    { i:'💎', cat:'PREMIUM',   t:'Sponsor un SOS',                      d:'Associa il brand a un soccorso reale.',                      xp:500, cls:'mn-lav', cost:'€9,99' },
   ];
   return (
     <>
       <div className="missions-banner">
         <div>
-          <h3 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:28 }}>Cresci anche <em>senza pagare</em>.</h3>
+          <h3 style={{ margin:0, fontSize:28 }}>Cresci anche <em>senza pagare</em>.</h3>
           <p style={{ margin:'6px 0 0', color:'var(--c-ink-soft)' }}>Le missioni gratuite ti fanno guadagnare XP, badge e visibilità.</p>
         </div>
       </div>
@@ -51,12 +53,17 @@ export function ShopMissions() {
               <span className="mn-xp">+{m.xp} XP</span>
             </div>
             <p>{m.d}</p>
-            <button className={"btn " + (m.cost ? '' : 'btn-primary')} style={{ width:'100%', justifyContent:'center', marginTop:10 }}>
+            <button className={"btn " + (m.cost ? '' : 'btn-primary')}
+              style={{ width:'100%', justifyContent:'center', marginTop:10 }}
+              onClick={() => showToast(m.cost
+                ? `🔒 Sblocca "${m.t}" per ${m.cost} — disponibile dalla prossima versione`
+                : `🚀 Missione avviata: ${m.t}`)}>
               {m.cost ? <>Sblocca · {m.cost}</> : <>Inizia <Icon name="arrow-right" size={14}/></>}
             </button>
           </div>
         ))}
       </div>
+      <Toast msg={toastMsg}/>
     </>
   );
 }
@@ -76,7 +83,7 @@ function Leaderboard() {
     <div className="card" style={{ padding:0, overflow:'hidden' }}>
       <div className="lb-head">
         <div>
-          <h3 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:28 }}><em>Classifica mensile</em></h3>
+          <h3 style={{ margin:0, fontSize:28 }}><em>Classifica mensile</em></h3>
           <div style={{ fontSize:13, color:'var(--c-ink-soft)' }}>Top 3 vincono visibilità extra in home la settimana successiva.</div>
         </div>
         <select className="sort"><option>Tutta Italia</option><option>La mia zona</option></select>
@@ -94,7 +101,7 @@ function Leaderboard() {
               <div className="meta">{s.cat} · {s.reviews} recensioni · 🔥 {s.streak}gg</div>
             </div>
             <div style={{ textAlign:'right' }}>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:22 }}>{s.xp.toLocaleString('it-IT')}</div>
+              <div style={{ fontSize:22 }}>{s.xp.toLocaleString('it-IT')}</div>
               <div className="meta">XP</div>
             </div>
           </div>
@@ -104,8 +111,22 @@ function Leaderboard() {
   );
 }
 
-export default function ScreenShop({ goJoin }) {
-  const [tab, setTab] = useState('explore');
+const SHOP_CATS = ['Tutti', 'Pet shop', 'Toelettatura', 'Veterinari', 'Brand'];
+
+export default function ScreenShop({ goJoin, openDetail }) {
+  const [tab,    setTab]    = useState('explore');
+  const [cat,    setCat]    = useState('Tutti');
+  const [topLv,  setTopLv]  = useState(false);
+  const [eco,    setEco]    = useState(false);
+  const [nearby, setNearby] = useState(false);
+  const [toastMsg, showToast] = useToast();
+
+  const visible = STORES.filter(s =>
+    (cat === 'Tutti' || s.cat === cat) &&
+    (!topLv  || s.level >= 4) &&
+    (!eco    || s.eco) &&
+    (!nearby || s.nearby)
+  );
 
   return (
     <>
@@ -116,7 +137,9 @@ export default function ScreenShop({ goJoin }) {
         </div>
         <div className="ph-actions">
           <button className="btn" onClick={() => goJoin && goJoin('shop')}>Apri la tua vetrina <Icon name="arrow-up-right" size={14}/></button>
-          <button className="btn btn-primary"><Icon name="trophy" size={14}/> Classifica</button>
+          <button className="btn btn-primary" onClick={() => setTab('leaderboard')}>
+            <Icon name="trophy" size={14}/> Classifica
+          </button>
         </div>
       </div>
 
@@ -129,17 +152,17 @@ export default function ScreenShop({ goJoin }) {
       {tab === 'explore' && (
         <>
           <div className="filter-bar">
-            <button className="chip active">Tutti</button>
-            <button className="chip">Pet shop</button>
-            <button className="chip">Toelettatura</button>
-            <button className="chip">Veterinari</button>
-            <button className="chip">Brand</button>
+            {SHOP_CATS.map(c => (
+              <button key={c} className={'chip ' + (cat === c ? 'active' : '')} onClick={() => setCat(c)}>{c}</button>
+            ))}
             <span className="filter-divider"></span>
-            <button className="chip">⭐ Top livello</button>
-            <button className="chip">🌿 Eco-friendly</button>
-            <button className="chip"><Icon name="pin" size={12}/> Vicino a me</button>
+            <button className={'chip ' + (topLv  ? 'active' : '')} onClick={() => setTopLv(v => !v)}>⭐ Top livello</button>
+            <button className={'chip ' + (eco    ? 'active' : '')} onClick={() => setEco(v => !v)}>🌿 Eco-friendly</button>
+            <button className={'chip ' + (nearby ? 'active' : '')} onClick={() => { setNearby(v => !v); if (!nearby) showToast('📍 Filtro per posizione attivato'); }}>
+              <Icon name="pin" size={12}/> Vicino a me
+            </button>
           </div>
-          {STORES.length === 0 ? (
+          {visible.length === 0 ? (
             <div className="empty-state" style={{ marginTop:40 }}>
               <div className="es-emoji">🏪</div>
               <h3>Nessuna vetrina ancora</h3>
@@ -150,7 +173,7 @@ export default function ScreenShop({ goJoin }) {
             </div>
           ) : (
             <div className="grid-3">
-              {STORES.map((s, i) => (
+              {visible.map((s, i) => (
                 <div key={i} className="store-game-card">
                   <div className="store-banner" style={{ background:s.banner, height:96, position:'relative' }}>
                     <span className="lv-chip" style={{ background: SHOP_LEVELS[s.level-1].color }}>Lv.{s.level} · {SHOP_LEVELS[s.level-1].name}</span>
@@ -168,7 +191,10 @@ export default function ScreenShop({ goJoin }) {
                     <XPBar xp={s.xp} level={s.level} compact/>
                     <div className="store-foot">
                       <span className="promo">{s.promo}</span>
-                      <button className="btn" style={{ padding:'6px 12px' }}>Apri <Icon name="arrow-right" size={12}/></button>
+                      <button className="btn" style={{ padding:'6px 12px' }}
+                        onClick={() => openDetail && openDetail({ type:'shopOwner' })}>
+                        Apri <Icon name="arrow-right" size={12}/>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -179,6 +205,7 @@ export default function ScreenShop({ goJoin }) {
       )}
       {tab === 'leaderboard' && <Leaderboard/>}
       {tab === 'missions'    && <ShopMissions/>}
+      <Toast msg={toastMsg}/>
     </>
   );
 }
