@@ -120,7 +120,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         ))}
       </section>
 
-      <section style={{ background:'#FF5C4D22', borderRadius:16, padding:'16px', marginTop:4 }}>
+      <section style={{ background:'#FF2D1A30', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>SOS <em>vicino a te</em></h3>
