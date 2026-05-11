@@ -140,8 +140,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
       </section>
 
       <Divider color="#FF5C4D" label="SOS vicino a te" icon="🐾"/>
-
-      <section>
+      <section style={{ background:'#FF5C4D0F', borderRadius:22, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>SOS <em>vicino a te</em></h3>
@@ -175,8 +174,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
       </section>
 
       <Divider color="#F4A7B9" label="Adozioni" icon="🐾"/>
-
-      <section>
+      <section style={{ background:'#F4A7B914', borderRadius:22, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>Cercano <em>una casa</em>.</h3>
@@ -213,8 +211,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
       </section>
 
       <Divider color="#6DBF8A" label="Rifugi & Aiuti" icon="🏠"/>
-
-      <section>
+      <section style={{ background:'#6DBF8A0F', borderRadius:22, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>I rifugi <em>chiedono aiuto</em>.</h3>
@@ -255,8 +252,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
       </section>
 
       <Divider color="#6BAED6" label="Pet Sitter" icon="🌿"/>
-
-      <section>
+      <section style={{ background:'#6BAED60F', borderRadius:22, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>Pet sitter <em>consigliati</em>.</h3>
@@ -291,8 +287,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
       </section>
 
       <Divider color="#F5C842" label="Vetrine" icon="🏪"/>
-
-      <section>
+      <section style={{ background:'#F5C84214', borderRadius:22, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>Dalle <em>vetrine</em> di MUSO.</h3>
