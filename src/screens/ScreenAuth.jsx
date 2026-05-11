@@ -84,7 +84,7 @@ export default function ScreenAuth() {
           {/* Logo */}
           <div className="auth-brand">
             <img src={logoSrc} alt="MUSO" className="auth-logo" />
-            <span className="auth-brand-name">MU<em>SO</em></span>
+            <span className="auth-brand-name">MUSO</span>
           </div>
 
           {/* Tabs */}

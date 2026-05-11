@@ -46,7 +46,7 @@
   --shadow-lg: 0 4px 14px rgba(31, 27, 46, 0.06), 0 28px 48px -16px rgba(31, 27, 46, 0.18);
 
   --font-display: 'Instrument Serif', 'Times New Roman', serif;
-  --font-ui: 'General Sans', 'Geist', system-ui, -apple-system, sans-serif;
+  --font-ui: 'DM Sans', 'General Sans', system-ui, -apple-system, sans-serif;
 
   --grad-hero: linear-gradient(135deg, #FFB59B 0%, #FFC8DA 30%, #C9B8FF 65%, #B8D8FF 100%);
   --grad-aux: linear-gradient(135deg, #B8E5D2 0%, #FFE39A 100%);
@@ -1170,8 +1170,8 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 0 0 4px rgba(212,49,138,0.18);
 }
 .home-hero-title {
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-family: var(--font-ui);
+  font-weight: 700;
   font-size: 76px;
   line-height: 0.95;
   letter-spacing: -0.025em;
@@ -1179,7 +1179,7 @@ a { color: inherit; text-decoration: none; }
 }
 .home-hero-title em {
   color: #D4318A;
-  font-style: italic;
+  font-style: normal;
   -webkit-text-stroke: 2px #8B1558;
   paint-order: stroke fill;
 }

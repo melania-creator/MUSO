@@ -143,7 +143,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         ))}
       </section>
 
-      <Divider color="#FF5C4D" label="SOS vicino a te" icon="🐾"/>
       <section style={{ background:'#FF5C4D0F', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
@@ -177,7 +176,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <Divider color="#F4A7B9" label="Adozioni" icon="🐾"/>
       <section style={{ background:'#F4A7B914', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
@@ -214,7 +212,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <Divider color="#6DBF8A" label="Rifugi & Aiuti" icon="🏠"/>
       <section style={{ background:'#6DBF8A0F', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
@@ -255,7 +252,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <Divider color="#6BAED6" label="Pet Sitter" icon="🌿"/>
       <section style={{ background:'#6BAED60F', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
@@ -290,7 +286,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <Divider color="#F5C842" label="Vetrine" icon="🏪"/>
       <section style={{ background:'#F5C84214', borderRadius:16, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
