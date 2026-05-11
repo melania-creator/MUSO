@@ -6,10 +6,9 @@ import logoAiutaRifugio from '../assets/logoAiutaRifugio.png';
 import logoPetsitter from '../assets/logoPetsitter.png';
 import logoVetrina from '../assets/logoVetrina.png';
 
-function EmptySection({ emoji, text }) {
+function EmptySection({ text }) {
   return (
     <div style={{ padding:'28px 0', textAlign:'center', color:'var(--c-ink-mute)', fontSize:14 }}>
-      <div style={{ fontSize:28, marginBottom:8 }}>{emoji}</div>
       {text}
     </div>
   );
