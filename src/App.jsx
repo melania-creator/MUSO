@@ -36,6 +36,11 @@ function AppContent() {
   const [reportOpen, setReportOpen] = useState(false);
   const [detail, setDetail] = useState(null);
   const [sosReports, setSosReports] = useState([]);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const [showSplash, setShowSplash] = useState(isMobile);
+  const [showOnboarding, setShowOnboarding] = useState(() => {
+    try { return !localStorage.getItem('muso_onboarded'); } catch { return false; }
+  });
 
   if (!user) return <ScreenAuth />;
 
@@ -43,11 +48,6 @@ function AppContent() {
     setSosReports(prev => [report, ...prev]);
     setActive('sos');
   };
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
-  const [showSplash, setShowSplash] = useState(isMobile);
-  const [showOnboarding, setShowOnboarding] = useState(() => {
-    try { return !localStorage.getItem('muso_onboarded'); } catch { return false; }
-  });
 
   const handleOnboardingDone = () => {
     try { localStorage.setItem('muso_onboarded', '1'); } catch {}
