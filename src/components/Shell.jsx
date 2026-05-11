@@ -142,6 +142,35 @@ const SHELL_STYLE = `
   @media (min-width: 769px) {
     .mobile-nav { display: none !important; }
   }
+
+  /* ── Landscape mobile: nav compatta ── */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .mobile-nav {
+      display: flex !important;
+      padding: 2px env(safe-area-inset-right, 0px) max(2px, env(safe-area-inset-bottom)) env(safe-area-inset-left, 0px);
+      height: 52px;
+    }
+    .mobile-nav-item {
+      flex-direction: row;
+      gap: 5px;
+      font-size: 11px;
+      padding: 4px 6px;
+    }
+    .mobile-nav-item svg, .mobile-nav-item .icn {
+      width: 16px !important; height: 16px !important;
+    }
+    .mobile-nav-sos {
+      top: 0;
+      flex-direction: row;
+      gap: 6px;
+    }
+    .mobile-nav-sos-circle {
+      width: 34px; height: 34px;
+    }
+    .mobile-nav-sos-label { display: none; }
+    .content { padding-bottom: 60px !important; }
+    .mobile-footer { margin-bottom: 56px; }
+  }
 `;
 
 import { useState } from 'react';

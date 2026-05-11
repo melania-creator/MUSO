@@ -1,19 +1,60 @@
 {
   "name": "MUSO — La rete che salva gli animali",
   "short_name": "MUSO",
-  "description": "Adotta, segnala animali in difficoltà, trova pet sitter e rifugi vicino a te.",
+  "description": "Adotta, segnala animali in difficoltà, trova pet sitter e rifugi vicino a te. La community italiana per chi ama gli animali.",
   "start_url": "/MUSO/",
   "scope": "/MUSO/",
   "display": "standalone",
-  "orientation": "portrait",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "portrait-primary",
   "background_color": "#FBF6EE",
   "theme_color": "#D4318A",
+  "lang": "it",
+  "dir": "ltr",
+  "categories": ["lifestyle", "social", "utilities"],
   "icons": [
+    {
+      "src": "/MUSO/apple-touch-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/MUSO/apple-touch-icon.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/MUSO/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Segnala SOS",
+      "short_name": "SOS",
+      "description": "Segnala subito un animale in difficoltà",
+      "url": "/MUSO/?action=sos",
+      "icons": [{ "src": "/MUSO/apple-touch-icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Adotta",
+      "short_name": "Adotta",
+      "description": "Trova un animale da adottare",
+      "url": "/MUSO/?screen=adopt",
+      "icons": [{ "src": "/MUSO/apple-touch-icon.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/MUSO/og-image.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "MUSO — Home"
     }
   ]
 }
