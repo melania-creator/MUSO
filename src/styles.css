@@ -351,7 +351,7 @@ a { color: inherit; text-decoration: none; }
   margin: 0;
   max-width: 720px;
 }
-.page-head h1 em { color: var(--c-peach-deep); font-style: normal; }
+.page-head h1 em { color: var(--c-accent); font-style: normal; }
 .page-head .sub {
   color: var(--c-ink-soft);
   font-size: 14.5px;
@@ -1135,7 +1135,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: .05em;
   margin: 0;
 }
-.sec-title h3 em { color: var(--c-peach-deep); font-style: normal; }
+.sec-title h3 em { color: var(--c-accent); font-style: normal; }
 .sec-title .sub { color: var(--c-ink-soft); font-size: 13px; margin-top: 2px; }
 .sec-title .right { font-size: 12.5px; color: var(--c-ink-soft); display: inline-flex; align-items: center; gap: 4px; }
 .sec-title .right:hover { color: var(--c-ink); }
@@ -1394,7 +1394,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -0.02em;
   margin: 0 0 36px;
 }
-.mission-title em { color: var(--c-peach-deep); font-style: normal; }
+.mission-title em { color: var(--c-accent); font-style: normal; }
 .mission-steps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1832,7 +1832,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -0.02em;
   margin: 0;
 }
-.dh-title em { font-style: normal; color: var(--c-peach-deep); }
+.dh-title em { font-style: normal; color: var(--c-accent); }
 .dh-sub { color: var(--c-ink-soft); font-size: 15px; max-width: 640px; line-height: 1.5; }
 .dh-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .dh-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding-bottom: 12px; }
