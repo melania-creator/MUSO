@@ -14,19 +14,19 @@
   "categories": ["lifestyle", "social", "utilities"],
   "icons": [
     {
-      "src": "/MUSO/apple-touch-icon.png",
+      "src": "/MUSO/apple-touch-icon-v2.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/MUSO/apple-touch-icon.png",
+      "src": "/MUSO/apple-touch-icon-v2.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/MUSO/apple-touch-icon.png",
+      "src": "/MUSO/apple-touch-icon-v2.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -38,14 +38,14 @@
       "short_name": "SOS",
       "description": "Segnala subito un animale in difficoltà",
       "url": "/MUSO/?action=sos",
-      "icons": [{ "src": "/MUSO/apple-touch-icon.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/MUSO/apple-touch-icon-v2.png", "sizes": "192x192" }]
     },
     {
       "name": "Adotta",
       "short_name": "Adotta",
       "description": "Trova un animale da adottare",
       "url": "/MUSO/?screen=adopt",
-      "icons": [{ "src": "/MUSO/apple-touch-icon.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/MUSO/apple-touch-icon-v2.png", "sizes": "192x192" }]
     }
   ],
   "screenshots": [
