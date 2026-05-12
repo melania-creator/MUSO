@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import Icon from '../components/Icon';
-import logoSrc from '../assets/logoTEST.png';
+import logoSrc from '../assets/logoTEST2.png';
 import sfondoBg from '../assets/sfondoHOME.png';
 
 const CITIES = ['Roma','Milano','Napoli','Torino','Bologna','Firenze','Palermo','Bari','Catania','Venezia'];

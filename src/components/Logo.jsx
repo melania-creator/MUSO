@@ -1,4 +1,4 @@
-import logoSrc from '../assets/logoTEST.png';
+import logoSrc from '../assets/logoTEST2.png';
 
 export default function Logo() {
   return (
