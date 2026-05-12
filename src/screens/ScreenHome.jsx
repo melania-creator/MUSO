@@ -130,7 +130,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           </a>
         </div>
         {sosList.length === 0
-          ? <EmptySection emoji="🗺️" text="Nessun SOS attivo al momento — ottima notizia." />
+          ? <EmptySection text="Nessun SOS attivo al momento — ottima notizia." />
           : (
             <div className="grid-3" style={{ marginTop:14 }}>
               {sosList.map((f, i) => (
@@ -163,7 +163,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           </a>
         </div>
         {petsList.length === 0
-          ? <EmptySection emoji="🐾" text="Nessun animale disponibile al momento — i rifugi stanno arrivando." />
+          ? <EmptySection text="Nessun animale disponibile al momento — i rifugi stanno arrivando." />
           : (
             <div className="grid-4" style={{ marginTop:14 }}>
               {petsList.map((p, i) => (
@@ -192,12 +192,12 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         <div className="sec-title">
           <div>
             <h3>I rifugi <em>chiedono aiuto</em>.</h3>
-            <div className="sub">Un sacco di crocchette, una coperta, un’ora del tuo tempo. Tutto conta.</div>
+            <div className="sub">Un sacco di crocchette, una coperta, un'ora del tuo tempo. Tutto conta.</div>
           </div>
           <a href="#" className="right" onClick={e => { e.preventDefault(); go('rifugi'); }}>Tutte <Icon name="arrow-right" size={12}/></a>
         </div>
         {needsList.length === 0
-          ? <EmptySection emoji="🏠" text="Nessuna richiesta attiva — i rifugi si stanno registrando." />
+          ? <EmptySection text="Nessuna richiesta attiva — i rifugi si stanno registrando." />
           : (
             <div className="grid-3" style={{ marginTop:14 }}>
               {needsList.map((n, i) => {
@@ -237,7 +237,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           <a href="#" className="right" onClick={e => { e.preventDefault(); go('sitter'); }}>Tutti <Icon name="arrow-right" size={12}/></a>
         </div>
         {sitterList.length === 0
-          ? <EmptySection emoji="🌿" text="Nessun sitter ancora — i primi si stanno iscrivendo." />
+          ? <EmptySection text="Nessun sitter ancora — i primi si stanno iscrivendo." />
           : (
             <div className="grid-3" style={{ marginTop:14 }}>
               {sitterList.map((s, i) => (
@@ -271,7 +271,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           <a href="#" className="right" onClick={e => { e.preventDefault(); go('shop'); }}>Tutte le vetrine <Icon name="arrow-right" size={12}/></a>
         </div>
         {storeList.length === 0
-          ? <EmptySection emoji="🏪" text="Nessuna vetrina ancora — i partner stanno arrivando." />
+          ? <EmptySection text="Nessuna vetrina ancora — i partner stanno arrivando." />
           : (
             <div className="grid-3" style={{ marginTop:14 }}>
               {storeList.map((s, i) => (
