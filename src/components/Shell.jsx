@@ -136,17 +136,8 @@ const SHELL_STYLE = `
     .main                 { margin-left: 0 !important; }
     .mobile-nav           { display: flex !important; }
     .content              { padding-bottom: 90px !important; }
-    .topbar               { padding-left: 16px !important; position: relative !important; }
-    .topbar-mobile-logo   {
-      display: block !important;
-      height: 28px;
-      width: auto;
-      object-fit: contain;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      pointer-events: none;
-    }
+    .topbar               { padding-left: 16px !important; }
+    .topbar-mobile-logo   { display: block !important; height: 30px; width: auto; object-fit: contain; margin-left: auto; }
   }
   @media (min-width: 769px) {
     .mobile-nav { display: none !important; }
