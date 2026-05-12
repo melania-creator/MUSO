@@ -183,7 +183,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <section style={{ background:'#6DBF8A22', borderRadius:0, padding:'16px', marginTop:4 }}>
+      <section style={{ background:'#C2185B18', borderRadius:0, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>I rifugi <em>chiedono aiuto</em>.</h3>
@@ -223,7 +223,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <section style={{ background:'#6BAED630', borderRadius:0, padding:'16px', marginTop:4 }}>
+      <section style={{ background:'#E91E8C18', borderRadius:0, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>Pet sitter <em>consigliati</em>.</h3>
@@ -257,7 +257,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
         }
       </section>
 
-      <section style={{ background:'#F5C84230', borderRadius:0, padding:'16px', marginTop:4 }}>
+      <section style={{ background:'#E07A9520', borderRadius:0, padding:'16px', marginTop:4 }}>
         <div className="sec-title">
           <div>
             <h3>Dalle <em>vetrine</em> di MUSO.</h3>
