@@ -136,8 +136,17 @@ const SHELL_STYLE = `
     .main                 { margin-left: 0 !important; }
     .mobile-nav           { display: flex !important; }
     .content              { padding-bottom: 90px !important; }
-    .topbar               { padding-left: 16px !important; }
-    .topbar-mobile-logo   { display: block !important; height: 30px; width: auto; object-fit: contain; margin-left: auto; }
+    .topbar               { padding-left: 16px !important; position: relative !important; }
+    .topbar-mobile-logo   {
+      display: block !important;
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
   }
   @media (min-width: 769px) {
     .mobile-nav { display: none !important; }
@@ -346,13 +355,13 @@ export function Topbar({ onSos, user, onProfile }) {
       <button className="btn btn-sos" onClick={onSos}>
         <Icon name="plus" size={14} /> Segnala SOS
       </button>
-      <button className="icon-btn" aria-label="Notifications">
+      <img src={logoSrc} alt="MUSO" className="topbar-mobile-logo" />
+      <button className="icon-btn" aria-label="Notifiche">
         <Icon name="bell" size={16} />
       </button>
       <button className="avatar" aria-label="Profilo utente" onClick={onProfile}>
         {user ? getInitials(user.name) : <Icon name="sitter" size={16} />}
       </button>
-      <img src={logoSrc} alt="MUSO" className="topbar-mobile-logo" />
     </header>
   );
 }
