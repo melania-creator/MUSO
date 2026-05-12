@@ -1,4 +1,4 @@
-const CACHE = 'muso-v1';
+const CACHE = 'muso-v2';
 const ASSETS = [
   '/MUSO/',
   '/MUSO/index.html',
