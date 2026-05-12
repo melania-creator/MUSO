@@ -98,7 +98,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           { id:'adopt',  logo: logoAdotta,         title:'Adotta',           desc:'Da rifugi verificati',    acc:'qa-adopt',  onClick: () => go('adopt'),  bg:'#F4A7B9', fg:'#fff' },
           { id:'rifugi', logo: logoAiutaRifugio,   title:'Aiuta un rifugio', desc:'Cibo, cucce, medicine',   acc:'qa-rifugi', onClick: () => go('rifugi'), bg:'#C2185B', fg:'#fff' },
           { id:'sitter', logo: logoPetsitter,       title:'Pet sitter',       desc:'Verificati e assicurati', acc:'qa-sitter', onClick: () => go('sitter'), bg:'#E91E8C', fg:'#fff' },
-          { id:'shop',   logo: logoVetrina,         title:'Vetrine',          desc:'Negozi e brand pet',      acc:'qa-shop',   onClick: () => go('shop'),   bg:'#FCE4EC', fg:'#C2185B' },
+          { id:'shop',   logo: logoVetrina,         title:'Vetrine',          desc:'Negozi e brand pet',      acc:'qa-shop',   onClick: () => go('shop'),   bg:'#E07A95', fg:'#fff' },
         ].map(q => (
           <button key={q.id} className={"qa " + q.acc} onClick={q.onClick}
                   style={{ backgroundColor: q.bg, color: q.fg, borderColor: 'transparent' }}>
