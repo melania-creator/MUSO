@@ -108,7 +108,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           <button key={q.id} className={"qa " + q.acc} onClick={q.onClick}
                   style={{ backgroundColor: q.bg, color: q.fg, borderColor: 'transparent' }}>
             <span className="qa-icn">
-              <img src={q.logo} alt={q.title} style={{ width:32, height:32, objectFit:'contain' }}/>
+              <img src={q.logo} alt={q.title} style={{ width:48, height:48, objectFit:'contain' }}/>
             </span>
             <span className="qa-text">
               <span className="qa-title" style={{ color: q.fg, textTransform:'uppercase', fontSize:15, fontWeight:700, letterSpacing:'.04em' }}>{q.title}</span>

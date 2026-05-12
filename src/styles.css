@@ -1337,20 +1337,13 @@ a { color: inherit; text-decoration: none; }
     0 10px 28px rgba(0,0,0,0.10);
 }
 .qa-icn {
-  width: 40px; height: 40px;
-  border-radius: var(--r-sm);
+  width: 52px; height: 52px;
   display: grid; place-items: center;
   flex-shrink: 0;
 }
 .qa-text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
 .qa-title { font-weight: 600; font-size: 14px; }
 .qa-desc  { font-size: 11.5px; color: var(--c-ink-mute); }
-
-.qa-sos    .qa-icn { background: var(--c-sos);    color: white; }
-.qa-adopt  .qa-icn { background: var(--c-peach);  color: #5e2d1c; }
-.qa-rifugi .qa-icn { background: var(--c-mint);   color: #1f4f3c; }
-.qa-sitter .qa-icn { background: var(--c-sky);    color: #1e3d6e; }
-.qa-shop   .qa-icn { background: var(--c-butter); color: #5e4513; }
 
 /* sos strip */
 .sos-strip-card {
