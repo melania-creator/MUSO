@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Icon from './Icon';
-import logoSrc from '../assets/logoTEST.png';
+import logoSrc from '../assets/logoTEST2.png';
 import LegalModal from './LegalModal';
 import Toast, { useToast } from './Toast';
 

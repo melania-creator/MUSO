@@ -1,6 +1,6 @@
 import Icon from './Icon';
 import Logo from './Logo';
-import logoSrc from '../assets/logoTEST.png';
+import logoSrc from '../assets/logoTEST2.png';
 
 const NAV_ITEMS = [
   { id: 'home',     label: 'Home',           icon: 'home'    },
