@@ -35,9 +35,6 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
           borderRadius: 'inherit',
         }}/>
         <div className="home-hero-l" style={{ position:'relative', zIndex:1, paddingLeft:'2.5rem' }}>
-          <div className="hero-eyebrow" style={{ color:'#D4318A' }}>
-            <span className="dot live-dot"></span> <span style={{ fontWeight:700 }}>Attiva ora</span>
-          </div>
           <h1 className="home-hero-title" style={{ color:'#fff', textShadow:'0 2px 16px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5)' }}>
             La rete di persone<br/>
             che <em>salva</em> gli animali
