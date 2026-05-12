@@ -15,7 +15,11 @@ function EmptySection({ text }) {
 }
 
 export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
-  const sosList = [];
+  const sosList = [
+    { id:'s1', emoji:'🐕', tone:'t-peach',  tagCls:'tag-sos',    tag:'Urgente',   title:'Cane ferito abbandonato vicino al parco', meta:'Via Roma · 10 min fa' },
+    { id:'s2', emoji:'🐈', tone:'t-sky',    tagCls:'tag-mute',   tag:'In attesa', title:'Gatto intrappolato sotto una macchina',    meta:'Corso Italia · 28 min fa' },
+    { id:'s3', emoji:'🐦', tone:'t-butter', tagCls:'tag-mute',   tag:'In attesa', title:'Piccolo volatile con ala ferita',          meta:'Piazza Garibaldi · 1 ora fa' },
+  ];
   const petsList  = [];
   const needsList = [];
   const sitterList = [];
@@ -248,7 +252,7 @@ export default function ScreenHome({ go, onSos, goJoin, openDetail }) {
                     <div style={{ fontSize:12, color:'var(--c-ink-mute)', marginTop:2 }}>{s.city} · {s.jobs} servizi</div>
                     <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginTop:8 }}>
                       <span className="tag tag-mute">{s.tag}</span>
-                      <span style={{ fontFamily:'var(--font-display)', fontSize:18 }}>€{s.rate}<small style={{ fontSize:11, color:'var(--c-ink-mute)' }}> / notte</small></span>
+                      <span style={{ fontFamily:'var(--font-display)', fontSize:18 }}>€{s.rate}<small style={{ fontSize:11, color:'var(--c-ink-mute)'}}> / notte</small></span>
                     </div>
                   </div>
                 </div>
