@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react(), viteSingleFile()],
   build: {
     target: 'esnext',
-    assetsInlineLimit: 100000000,
+    assetsInlineLimit: 65536,
     cssCodeSplit: false,
   },
 });
