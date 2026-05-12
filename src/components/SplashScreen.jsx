@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import LogoMuso from '../assets/LogoMuso.png';
+import LogoMuso from '../assets/logoTEST.png';
 
 const STYLE = `
   .splash {
