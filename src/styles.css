@@ -1306,7 +1306,7 @@ a { color: inherit; text-decoration: none; }
   padding: 18px;
   background: var(--c-surface);
   border: 1px solid var(--c-line);
-  border-radius: var(--r-xl);
+  border-radius: 0;
   box-shadow: var(--shadow-sm);
 }
 .qa {
