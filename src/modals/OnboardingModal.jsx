@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Icon from '../components/Icon';
-import popup1 from '../assets/popup1.png';
+import popup1 from '../assets/popup1.jpg';
 import sfondoHome from '../assets/sfondo-home.jpg';
 
 const SLIDES = [

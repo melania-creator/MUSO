@@ -1,5 +1,5 @@
 import Icon from '../components/Icon';
-import sfondoHero from '../assets/sfondoHOME.png';
+import sfondoHero from '../assets/sfondoHOME.jpg';
 import logoSOS from '../assets/logoSOS.png';
 import logoAdotta from '../assets/logoAdotta.png';
 import logoAiutaRifugio from '../assets/logoAiutaRifugio.png';
